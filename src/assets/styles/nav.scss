@@ -1,0 +1,16 @@
+/*header nav*/
+#header {
+  text-align: center;
+  position: fixed;
+  z-index: 300;
+  top: 0;
+}
+.logo {
+  height: auto;
+  float: left;
+  line-height: 0;
+}
+.logo img {
+  max-width: 100%;
+  height: auto;
+}
