@@ -50,7 +50,10 @@ a {
   cursor: pointer;
 }
 
-#header,
+i {
+  transition: 0.3s;
+}
+
 #footer,
 #defaultimg,
 .content,
@@ -168,6 +171,10 @@ p {
   padding-right: 0;
 }
 
+hr {
+  border: 1px solid $table-border;
+  margin: 1em 0;
+}
 /* 表單 */
 
 .form-control:focus {
@@ -176,6 +183,27 @@ p {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+
+form {
+  div[class*="col"] {
+    padding: 0 .5em;
+    > label {
+      padding: .5em 0 .5em .5em;
+      display: block;
+      text-align: left;
+      i {
+        cursor: pointer;
+      }
+      span.crimson {
+        color: crimson;
+      }
+    }
+  }
+  > .row {
+    padding-bottom: .5em;
+  }
 }
 
 input {
@@ -192,6 +220,20 @@ input {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.flexbox {
+  .el-input {
+    flex: 1;
+    text-align: left;
+    width: auto;
+    padding-left: .5em;
+  }
+  p {
+    align-items: center;
+    display: flex;
+    padding-left: .5em;
+  }
 }
 
 /* 按鈕 */
@@ -213,8 +255,9 @@ input {
   line-height: 1.5;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  box-shadow 0.15s ease-in-out;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .btn:focus {

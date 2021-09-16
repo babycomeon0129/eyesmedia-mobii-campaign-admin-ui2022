@@ -1,16 +1,25 @@
 /*header nav*/
 #header {
+  width: 100%;
   text-align: center;
   position: fixed;
   z-index: 300;
   top: 0;
+  background: #fff;
+  height: $header-height;
+  padding: .5em 0;
+  border-bottom: 1px solid $table-border;
+  display: flex;
 }
 .logo {
   height: auto;
   float: left;
   line-height: 0;
+  padding: 0 .5em;
 }
 .logo img {
-  max-width: 100%;
-  height: auto;
+  height: 100%;
+  width: 100%;
+  max-width: 220px;
+  max-height: 40px;
 }

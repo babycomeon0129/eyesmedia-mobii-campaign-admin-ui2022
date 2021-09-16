@@ -1,4 +1,4 @@
-# eyesmedia-activity-admin
+# eyesmedia-mobii-campaign-admin-ui
 
 ## Project setup
 ```
