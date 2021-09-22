@@ -8,65 +8,64 @@ main {
   width: 100%;
 }
 
-/** header */
-.channel-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 3;
+section {
   width: 100%;
-  height: $header-height;
-  flex-direction: row;
-  .channel-header-box {
-    position: relative;
-    display: flex;
-    align-items: baseline;
-    .channel-header-title {
-      img {
-        height: 100%;
-        width: 100%;
-        max-height: $header-height;
-        max-width: 220px;
+  border-bottom: 1px solid $table-border;
+  border-right: 1px solid $table-border;
+  border-left: 1px solid $table-border;
+  padding: 1em;
+  border-radius: 0 0 10px 10px;
+  > .row {
+    padding-bottom: 0.5em;
+  }
+}
+
+/** h1~h6 */
+
+.wrap {
+  h3 {
+    text-align: left;
+    border: 1px solid $table-border;
+    margin: 1.5em 0 0 0;
+    border-radius: 10px 10px 0 0;
+    padding: 0.5em 1em;
+    font-weight: unset;
+  }
+}
+
+/** from */
+form {
+  div[class*="col"] {
+    padding: 0 0.5em;
+    > label {
+      padding: 0.5em 0 0.5em 0.5em;
+      display: block;
+      text-align: left;
+      i {
+        cursor: pointer;
       }
-    }
-    .channel-header-item {
-      white-space: nowrap;
-      width: calc((100% - 220px) / 2);
-      &:first-child {
-        color: $channel-color;
-        text-align: left;
-        padding-left: 1em;
-      }
-      &:last-child {
-        display: block;
-        text-align: right;
-        padding-right: 1em;
-      }
-      .hi-user {
-        width: 150px;
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+      span.crimson {
+        color: crimson;
         vertical-align: middle;
-        @media (min-width: 768px) and (max-width: 991px) {
-          width: 100px;
-        }
-      }
-    }
-    @media (max-width: 767px) {
-      flex-direction: row-reverse;
-      .channel-header-item:first-child {
-        text-align: right;
-        padding-right: 1em;
-      }
-      .channel-header-item:last-child {
-        display: none;
       }
     }
   }
 }
 
+/** table */
+.table-icon {
+  i {
+    font-size: large;
+  }
+  .el-button--mini {
+    padding: 7px;
+  }
+  .el-button {
+    border-bottom: .5px solid #fff;
+  }
+}
+
+/** image */
 .rwdimg-cover {
   display: flex;
   width: 100%;

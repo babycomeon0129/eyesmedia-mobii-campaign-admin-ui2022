@@ -23,3 +23,9 @@
   max-width: 220px;
   max-height: 40px;
 }
+
+#nav {
+  position: fixed;
+  z-index: 300;
+  overflow: auto;
+}

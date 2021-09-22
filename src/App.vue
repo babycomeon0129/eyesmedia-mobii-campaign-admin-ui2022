@@ -13,7 +13,7 @@
       <div id="nav">
         <AdminNav :isCollapse="isCollapse" />
       </div>
-      <div class="wrap">
+      <div class="wrap" :class="{'active': isCollapse}">
         <transition name="el-fade-in">
           <router-view />
         </transition>
@@ -25,7 +25,7 @@
 <script>
 import { ref } from 'vue';
 // @ is an alias to /src
-import AdminNav from '@/components/AdminNav.vue'
+import AdminNav from '@/components/shared/AdminNav.vue'
 
 export default {
   name: 'App',
@@ -43,6 +43,7 @@ export default {
 
 <style lang="scss">
  @import '@/assets/styles/_vars';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -72,9 +73,36 @@ export default {
 }
 
 .wrap {
+  width: calc(100% - 201px);
   position: relative;
   padding: 1em;
   height: auto;
   flex-grow: 1;
+  margin-left: 201px;
+  animation: wrapRight .3s 1;
+  &.active {
+    animation: wrapLeft .3s 1;
+    margin-left: 64px;
+  }
+}
+
+/** wrap 右移 */
+@keyframes wrapRight {
+  0% {
+    margin-left: 64px;
+  }
+  100% {
+    margin-left: 201px;
+  }
+}
+
+/** wrap 左移 */
+@keyframes wrapLeft {
+  0% {
+    margin-left: 201px;
+  }
+  100% {
+    margin-left: 64px;
+  }
 }
 </style>

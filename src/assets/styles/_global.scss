@@ -1,12 +1,12 @@
 @charset "utf-8";
 @import "./vars";
+@import "./styles";
 @import "./nav.scss";
 @import "./flex.scss";
 @import "./tooltip.scss";
 @import "./column.scss";
 @import "./table.scss";
 @import "./media.scss";
-@import "./styles";
 
 /** 全域 */
 html,
@@ -183,27 +183,6 @@ hr {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
-}
-
-
-form {
-  div[class*="col"] {
-    padding: 0 .5em;
-    > label {
-      padding: .5em 0 .5em .5em;
-      display: block;
-      text-align: left;
-      i {
-        cursor: pointer;
-      }
-      span.crimson {
-        color: crimson;
-      }
-    }
-  }
-  > .row {
-    padding-bottom: .5em;
-  }
 }
 
 input {

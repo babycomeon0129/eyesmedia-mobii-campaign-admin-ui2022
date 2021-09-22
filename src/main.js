@@ -6,5 +6,7 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhTw from 'element-plus/lib/locale/lang/zh-tw'
+// collapse 展开折叠
+import { ElCollapseTransition } from 'element-plus'
 
-createApp(App).use(store).use(router).use(ElementPlus, { locale: zhTw }).mount('#app')
+createApp(App).use(store).use(router).use(ElementPlus, { locale: zhTw}, ElCollapseTransition.name, ElCollapseTransition).mount('#app')

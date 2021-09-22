@@ -36,9 +36,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+ @import '@/assets/styles/_vars';
+
 ::v-deep .el-menu-vertical-demo,
 .el-menu--vertical {
-  height: 100vh;
+  height: calc(100vh - $header-height);
   padding-left: 0;
   .el-sub-menu__title {
     text-align: left;
@@ -56,6 +58,10 @@ export default {
     }
   }
 }
+::v-deep .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 201px;
+}
+
 ::v-deep .el-menu--collapse {
   .el-sub-menu {
     &.is-active {
