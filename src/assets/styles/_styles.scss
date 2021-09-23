@@ -49,6 +49,9 @@ form {
         vertical-align: middle;
       }
     }
+    .el-select {
+      width: 100%;
+    }
   }
 }
 
@@ -63,6 +66,11 @@ form {
   .el-button {
     border-bottom: .5px solid #fff;
   }
+}
+
+/** dialog */
+.add-dialog {
+  text-align: left;
 }
 
 /** image */
@@ -95,4 +103,21 @@ form {
 
 .border-radius5 {
   border-radius: 0.5em;
+}
+
+/** btn */
+.btn {
+  &.btn-add {
+    color: #606266;
+    font-size : small;
+    padding: .375rem 10px;
+    i {
+      font-size: smaller;
+      padding-right: 3px;
+      font-weight: bold;
+    }
+    &:hover {
+      font-weight: bold;
+    }
+  }
 }

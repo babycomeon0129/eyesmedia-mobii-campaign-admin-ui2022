@@ -2,12 +2,12 @@
   <div class="home">
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
-      <el-breadcrumb-item
-        ><router-link to="/">一頁式活動模組</router-link></el-breadcrumb-item
-      >
-      <el-breadcrumb-item
-        ><router-link to="/">查詢</router-link></el-breadcrumb-item
-      >
+      <el-breadcrumb-item>
+        <router-link to="/">一頁式活動模組</router-link>
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>
+        <router-link to="/">查詢</router-link>
+      </el-breadcrumb-item>
     </el-breadcrumb>
     <hr />
     <form>
@@ -25,8 +25,7 @@
               range-separator="至"
               start-placeholder="開始日期"
               end-placeholder="结束日期"
-            >
-            </el-date-picker>
+            ></el-date-picker>
           </div>
         </div>
         <div class="row">
@@ -40,9 +39,9 @@
             </div>
           </div>
           <div class="col-6 btnarea">
-            <el-button type="primary"
-              ><i class="el-icon-search"></i>搜尋</el-button
-            >
+            <el-button type="primary">
+              <i class="el-icon-search"></i>搜尋
+            </el-button>
           </div>
         </div>
       </section>
@@ -55,15 +54,17 @@
             <img :src="scope.row.banner" />
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="一頁式活動名稱"> </el-table-column>
-        <el-table-column prop="id" label="編號"> </el-table-column>
-        <el-table-column prop="time" label="活動時間"> </el-table-column>
-        <el-table-column prop="open" label="開啟功能"> </el-table-column>
+        <el-table-column prop="title" label="一頁式活動名稱"></el-table-column>
+        <el-table-column prop="id" label="編號"></el-table-column>
+        <el-table-column prop="time" label="活動時間"></el-table-column>
+        <el-table-column prop="open" label="開啟功能"></el-table-column>
         <el-table-column prop="status" label="狀態">
           <template #default="scope">
-            <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">{{
-              scope.row.status ? "有效" : "無效"
-            }}</el-tag>
+            <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
+              {{
+                scope.row.status ? "有效" : "無效"
+              }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="功能列表">
@@ -71,11 +72,7 @@
             <div class="table-icon">
               <el-button-group>
                 <el-tooltip content="編輯" placement="top">
-                  <el-button
-                    type="primary"
-                    icon="el-icon-edit"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定ICON" placement="top">
                   <el-button
@@ -86,61 +83,29 @@
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定廣告" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-s-marketing"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-money" size="mini"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="設定卡片" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-postcard"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-postcard" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定優惠券" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-discount"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-discount" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商品" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-shopping-bag-2"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-shopping-bag-2" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定Banner" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-picture"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-picture" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商家" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-s-shop"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-s-shop" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定瀑布流" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-film"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="warning" icon="el-icon-film" size="mini"></el-button>
                 </el-tooltip>
                 <el-tooltip content="刪除資料" placement="top">
-                  <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    size="mini"
-                  ></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
                 </el-tooltip>
               </el-button-group>
             </div>
@@ -148,32 +113,20 @@
         </el-table-column>
       </el-table>
     </section>
-    <SettingIcon 
-    :settingIconData="tableData"
-     />
-    <el-pagination
-      :page-size="20"
-      :pager-count="11"
-      layout="prev, pager, next"
-      :total="1000"
-    >
-    </el-pagination>
+    <!-- 功能介面區 -->
+    <SettingIcon :settingIconData="tableData" />
+    <!-- 分頁 -->
+    <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
 </template>
 
-<script>
+<script setup >
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 // component
-import SettingIcon from '@/components/campaign/SettingIcon.vue'
+import SettingIcon from '@/components/campaign/SettingIcon.vue';
 
-export default {
-  name: 'Home',
-  components: {
-    SettingIcon
-  },
-  setup() {
-    const store = useStore(); // 等同於this.$store
+const store = useStore(); // 等同於this.$store
     /** 假資料 */
     const tableData = ref([
       {
@@ -201,17 +154,7 @@ export default {
         status: 0
       }]);
 
-    const handleClick = row => {
-      console.log(row)
-    }
-
-    return {
-      tableData,
-      store,
-      handleClick
-    }
-  }
-}
+  
 </script>
 
 <style lang="scss">

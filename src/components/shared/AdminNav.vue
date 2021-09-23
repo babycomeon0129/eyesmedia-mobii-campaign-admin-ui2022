@@ -7,7 +7,7 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
-      :collapse="isCollapse"
+      :collapse="props.isCollapse"
     >
       <el-sub-menu index="1">
         <template #title>
@@ -18,20 +18,20 @@
           <router-link to="/">查詢</router-link>
         </el-menu-item>
         <el-menu-item index="1-2">
-          <router-link to="/AddCampaign">新增</router-link>
+          <router-link to="/AddCampaign">新增 & 編輯</router-link>
         </el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'AdminNav',
-  props: {
-    isCollapse: Boolean
-  }
-}
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  isCollapse: Boolean
+})
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

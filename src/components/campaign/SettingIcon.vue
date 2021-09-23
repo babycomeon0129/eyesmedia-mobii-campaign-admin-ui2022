@@ -1,7 +1,8 @@
 <template>
   <div class="setting-icon">
     <el-dialog title="設定ICON" v-model="store.state.campaign.showSettingIcon" width="60%" :show-close="false">
-      <div>
+      <div class="add-dialog">
+        <button class="btn btn-add" @click="store.state.campaign.showAddIcon = true; store.state.campaign.showSettingIcon = false"><i class="el-icon-plus"></i>新增</button>
         <el-table :data="settingIconData" style="width: 100%">
           <el-table-column prop="banner" label="圖示" width="180">
             <template #default="scope">
@@ -12,9 +13,9 @@
           </el-table-column>
           <el-table-column prop="status" label="資料狀態">
             <template #default="scope">
-              <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">{{
-                scope.row.status ? "有效" : "無效"
-              }}</el-tag>
+              <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
+                {{ scope.row.status ? '有效' : '無效' }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="功能">
@@ -43,32 +44,20 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="store.state.campaign.showSettingIcon = false">取消</el-button>
-          <el-button type="primary" @click="store.state.campaign.showSettingIcon = false"
-            >確定</el-button
-          >
+          <el-button @click="store.state.campaign.showSettingIcon = false">關閉</el-button>
         </span>
       </template>
     </el-dialog>
+    <AddIcon />
   </div>
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex';
+// component 
+import AddIcon from '@/components/campaign/AddIcon.vue';
 
-export default {
-  name: 'SettingIcon',
-  props: {
-    settingIconData: Array
-  },
-  setup() {
-    const store = useStore();
-
-    return {
-      store
-    }
-  }
-}
+const store = useStore();
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

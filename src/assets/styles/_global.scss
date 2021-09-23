@@ -237,6 +237,7 @@ input {
   box-shadow 0.15s ease-in-out;
   white-space: nowrap;
   cursor: pointer;
+  transition: .3s;
 }
 
 .btn:focus {
