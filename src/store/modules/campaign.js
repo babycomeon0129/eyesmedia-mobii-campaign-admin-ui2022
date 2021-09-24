@@ -2,33 +2,43 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    /** 是否顯示設定icon */
+    /** 設定icon */
     settingIcon: {
       show: false,
       add: false
     },
-    /** 是否顯示設定廣告 */
+    /** 設定廣告 */
     settingAd: {
       show: false,
       add: false
     },
-    /** 是否顯示設定卡片 */
+    /** 設定卡片 */
     settingCard: {
       show: false,
       add: false
     },
-    /** 是否顯示設定Banner */
+    /** 設定Banner */
     settingBanner: {
       show: false,
       add: false
     },
-    /** 是否顯示設定優惠券 */
+    /** 設定優惠券 */
     settingVoucher: {
       show: false,
       add: false
     },
-    /** 是否顯示設定商品 */
+    /** 設定商品 */
     settingProduct: {
+      show: false,
+      add: false
+    },
+    /** 設定商店 */
+    settingStore: {
+      show: false,
+      add: false
+    },
+    /** 設定瀑布流 */
+    settingWaterfalls: {
       show: false,
       add: false
     }

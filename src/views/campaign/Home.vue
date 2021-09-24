@@ -99,10 +99,10 @@
                   <el-button type="warning" icon="el-icon-picture" size="mini" @click="store.state.campaign.settingBanner.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商家" placement="top">
-                  <el-button type="warning" icon="el-icon-s-shop" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-s-shop" size="mini" @click="store.state.campaign.settingStore.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定瀑布流" placement="top">
-                  <el-button type="warning" icon="el-icon-film" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-film" size="mini" @click="store.state.campaign.settingWaterfalls.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="刪除資料" placement="top">
                   <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
@@ -120,6 +120,8 @@
     <SettingBanner :settingBannerData="tableData" />
     <SettingVoucher :settingVoucherData="tableData" />
     <SettingProduct :settingProductData="tableData" />
+    <SettingStore :settingStoreData="tableData" />
+    <SettingWaterfalls :settingWaterfallsData="tableData" />
     <!-- 分頁 -->
     <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
@@ -135,6 +137,9 @@ import SettingCard from '@/components/campaign/SettingCard.vue';
 import SettingBanner from '@/components/campaign/SettingBanner.vue';
 import SettingVoucher from '@/components/campaign/SettingVoucher.vue';
 import SettingProduct from '@/components/campaign/SettingProduct.vue';
+import SettingStore from '@/components/campaign/SettingStore.vue';
+import SettingWaterfalls from '@/components/campaign/SettingWaterfalls.vue';
+
 
 const store = useStore(); // 等同於this.$store
 /** 假資料 */
