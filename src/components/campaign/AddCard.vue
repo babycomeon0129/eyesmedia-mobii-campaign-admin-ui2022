@@ -111,7 +111,7 @@ import { reactive } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus'
 // component
-import UpLoad from '@/components/shared/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 
 const store = useStore();
 /** 卡片列表 */

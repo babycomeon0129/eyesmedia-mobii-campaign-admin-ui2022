@@ -123,7 +123,7 @@
     <SettingStore :settingStoreData="tableData" />
     <SettingWaterfalls :settingWaterfallsData="tableData" />
     <!-- 分頁 -->
-    <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000"></el-pagination>
+    <el-pagination :page-size="50" :pager-count="11" layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
 </template>
 

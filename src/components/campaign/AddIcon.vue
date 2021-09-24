@@ -79,7 +79,7 @@
 <script setup>
 import { useStore } from 'vuex';
 // component
-import UpLoad from '@/components/shared/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 
 const store = useStore();
 </script>

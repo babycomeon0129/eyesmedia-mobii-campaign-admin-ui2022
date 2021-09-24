@@ -25,7 +25,7 @@
 <script>
 import { ref } from 'vue';
 // @ is an alias to /src
-import AdminNav from '@/components/shared/AdminNav.vue'
+import AdminNav from '@/components/common/AdminNav.vue'
 
 export default {
   name: 'App',

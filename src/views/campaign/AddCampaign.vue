@@ -218,7 +218,7 @@
 </template>
 
 <script setup>
-import UpLoad from '@/components/shared/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 import { ref } from 'vue';
 
 const sectionCollapse = ref({
