@@ -16,6 +16,21 @@ export default createStore({
     settingCard: {
       show: false,
       add: false
+    },
+    /** 是否顯示設定Banner */
+    settingBanner: {
+      show: false,
+      add: false
+    },
+    /** 是否顯示設定優惠券 */
+    settingVoucher: {
+      show: false,
+      add: false
+    },
+    /** 是否顯示設定商品 */
+    settingProduct: {
+      show: false,
+      add: false
     }
   },
   mutations: {

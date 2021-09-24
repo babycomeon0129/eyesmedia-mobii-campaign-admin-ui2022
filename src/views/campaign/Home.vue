@@ -90,13 +90,13 @@
                   <el-button type="warning" icon="el-icon-postcard" size="mini" @click="store.state.campaign.settingCard.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定優惠券" placement="top">
-                  <el-button type="warning" icon="el-icon-discount" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-discount" size="mini" @click="store.state.campaign.settingVoucher.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商品" placement="top">
-                  <el-button type="warning" icon="el-icon-shopping-bag-2" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-shopping-bag-2" size="mini" @click="store.state.campaign.settingProduct.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定Banner" placement="top">
-                  <el-button type="warning" icon="el-icon-picture" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-picture" size="mini" @click="store.state.campaign.settingBanner.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商家" placement="top">
                   <el-button type="warning" icon="el-icon-s-shop" size="mini"></el-button>
@@ -117,6 +117,9 @@
     <SettingIcon :settingIconData="tableData" />
     <SettingAd :settingAdData="tableData" />
     <SettingCard :settingCardData="tableData" />
+    <SettingBanner :settingBannerData="tableData" />
+    <SettingVoucher :settingVoucherData="tableData" />
+    <SettingProduct :settingProductData="tableData" />
     <!-- 分頁 -->
     <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
@@ -129,6 +132,9 @@ import { useStore } from 'vuex';
 import SettingIcon from '@/components/campaign/SettingIcon.vue';
 import SettingAd from '@/components/campaign/SettingAd.vue';
 import SettingCard from '@/components/campaign/SettingCard.vue';
+import SettingBanner from '@/components/campaign/SettingBanner.vue';
+import SettingVoucher from '@/components/campaign/SettingVoucher.vue';
+import SettingProduct from '@/components/campaign/SettingProduct.vue';
 
 const store = useStore(); // 等同於this.$store
 /** 假資料 */
