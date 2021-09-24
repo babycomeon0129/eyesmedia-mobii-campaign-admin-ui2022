@@ -24,7 +24,7 @@
             </div>
             <div class="col-6">
               <label>
-                <span class="crimson">*</span>一頁式活動名稱
+                <span class="danger">*</span>一頁式活動名稱
                 <el-tooltip placement="top">
                   <template #content>
                     活動名稱(外部)
@@ -106,7 +106,7 @@
           <div class="row">
             <div class="col-6">
               <label>
-                <span class="crimson">*</span>開始與結束時間
+                <span class="danger">*</span>開始與結束時間
               </label>
               <el-date-picker
                 v-model="value1"
@@ -118,7 +118,7 @@
             </div>
             <div class="col-6">
               <label>
-                <span class="crimson">*</span>資料狀態
+                <span class="danger">*</span>資料狀態
               </label>
               <div class="row">
                 <el-select v-model="value" placeholder="請選擇">
@@ -142,8 +142,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <label>內容</label>
-              <el-input type="textarea" row="4"></el-input>
+              <img src="../../../public/images/campaign/setting-title.jpg" class="rwdimg" />
             </div>
           </div>
         </section>
@@ -166,14 +165,54 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <h4>
-                特色資訊前台示意
-                <span>此欄位沒有填寫資料時，前台不會顯示喔！</span>
-              </h4>
+              <img src="../../../public/images/campaign/setting-info.jpg" class="rwdimg" />
             </div>
           </div>
         </section>
       </el-collapse-transition>
+      <!-- 其他資訊 -->
+      <h3 @click="sectionCollapse.otherInfo = !sectionCollapse.otherInfo">其他資訊</h3>
+      <el-collapse-transition>
+        <section v-show="sectionCollapse.otherInfo">
+          <div class="row">
+            <div class="col-12">
+              <label>標題</label>
+              <el-input></el-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label>內容</label>
+              <el-input type="textarea" row="4"></el-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <img src="../../../public/images/campaign/setting-otherinfo.jpg" class="rwdimg" />
+            </div>
+          </div>
+        </section>
+      </el-collapse-transition>
+      <!-- 其他資訊 -->
+      <h3 @click="sectionCollapse.justKa = !sectionCollapse.justKa">JustKa 連結</h3>
+      <el-collapse-transition>
+        <section v-show="sectionCollapse.justKa">
+          <div class="row">
+            <div class="col-12">
+              <label>URL</label>
+              <el-input></el-input>
+            </div>
+          </div>
+        </section>
+      </el-collapse-transition>
+      <h3>備註</h3>
+      <section>
+        <el-input></el-input>
+      </section>
+        <div class="row btn-area">
+          <el-button type="primary">確認</el-button>
+          <el-button>取消</el-button>
+        </div>
     </form>
   </div>
 </template>
@@ -183,21 +222,22 @@ import UpLoad from '@/components/shared/UpLoad.vue';
 import { ref } from 'vue';
 
 const sectionCollapse = ref({
-      basicSetting: true,
-      uploadBanner: true,
-      featureInfo: true,
-      otherInfo: true
-    });
+  basicSetting: true,
+  uploadBanner: true,
+  featureInfo: true,
+  otherInfo: true,
+  justKa: true
+});
 
-    /** 圖片上傳大小、尺寸限制 */
-    const beforeUpload = file => {
-      const isLt2M = file.size / 1024 / 1024 < 2
-      console.log(file);
-      if (!isLt2M) {
-        this.$message.error('上傳圖片大小不得超過2MB');
-      }
-      return isLt2M
-    }
+/** 圖片上傳大小、尺寸限制 */
+const beforeUpload = file => {
+  const isLt2M = file.size / 1024 / 1024 < 2
+  console.log(file);
+  if (!isLt2M) {
+    this.$message.error('上傳圖片大小不得超過2MB');
+  }
+  return isLt2M
+}
 </script>
 
 <style scoped lang="scss">
@@ -207,5 +247,9 @@ const sectionCollapse = ref({
 
 ::v-deep .el-input__inner {
   width: 100%;
+}
+.btn-area {
+  padding: 2em 0;
+  justify-content: right;
 }
 </style>

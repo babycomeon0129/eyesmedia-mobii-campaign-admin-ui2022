@@ -1,9 +1,9 @@
 <template>
   <div class="setting-icon">
-    <el-dialog title="設定ICON" v-model="store.state.campaign.settingIcon.show" width="60%" :show-close="false">
+    <el-dialog title="設定廣告" v-model="store.state.campaign.settingAd.show" width="60%" :show-close="false">
       <div class="add-dialog">
-        <button class="btn btn-add" @click="store.state.campaign.settingIcon.add = true; store.state.campaign.settingIcon.show = false"><i class="el-icon-plus"></i>新增</button>
-        <el-table :data="props.settingIconData" style="width: 100%">
+        <button class="btn btn-add" @click="store.state.campaign.settingAd.add = true; store.state.campaign.settingAd.show = false"><i class="el-icon-plus"></i>新增</button>
+        <el-table :data="props.settingAdData" style="width: 100%">
           <el-table-column prop="banner" label="圖示" width="180">
             <template #default="scope">
               <img :src="scope.row.banner" />
@@ -13,11 +13,9 @@
           </el-table-column>
           <el-table-column prop="sort" label="排序">
           </el-table-column>
-          <el-table-column prop="status" label="資料狀態">
+          <el-table-column prop="status" label="是否顯示廣告">
             <template #default="scope">
-              <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
-                {{ scope.row.status ? '有效' : '無效' }}
-              </el-tag>
+             {{ scope.row.status ? '是' : '否' }}
             </template>
           </el-table-column>
           <el-table-column label="功能">
@@ -46,12 +44,12 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="store.state.campaign.settingIcon.show = false">關閉</el-button>
+          <el-button @click="store.state.campaign.settingAd.show = false">關閉</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 功能區 -->
-    <AddIcon />
+    <AddAd />
   </div>
 </template>
 
@@ -59,11 +57,11 @@
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
 // component 
-import AddIcon from '@/components/campaign/AddIcon.vue';
+import AddAd from '@/components/campaign/AddAd.vue';
 
 const store = useStore();
 const props = defineProps({
-  settingIconData: Array
+  settingAdData: Array
 })
 </script>
 

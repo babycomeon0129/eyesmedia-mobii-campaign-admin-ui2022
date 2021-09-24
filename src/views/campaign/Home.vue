@@ -79,15 +79,15 @@
                     type="warning"
                     icon="el-icon-medal"
                     size="mini"
-                    @click="store.state.campaign.showSettingIcon = true"
+                    @click="store.state.campaign.settingIcon.show = true"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定廣告" placement="top">
-                  <el-button type="warning" icon="el-icon-money" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-money" size="mini" @click="store.state.campaign.settingAd.show = true"></el-button>
                 </el-tooltip>
 
                 <el-tooltip content="設定卡片" placement="top">
-                  <el-button type="warning" icon="el-icon-postcard" size="mini"></el-button>
+                  <el-button type="warning" icon="el-icon-postcard" size="mini" @click="store.state.campaign.settingCard.show = true"></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定優惠券" placement="top">
                   <el-button type="warning" icon="el-icon-discount" size="mini"></el-button>
@@ -115,6 +115,8 @@
     </section>
     <!-- 功能介面區 -->
     <SettingIcon :settingIconData="tableData" />
+    <SettingAd :settingAdData="tableData" />
+    <SettingCard :settingCardData="tableData" />
     <!-- 分頁 -->
     <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000"></el-pagination>
   </div>
@@ -125,36 +127,41 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 // component
 import SettingIcon from '@/components/campaign/SettingIcon.vue';
+import SettingAd from '@/components/campaign/SettingAd.vue';
+import SettingCard from '@/components/campaign/SettingCard.vue';
 
 const store = useStore(); // 等同於this.$store
-    /** 假資料 */
-    const tableData = ref([
-      {
-        banner: './1.jpg',
-        title: '123',
-        id: 456,
-        time: '2013-2014',
-        open: '優惠券／廣告',
-        status: 1
-      },
-      {
-        banner: './1.jpg',
-        title: '半糖奶',
-        id: 7777,
-        time: '2011-3333',
-        open: '優惠券／商品 / 廣告',
-        status: 1
-      },
-      {
-        banner: './1.jpg',
-        title: '消毒盒',
-        id: 454654654,
-        time: '2022-2033',
-        open: '無',
-        status: 0
-      }]);
+/** 假資料 */
+const tableData = ref([
+  {
+    banner: './1.jpg',
+    title: '123',
+    id: 456,
+    time: '2013-2014',
+    open: '優惠券／廣告',
+    status: 1,
+    sort: 0
+  },
+  {
+    banner: './1.jpg',
+    title: '半糖奶',
+    id: 7777,
+    time: '2011-3333',
+    open: '優惠券／商品 / 廣告',
+    status: 1,
+    sort: 1
+  },
+  {
+    banner: './1.jpg',
+    title: '消毒盒',
+    id: 454654654,
+    time: '2022-2033',
+    open: '無',
+    status: 0,
+    sort: 2
+  }]);
 
-  
+
 </script>
 
 <style lang="scss">
