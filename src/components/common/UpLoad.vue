@@ -2,9 +2,9 @@
   <div class="upload">
     <el-upload
       class="avatar-uploader"
-      action="https://jsonplaceholder.typicode.com/posts/"
       :show-file-list="false"
       :on-success="uploadSuccess"
+      :before-upload="beforeAvatarUpload"
     >
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -20,6 +20,27 @@ const imageUrl = ref('');
 
 /** 圖片上傳成功 */
 const uploadSuccess = (res, file) => this.imageUrl = URL.createObjectURL(file.raw);
+
+const beforeAvatarUpload = file => {
+  let width = 200;
+  let height = 200;
+
+  const isSize = new Promise((resolve, reject) => {
+    let _URL = window.URL || window.webkitURL;
+    let img = new Image();
+    img.onload  = () => {
+      let valid = img.width <= width && img.height <= height;
+      valid ? resolve() : reject();
+    }
+    img.src = _URL.createObjectURL(file);
+  }).then(()=>{
+    console.log(`1111111`);
+    return file;
+  }, () => {
+    console.log(`上傳圖片尺寸只能是${width}*${height}px!請重新選擇!`);
+  })
+  return isSize;
+};
 
 </script>
 
