@@ -130,6 +130,7 @@
 <script setup >
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import axios from 'axios'
 // component
 import SettingIcon from '@/components/campaign/SettingIcon.vue';
 import SettingAd from '@/components/campaign/SettingAd.vue';
@@ -139,6 +140,26 @@ import SettingVoucher from '@/components/campaign/SettingVoucher.vue';
 import SettingProduct from '@/components/campaign/SettingProduct.vue';
 import SettingStore from '@/components/campaign/SettingStore.vue';
 import SettingWaterfalls from '@/components/campaign/SettingWaterfalls.vue';
+
+
+const listData = axios.post('http://localhost:5000/campaign/api/v1/event/list', {
+  "name": '',
+  "sdate": '',
+  "edate": '',
+  "status": '',
+  "paginationInfo": {
+    "pageIndex": 0,
+    "totalPages": 0,
+    "totalNumber": 0,
+    "pageSize": 0
+  }
+}).then( res =>{
+  console.log(res);
+}).catch(err=> {
+  console.log(err);
+});
+
+console.log(listData);
 
 
 const store = useStore(); // 等同於this.$store

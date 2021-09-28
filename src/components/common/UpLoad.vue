@@ -13,7 +13,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
+
+const props = defineProps({
+  imgWidth: Number,
+  imgHeigh: Number
+});
 
 /** 上傳圖片路徑 */
 const imageUrl = ref('');
@@ -21,15 +26,14 @@ const imageUrl = ref('');
 /** 圖片上傳成功 */
 const uploadSuccess = (res, file) => this.imageUrl = URL.createObjectURL(file.raw);
 
+/** 圖片上傳前先限制大小與寬高 */
 const beforeAvatarUpload = file => {
-  let width = 200;
-  let height = 200;
 
   const isSize = new Promise((resolve, reject) => {
     let _URL = window.URL || window.webkitURL;
     let img = new Image();
     img.onload  = () => {
-      let valid = img.width <= width && img.height <= height;
+      let valid = img.width <= props.imgWidth && img.height <= props.imgHeigh;
       valid ? resolve() : reject();
     }
     img.src = _URL.createObjectURL(file);
@@ -37,7 +41,7 @@ const beforeAvatarUpload = file => {
     console.log(`1111111`);
     return file;
   }, () => {
-    console.log(`上傳圖片尺寸只能是${width}*${height}px!請重新選擇!`);
+    console.log(`上傳圖片尺寸只能是${props.imgWidth}*${props.imgHeigh}px!請重新選擇!`);
   })
   return isSize;
 };
