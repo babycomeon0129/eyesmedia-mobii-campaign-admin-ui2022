@@ -69,11 +69,13 @@
           </template>
         </el-table-column>
         <el-table-column label="功能列表">
-          <template #default>
+          <template #default="scope">
             <div class="table-icon">
               <el-button-group>
                 <el-tooltip content="編輯" placement="top">
-                  <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+                  <el-button type="primary" icon="el-icon-edit" size="mini"
+                  @click="router.push({path: `/AddCampaign/${scope.row.mktEventId}`})"
+                  ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定ICON" placement="top">
                   <el-button
@@ -172,6 +174,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 // component
@@ -186,6 +189,8 @@ import SettingWaterfalls from '@/components/campaign/SettingWaterfalls.vue';
 
 /** vuex */
 const store = useStore();
+/** router */
+const router = useRouter();
 /** loading遮罩 */
 const loading = ref(false);
 /** 表格資料 */
@@ -215,7 +220,7 @@ const changeCurrentPage = event => {
 /** 取列表資料 */
 const callApi = () => {
   loading.value = true;
-  axios.post(`http://localhost:5000/campaign/api/v${store.state.campaign.apiVersion}/event/list`, request)
+  axios.post(`${process.env.VUE_APP_hostUrl}campaign/api/v${store.state.campaign.apiVersion}/event/list`, request)
     .then(res => {
       const data = JSON.parse(res.data.data);
       // console.log(data);
