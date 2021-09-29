@@ -2,7 +2,7 @@
   <div class="container index">
     <div id="header">
       <div class="logo">
-        <img src="../public/images/logo.jpeg">
+        <img src="../public/images/logo.jpeg" />
       </div>
       <div class="menu-switch">
         <i class="el-icon-s-fold" @click="isCollapse = true" v-if="!isCollapse"></i>
@@ -13,10 +13,12 @@
       <div id="nav">
         <AdminNav :isCollapse="isCollapse" />
       </div>
-      <div class="wrap" :class="{'active': isCollapse}">
-        <transition name="el-fade-in">
-          <router-view />
-        </transition>
+      <div class="wrap" :class="{ 'active': isCollapse }">
+        <router-view v-slot="{ Component }">
+          <transition name="el-fade-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </div>
     </main>
   </div>
@@ -32,7 +34,7 @@ export default {
   components: {
     AdminNav
   },
-  setup(){
+  setup() {
     const isCollapse = ref(false);
     return {
       isCollapse
@@ -42,7 +44,7 @@ export default {
 </script>
 
 <style lang="scss">
- @import '@/assets/styles/_vars';
+@import '@/assets/styles/_vars';
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -60,8 +62,8 @@ export default {
 
 #header {
   .menu-switch {
-    padding: 0 .5em;
-    display:flex ;
+    padding: 0 0.5em;
+    display: flex;
     align-items: center;
     i {
       font-size: x-large;
@@ -79,9 +81,9 @@ export default {
   height: auto;
   flex-grow: 1;
   margin-left: 201px;
-  animation: wrapRight .3s 1;
+  animation: wrapRight 0.3s 1;
   &.active {
-    animation: wrapLeft .3s 1;
+    animation: wrapLeft 0.3s 1;
     margin-left: 64px;
   }
 }

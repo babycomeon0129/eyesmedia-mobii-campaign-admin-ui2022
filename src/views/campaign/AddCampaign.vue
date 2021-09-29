@@ -20,7 +20,7 @@
           <div class="row">
             <div class="col-6">
               <label>一頁式活動編碼</label>
-              <el-input></el-input>
+              <el-input v-model="request.mktEventCode"></el-input>
             </div>
             <div class="col-6">
               <label>
@@ -35,7 +35,7 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
-              <el-input v-model="input"></el-input>
+              <el-input v-model="request.mktEventName"></el-input>
             </div>
           </div>
           <div class="row">
@@ -47,7 +47,7 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
-              <el-input type="textarea"></el-input>
+              <el-input type="textarea" v-model="request.mktEventMetaDiscription"></el-input>
             </div>
           </div>
           <div class="row">
@@ -62,7 +62,7 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
-              <el-input></el-input>
+              <el-input v-model="request.mktEventSeo"></el-input>
             </div>
           </div>
           <div class="row">
@@ -75,8 +75,8 @@
                 </el-tooltip>
               </label>
               <div class="row flexbox">
-                <p>https://www.mobii.ai/event/</p>
-                <el-input></el-input>
+                <p>https://events.mobii.ai/campaign/</p>
+                <el-input v-model="request.mktEventUriSuffix"></el-input>
               </div>
             </div>
             <div class="col-6">
@@ -88,10 +88,9 @@
                 </el-tooltip>
               </label>
               <div class="row">
-                <el-select v-model="value" placeholder="請選擇">
-                  <el-option value="1"></el-option>
-                  <el-option value="2"></el-option>
-                  <el-option value="3"></el-option>
+                <el-select placeholder="請選擇">
+                  <el-option value="ENABLE">開啟</el-option>
+                  <el-option value="DISABLE">關閉</el-option>
                 </el-select>
                 <el-checkbox label="是" border></el-checkbox>
               </div>
@@ -109,7 +108,7 @@
                 <span class="danger">*</span>開始與結束時間
               </label>
               <el-date-picker
-                v-model="value1"
+                v-model="dateRange"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="開始日期"
@@ -121,9 +120,9 @@
                 <span class="danger">*</span>資料狀態
               </label>
               <div class="row">
-                <el-select v-model="value" placeholder="請選擇">
-                  <el-option value="有效"></el-option>
-                  <el-option value="無效"></el-option>
+                <el-select v-model="request.mktEventStatus" placeholder="請選擇">
+                  <el-option value="ENABLE" label="開啟"></el-option>
+                  <el-option value="DISABLE" label="關閉"></el-option>
                 </el-select>
               </div>
             </div>
@@ -137,7 +136,7 @@
           <div class="row">
             <div class="col-12">
               <label>Logo 橫幅</label>
-              <UpLoad :beforeUpload="beforeUpload" />
+              <UpLoad :imgWidth="220" :imgHeigh="56" />
             </div>
           </div>
           <div class="row">
@@ -154,13 +153,13 @@
           <div class="row">
             <div class="col-6">
               <label>標題</label>
-              <el-input></el-input>
+              <el-input v-model="request.mktEventTitle"></el-input>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label>內容</label>
-              <el-input type="textarea" row="4"></el-input>
+              <el-input type="textarea" row="4" v-model="request.mktEventContent"></el-input>
             </div>
           </div>
           <div class="row">
@@ -177,13 +176,13 @@
           <div class="row">
             <div class="col-12">
               <label>標題</label>
-              <el-input></el-input>
+              <el-input v-model="request.mktEventOtherTitle"></el-input>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label>內容</label>
-              <el-input type="textarea" row="4"></el-input>
+              <el-input type="textarea" row="4" v-model="request.mktEventOtehrContent"></el-input>
             </div>
           </div>
           <div class="row">
@@ -200,27 +199,38 @@
           <div class="row">
             <div class="col-12">
               <label>URL</label>
-              <el-input></el-input>
+              <el-input v-model="request.mktEventOtehrJustka"></el-input>
             </div>
           </div>
         </section>
       </el-collapse-transition>
       <h3>備註</h3>
       <section>
-        <el-input></el-input>
+        <el-input v-model="request.mktEventNote"></el-input>
       </section>
-        <div class="row btn-area">
-          <el-button type="primary">確認</el-button>
-          <el-button>取消</el-button>
-        </div>
+      <div class="row btn-area">
+        <el-button type="primary" @click="sendData">確認</el-button>
+        <el-button>取消</el-button>
+      </div>
     </form>
   </div>
 </template>
 
 <script setup>
+import { ref, reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+// element UI
+import { ElMessage } from 'element-plus'
+// component
 import UpLoad from '@/components/common/UpLoad.vue';
-import { ref } from 'vue';
 
+
+const store = useStore();
+const router = useRouter();
+
+/**  操作清單Collapse收闔用 */
 const sectionCollapse = ref({
   basicSetting: true,
   uploadBanner: true,
@@ -229,15 +239,50 @@ const sectionCollapse = ref({
   justKa: true
 });
 
-/** 圖片上傳大小、尺寸限制 */
-const beforeUpload = file => {
-  const isLt2M = file.size / 1024 / 1024 < 2
-  console.log(file);
-  if (!isLt2M) {
-    this.$message.error('上傳圖片大小不得超過2MB');
-  }
-  return isLt2M
+/** 設定日期 */
+const dateRange = ref([]);
+
+/** API request */
+const request = reactive({
+  mktEventCode: '',
+  mktEventName: '',
+  mktEventMetaDiscription: '',
+  mktEventSeo: '',
+  mktEventUriSuffix: '1231',
+  mktEventSdate: computed(() => dateRange.value[0]),
+  mktEventEdate: computed(() => dateRange.value[1]),
+  mktEventStatus: 'ENABLE',
+  mktEventTitle: '',
+  mktEventContent: '',
+  mktEventOtherTitle: '',
+  mktEventOtehrContent: '',
+  mktEventLogo: '',
+  mktEventNote: '',
+  mktEventOtehrJustka: '',
+
+});
+
+/** 確認送出 */
+const sendData = () => {
+  axios.post(`http://localhost:5000/campaign/api/v${store.state.campaign.apiVersion}/event/add`, request)
+    .then(res => {
+      console.log(res);
+      if (res.data.errorCode === '996600001') {
+        ElMessage.success({
+          message: '新增成功',
+          type: 'success',
+        });
+        router.push({ path: '/' });
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
+
+
 </script>
 
 <style scoped lang="scss">

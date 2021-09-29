@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    apiVersion: 1,
     /** 設定icon */
     settingIcon: {
       show: false,
