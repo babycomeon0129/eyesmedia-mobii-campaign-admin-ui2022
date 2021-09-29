@@ -1,5 +1,5 @@
-console.log(`環境：${process.env.NODE_ENV}`)
-console.log(`配置API位置：${process.env.VUE_APP_SERVER_URL}`)
+console.log(`環境：${process.env.NODE_ENV}`);
+console.log(`配置API位置：${process.env.VUE_APP_hostUrl}`);
 
 module.exports = {
   productionSourceMap: process.env.NODE_ENV === 'production',
