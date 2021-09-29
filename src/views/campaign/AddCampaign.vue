@@ -273,7 +273,7 @@ const request = reactive({
 
 /** 新增資料 */
 const createData = () => {
-  axios.post(`${process.env.VUE_APP_hostUrl}campaign/api/v${store.state.campaign.apiVersion}/event/add`, request.data)
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
     .then(res => {
       console.log(res);
       if (res.data.errorCode === '996600001') {
@@ -295,7 +295,7 @@ const createData = () => {
 const editData = () => {
   if (route.params.eventId !== undefined) {
     request.data.mktEventId = route.params.eventId;
-    axios.get(`${process.env.VUE_APP_hostUrl}campaign/api/v${store.state.campaign.apiVersion}/event/detail/${request.data.mktEventId}`)
+    axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail/${request.data.mktEventId}`)
       .then(res => {
         if (res.data.errorCode === '996600001') {
           const data = JSON.parse(res.data.data);
@@ -319,7 +319,7 @@ const editData = () => {
 const updateData = () => {
   // 開啟loading遮罩
   ElLoading.service({ fullscreen: true });
-  axios.post(`${process.env.VUE_APP_hostUrl}campaign/api/v${store.state.campaign.apiVersion}/event/update`, request.data)
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/update`, request.data)
     .then(res => {
       if (res.data.errorCode === '996600001') {
         // 關閉loading遮罩

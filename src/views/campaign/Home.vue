@@ -34,8 +34,8 @@
             <label>狀態</label>
             <div class="row">
               <el-select placeholder="請選擇" v-model="request.status">
-                <el-option value="ENABLE" label="開啟"></el-option>
-                <el-option value="DISABLE" label="關閉"></el-option>
+                <el-option value="ENABLE" label="有效"></el-option>
+                <el-option value="DISABLE" label="無效"></el-option>
               </el-select>
             </div>
           </div>
@@ -57,13 +57,17 @@
         </el-table-column>
         <el-table-column prop="mktEventCode" label="一頁式活動名稱"></el-table-column>
         <el-table-column prop="mktEventId" label="編號"></el-table-column>
-        <el-table-column prop="mktEventEdate" label="活動時間"></el-table-column>
+        <el-table-column prop="mktEventEdate" label="活動時間">
+          <template #default="scope">
+          {{ new Date(scope.row.mktEventSdate) }} ~ <br> {{scope.row.mktEventEdate}}
+          </template>
+        </el-table-column>
         <el-table-column prop="mktEventStatus" label="開啟功能"></el-table-column>
         <el-table-column prop="mktEventStatus" label="狀態">
           <template #default="scope">
-            <el-tag :type="scope.row.status === 'ENABLE' ? 'success' : 'info'">
+            <el-tag :type="scope.row.mktEventStatus === 'ENABLE' ? 'success' : 'info'">
               {{
-                scope.row.status === 'ENABLE' ? "有效" : "無效"
+                scope.row.mktEventStatus === 'ENABLE' ? "有效" : "無效"
               }}
             </el-tag>
           </template>
@@ -82,7 +86,7 @@
                     type="warning"
                     icon="el-icon-medal"
                     size="mini"
-                    @click="store.state.campaign.settingIcon.show = true"
+                    @click="store.commit('campaign/SETTING_ICON', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定廣告" placement="top">
@@ -90,7 +94,7 @@
                     type="warning"
                     icon="el-icon-money"
                     size="mini"
-                    @click="store.state.campaign.settingAd.show = true"
+                    @click="store.commit('campaign/SETTING_AD', 'show')"
                   ></el-button>
                 </el-tooltip>
 
@@ -176,6 +180,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+// element U
 import { ElMessage } from 'element-plus';
 // component
 import SettingIcon from '@/components/campaign/SettingIcon.vue';
@@ -207,7 +212,7 @@ const request = reactive({
     pageIndex: 1,
     totalPages: 1,
     totalNumber: 0,
-    pageSize: 30
+    pageSize: 10
   }
 });
 
@@ -220,11 +225,11 @@ const changeCurrentPage = event => {
 /** 取列表資料 */
 const callApi = () => {
   loading.value = true;
-  axios.post(`${process.env.VUE_APP_hostUrl}campaign/api/v${store.state.campaign.apiVersion}/event/list`, request)
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/list`, request)
     .then(res => {
       const data = JSON.parse(res.data.data);
       // console.log(data);
-      request.paginationInfo.totalPages = data.TotalPages;
+      request.paginationInfo.totalPages = data.paginationInfo.TotalPages;
       tableData.value = data.events;
       loading.value = false;
       if (res.data.errorCode === '996600001') {
