@@ -56,15 +56,30 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
 import { defineProps } from 'vue';
+import { useStore } from 'vuex';
+// import axios from 'axios';
 // component 
 import AddIcon from '@/components/campaign/AddIcon.vue';
 
 const store = useStore();
 const props = defineProps({
-  settingIconData: Array
+  eventID: String
 })
+
+// const listData = () => {
+//   const request = {
+//     id: props.eventID,
+//     type: 'ICON'
+//   }
+//   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list`, request)
+//   .then( res => {
+//     console.log(res);
+//   })
+// }
+
+
+// console.log(listData);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

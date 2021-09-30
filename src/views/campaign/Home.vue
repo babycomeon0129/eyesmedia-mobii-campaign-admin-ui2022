@@ -37,29 +37,36 @@
             </div>
           </div>
           <div class="col-6 btnarea">
-            <el-button type="primary" @click="callApi">
+            <el-button type="primary" @click="getListData">
               <i class="el-icon-search"></i>搜尋
             </el-button>
           </div>
         </div>
       </section>
     </form>
-    <h3>資料列表 <button class="btn btn-add" @click="router.push({path: `/AddCampaign`})"><i class="el-icon-plus"></i>新增</button></h3>
+    <h3>
+      資料列表
+      <button class="btn btn-add" @click="router.push({ path: `/AddCampaign` })">
+        <i class="el-icon-plus"></i>新增
+      </button>
+    </h3>
     <section>
-      <el-table :data="tableData" stripe style="width: 100%">
+      <el-table :data="listData" stripe style="width: 100%">
         <el-table-column prop="banner" label="主圖">
           <template #default="scope">
             <img :src="scope.row.banner" />
           </template>
         </el-table-column>
-        <el-table-column prop="mktEventCode" label="一頁式活動名稱"></el-table-column>
-        <el-table-column prop="mktEventId" label="編號"></el-table-column>
-        <el-table-column prop="mktEventEdate" label="活動時間">
+        <el-table-column prop="mktEventName" label="一頁式活動名稱"></el-table-column>
+        <el-table-column prop="mktEventCode" label="編號"></el-table-column>
+        <el-table-column label="活動時間">
           <template #default="scope">
-          {{ moment(scope.row.mktEventSdate).format('YYYY-MM-DD') }} ~ <br> {{moment(scope.row.mktEventEdate).format('YYYY-MM-DD')}}
+            {{ moment(scope.row.mktEventSdate).format('YYYY-MM-DD') }} ~
+            <br />
+            {{ moment(scope.row.mktEventEdate).format('YYYY-MM-DD') }}
           </template>
         </el-table-column>
-        <el-table-column prop="mktEventStatus" label="開啟功能"></el-table-column>
+        <el-table-column prop="mktEventOpenFunction" label="開啟功能"></el-table-column>
         <el-table-column prop="mktEventStatus" label="狀態">
           <template #default="scope">
             <el-tag :type="scope.row.mktEventStatus === 'ENABLE' ? 'success' : 'info'">
@@ -74,8 +81,11 @@
             <div class="table-icon">
               <el-button-group>
                 <el-tooltip content="編輯" placement="top">
-                  <el-button type="primary" icon="el-icon-edit" size="mini"
-                  @click="router.push({path: `/AddCampaign/${scope.row.mktEventId}`})"
+                  <el-button
+                    type="primary"
+                    icon="el-icon-edit"
+                    size="mini"
+                    @click="router.push({ path: `/AddCampaign/${scope.row.mktEventId}` })"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定ICON" placement="top">
@@ -83,7 +93,7 @@
                     type="warning"
                     icon="el-icon-medal"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_ICON', 'show')"
+                    @click="store.commit('campaign/SETTING_ICON', 'show'); evenId = scope.row.mktEventId"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定廣告" placement="top">
@@ -144,7 +154,12 @@
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="刪除資料" placement="top">
-                  <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+                  <el-button
+                    type="danger"
+                    icon="el-icon-delete"
+                    size="mini"
+                    @click="deleteData(scope.row.mktEventId, scope.$index)"
+                  ></el-button>
                 </el-tooltip>
               </el-button-group>
             </div>
@@ -153,21 +168,21 @@
       </el-table>
     </section>
     <!-- 功能介面區 -->
-    <SettingIcon :settingIconData="tableData" />
-    <SettingAd :settingAdData="tableData" />
-    <SettingCard :settingCardData="tableData" />
-    <SettingBanner :settingBannerData="tableData" />
-    <SettingVoucher :settingVoucherData="tableData" />
-    <SettingProduct :settingProductData="tableData" />
-    <SettingStore :settingStoreData="tableData" />
-    <SettingWaterfalls :settingWaterfallsData="tableData" />
+    <SettingIcon :eventID="evenId" />
+    <SettingAd :settingAdData="listData" />
+    <SettingCard :settingCardData="listData" />
+    <SettingBanner :settingBannerData="listData" />
+    <SettingVoucher :settingVoucherData="listData" />
+    <SettingProduct :settingProductData="listData" />
+    <SettingStore :settingStoreData="listData" />
+    <SettingWaterfalls :settingWaterfallsData="listData" />
     <!-- 分頁 -->
     <el-pagination
       @current-change="changeCurrentPage($event)"
       :page-size="request.paginationInfo.pageSize"
       :pager-count="11"
       layout="prev, pager, next"
-      :total="request.paginationInfo.totalPages"
+      :total="request.paginationInfo.totalNumber"
     ></el-pagination>
   </div>
 </template>
@@ -196,15 +211,17 @@ import SettingWaterfalls from '@/components/campaign/SettingWaterfalls.vue';
 const store = useStore();
 /** router */
 const router = useRouter();
-/** 表格資料 */
-const tableData = ref(null);
+/** 列表資料 */
+const listData = ref(null);
 /** 日期範圍 */
 const dateRange = ref([]);
+/** 活動ID */
+const evenId = ref('');
 /** API request */
 const request = reactive({
   name: null,
-  sdate: computed(()=> dateRange.value[0]),
-  edate: computed(()=> dateRange.value[1]),
+  sdate: computed(() => dateRange.value[0]),
+  edate: computed(() => dateRange.value[1]),
   status: null,
   paginationInfo: {
     pageIndex: 1,
@@ -217,36 +234,56 @@ const request = reactive({
 /** 點擊分頁 */
 const changeCurrentPage = event => {
   request.paginationInfo.pageIndex = event;
-  callApi();
+  getListData();
 }
 
 /** 取列表資料 */
-const callApi = () => {
+const getListData = () => {
   // 開啟loading遮罩
   ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/list`, request)
     .then(res => {
+      console.log(res);
       const data = JSON.parse(res.data.data);
-      // console.log(data);
-      request.paginationInfo.totalPages = data.paginationInfo.TotalPages;
-      tableData.value = data.events;
+      request.paginationInfo = data.paginationInfo;
+      listData.value = data.events;
       // 關閉loading遮罩
-        ElLoading.service().close();
+      ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
-        tableData.value = data.events;
-       // console.log(tableData);
+        listData.value = data.events;
+        // console.log(listData);
+      } else {
+        console.log(res);
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+/** 刪除資料 */
+const deleteData = (eventID, index) => {
+  axios.delete(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/remove/${eventID}`)
+    .then(res => {
+      if (res.data.errorCode === '996600001') {
+        ElMessage.success({
+          message: '刪除成功',
+          type: 'success',
+        });
+        listData.value.splice(index, 1);
       } else {
         ElMessage.error(`errorCode:${res.data.errorCode}`);
       }
-
-    }).catch(err => {
+    })
+    .catch(err => {
       console.log(err);
     });
 }
 
 // Vue 實體已建立，狀態與事件已初始化完成
 onMounted(() => {
-   callApi();
+  getListData();
 });
 
 

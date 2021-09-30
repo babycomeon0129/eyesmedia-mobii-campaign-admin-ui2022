@@ -1,4 +1,6 @@
 import axios from 'axios';
+// element UI
+import { ElMessage } from 'element-plus';
 
 export default {
     /**
@@ -7,9 +9,9 @@ export default {
      * @param auth 是否需要帶登入訊息
      * @returns {AxiosPromise<any>}
      */
-    get(url, auth = false ) {
+    get(url, auth = false) {
         if (auth) {
-            return axios.get(url, {headers: {Authorization: 'Your back-end user authenticates information'}});
+            return axios.get(url, { headers: { Authorization: 'Your back-end user authenticates information' } });
         } else {
             return axios.get(url);
         }
@@ -25,9 +27,14 @@ export default {
      */
     post(url, data, auth = false) {
         if (auth) {
-            return axios.post(url, data, {headers: {Authorization: 'Your back-end user authenticates information'}});
+            return axios.post(url, data, { headers: { Authorization: 'Your back-end user authenticates information' } });
         } else {
-            return axios.post(url, data);
+            return axios.post(url, data).then(res => {
+                if (res.data.errorCode !== '996600001') {
+                    ElMessage.error(`errorCode:${res.data.errorCode}`);
+                }
+                return res.data;
+            });
         }
     },
 
@@ -40,7 +47,7 @@ export default {
      */
     put(url, data, auth = false) {
         if (auth) {
-            return axios.put(url, data, {headers: {Authorization: 'Your back-end user authenticates information'}});
+            return axios.put(url, data, { headers: { Authorization: 'Your back-end user authenticates information' } });
         } else {
             return axios.put(url, data);
         }
@@ -54,7 +61,7 @@ export default {
      */
     del(url, auth = false) {
         if (auth) {
-            return axios.delete(url, {headers: {Authorization: 'Your back-end user authenticates information'}});
+            return axios.delete(url, { headers: { Authorization: 'Your back-end user authenticates information' } });
         } else {
             return axios.delete(url);
         }
@@ -70,7 +77,7 @@ export default {
         let param = new FormData();
         param.append('file', file)
         if (auth) {
-            return axios.post(url, param, {headers: {Authorization: 'Your back-end user authenticates information'}})
+            return axios.post(url, param, { headers: { Authorization: 'Your back-end user authenticates information' } })
         } else {
             return axios.post(url, param)
         }

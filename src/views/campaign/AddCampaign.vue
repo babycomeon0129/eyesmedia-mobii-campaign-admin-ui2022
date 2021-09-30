@@ -20,7 +20,7 @@
           <div class="row">
             <div class="col-6">
               <label>一頁式活動編碼</label>
-              <el-input v-model="request.data.mktEventCode"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventCode"></el-input>
             </div>
             <div class="col-6">
               <label>
@@ -35,7 +35,7 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
-              <el-input v-model="request.data.mktEventName"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventName"></el-input>
             </div>
           </div>
           <div class="row">
@@ -47,7 +47,7 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
-              <el-input type="textarea" v-model="request.data.mktEventMetaDiscription"></el-input>
+              <el-input type="textarea" v-model="request.data.eventVm.mktEventMetaDiscription"></el-input>
             </div>
           </div>
           <div class="row">
@@ -62,7 +62,7 @@
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
-              <el-input v-model="request.data.mktEventSeo"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventSeo"></el-input>
             </div>
           </div>
           <div class="row">
@@ -76,7 +76,7 @@
               </label>
               <div class="row flexbox">
                 <p>https://events.mobii.ai/campaign/</p>
-                <el-input v-model="request.data.mktEventUriSuffix"></el-input>
+                <el-input v-model="request.data.eventVm.mktEventUriSuffix"></el-input>
               </div>
             </div>
             <div class="col-6">
@@ -120,7 +120,7 @@
                 <span class="danger">*</span>資料狀態
               </label>
               <div class="row">
-                <el-select v-model="request.data.mktEventStatus" placeholder="請選擇">
+                <el-select v-model="request.data.eventVm.mktEventStatus" placeholder="請選擇">
                   <el-option value="ENABLE" label="開啟"></el-option>
                   <el-option value="DISABLE" label="關閉"></el-option>
                 </el-select>
@@ -153,13 +153,13 @@
           <div class="row">
             <div class="col-6">
               <label>標題</label>
-              <el-input v-model="request.data.mktEventTitle"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventTitle"></el-input>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label>內容</label>
-              <el-input type="textarea" row="4" v-model="request.data.mktEventContent"></el-input>
+              <el-input type="textarea" row="4" v-model="request.data.eventVm.mktEventContent"></el-input>
             </div>
           </div>
           <div class="row">
@@ -176,13 +176,13 @@
           <div class="row">
             <div class="col-12">
               <label>標題</label>
-              <el-input v-model="request.data.mktEventOtherTitle"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventOtherTitle"></el-input>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label>內容</label>
-              <el-input type="textarea" row="4" v-model="request.data.mktEventOtehrContent"></el-input>
+              <el-input type="textarea" row="4" v-model="request.data.eventVm.mktEventOtehrContent"></el-input>
             </div>
           </div>
           <div class="row">
@@ -199,14 +199,14 @@
           <div class="row">
             <div class="col-12">
               <label>URL</label>
-              <el-input v-model="request.data.mktEventOtehrJustka"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventOtehrJustka"></el-input>
             </div>
           </div>
         </section>
       </el-collapse-transition>
       <h3>備註</h3>
       <section>
-        <el-input v-model="request.data.mktEventNote"></el-input>
+        <el-input v-model="request.data.eventVm.mktEventNote"></el-input>
       </section>
       <div class="row btn-area">
         <!-- 新增資料 -->
@@ -230,12 +230,9 @@ import { ElLoading } from 'element-plus';
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
 
-
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
-
-console.log(route.params.eventId);
 
 /**  操作清單Collapse收闔用 */
 const sectionCollapse = ref({
@@ -252,22 +249,38 @@ const dateRange = ref([]);
 /** API request */
 const request = reactive({
   data: {
-    mktEventId: '',
-    mktEventCode: '',
-    mktEventName: '',
-    mktEventMetaDiscription: '',
-    mktEventSeo: '',
-    mktEventUriSuffix: '',
-    mktEventSdate: computed(() => dateRange.value[0]),
-    mktEventEdate: computed(() => dateRange.value[1]),
-    mktEventStatus: 'ENABLE',
-    mktEventTitle: '',
-    mktEventContent: '',
-    mktEventOtherTitle: '',
-    mktEventOtehrContent: '',
-    mktEventLogo: '',
-    mktEventNote: '',
-    mktEventOtehrJustka: ''
+    eventVm: {
+      mktEventId: '',
+      mktEventCode: '',
+      mktEventName: '',
+      mktEventMetaDiscription: '',
+      mktEventSeo: '',
+      mktEventUriSuffix: '',
+      mktEventSdate: computed(() => dateRange.value[0]),
+      mktEventEdate: computed(() => dateRange.value[1]),
+      mktEventStatus: 'ENABLE',
+      mktEventTitle: '',
+      mktEventContent: '',
+      mktEventOtherTitle: '',
+      mktEventOtehrContent: '',
+      mktEventLogo: '',
+      mktEventNote: '',
+      mktEventOtehrJustka: ''
+    },
+    filter: {
+      mktEventFilterId: '',
+      mktEventFilterName: '',
+      mktEventFilterType: '',
+      mktEventId: '',
+      mktEventBlockId: '',
+      filterSpecs: [
+        {
+          mktEventFilterSpecId: '',
+          mktEventFilterSpecValue: '',
+          mktEventFilterId: ''
+        }
+      ]
+    }
   }
 });
 
@@ -291,19 +304,20 @@ const createData = () => {
     })
 }
 
-/** 編輯資料 */
-const editData = () => {
+/** 取得欲編輯資料 */
+const getEditData = () => {
+  // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
   if (route.params.eventId !== undefined) {
-    request.data.mktEventId = route.params.eventId;
-    axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail/${request.data.mktEventId}`)
+    request.data.eventVm.mktEventId = route.params.eventId;
+    axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail/${request.data.eventVm.mktEventId}`)
       .then(res => {
         if (res.data.errorCode === '996600001') {
           const data = JSON.parse(res.data.data);
           request.data = data;
           dateRange.value[0] = data.mktEventSdate;
           dateRange.value[1] = data.mktEventEdate;
-          request.data.mktEventSdate = computed(() => dateRange.value[0]);
-          request.data.mktEventEdate = computed(() => dateRange.value[1]);
+          request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
+          request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
         } else {
           ElMessage.error(`errorCode:${res.data.errorCode}`);
         }
@@ -337,7 +351,7 @@ const updateData = () => {
 }
 
 onMounted(() => {
-  editData();
+  getEditData();
 });
 
 

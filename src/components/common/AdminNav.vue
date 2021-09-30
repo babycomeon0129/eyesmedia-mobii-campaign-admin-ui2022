@@ -1,25 +1,5 @@
 <template>
   <div class="admin-nav">
-    <!--el-menu
-      default-active="1-1"
-      class="el-menu-vertical-demo"
-      mode="vertical"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-      :collapse="props.isCollapse"
-    >
-      <el-sub-menu index="1">
-        <template #title>
-          <i class="el-icon-menu"></i>
-          <span>一頁式活動管理</span>
-        </template>
-        <el-menu-item index="1-1">
-          <router-link to="/">查詢</router-link>
-        </el-menu-item>
-      </el-sub-menu>
-      
-    </el-menu-->
     <el-menu
       default-active="1"
       class="el-menu-vertical-demo"
