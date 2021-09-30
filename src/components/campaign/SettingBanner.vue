@@ -2,7 +2,7 @@
   <div class="setting-banner">
     <el-dialog title="設定Banner" v-model="store.state.campaign.settingBanner.show" width="60%" :show-close="false">
       <div class="add-dialog">
-        <button class="btn btn-add" @click="store.state.campaign.settingBanner.add = true; store.state.campaign.settingBanner.show = false"><i class="el-icon-plus"></i>新增</button>
+        <button class="btn btn-add" @click="store.commit('campaign/SETTING_BANNER', 'show');store.commit('campaign/SETTING_BANNER', 'add')"><i class="el-icon-plus"></i>新增</button>
         <el-table :data="props.settingBannerData" style="width: 100%">
           <el-table-column prop="banner" label="圖示" width="180">
             <template #default="scope">
@@ -46,7 +46,7 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="store.state.campaign.settingBanner.show = false">關閉</el-button>
+          <el-button @click="store.commit('campaign/SETTING_BANNER', 'show')">關閉</el-button>
         </span>
       </template>
     </el-dialog>

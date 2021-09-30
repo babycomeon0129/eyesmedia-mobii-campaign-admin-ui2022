@@ -16,7 +16,7 @@
         <div class="row">
           <button
             class="btn btn-add"
-            @click="store.state.campaign.settingCard.add = true; store.state.campaign.settingCard.show = false"
+            @click="store.commit('campaign/SETTING_CARD', 'show');store.commit('campaign/SETTING_CARD', 'add')"
           >
             <i class="el-icon-plus"></i>新增
           </button>
@@ -53,8 +53,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="store.state.campaign.settingCard.show = false">確認</el-button>
-          <el-button @click="store.state.campaign.settingCard.show = false">關閉</el-button>
+          <el-button type="primary" @click="store.commit('campaign/SETTING_CARD', 'show')">確認</el-button>
+          <el-button @click="store.commit('campaign/SETTING_CARD', 'show')">關閉</el-button>
         </span>
       </template>
     </el-dialog>

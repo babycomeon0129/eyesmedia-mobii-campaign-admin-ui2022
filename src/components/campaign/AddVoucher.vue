@@ -55,10 +55,10 @@
         <span class="dialog-footer">
           <el-button
             type="primary"
-            @click="store.state.campaign.settingVoucher.add = false; store.state.campaign.settingVoucher.show = true"
+            @click="store.commit('campaign/SETTING_VOUCHER', 'show'); store.commit('campaign/SETTING_VOUCHER', 'add')"
           >儲存</el-button>
           <el-button
-            @click="store.state.campaign.settingVoucher.add = false; store.state.campaign.settingVoucher.show = true"
+            @click="store.commit('campaign/SETTING_VOUCHER', 'show'); store.commit('campaign/SETTING_VOUCHER', 'add')"
           >關閉</el-button>
         </span>
       </template>

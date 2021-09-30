@@ -65,10 +65,10 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button type="primary"
-            @click="store.state.campaign.settingIcon.add = false; store.state.campaign.settingIcon.show = true"
+            @click="store.commit('campaign/SETTING_ICON', 'show'); store.commit('campaign/SETTING_ICON', 'add')"
           >儲存</el-button>
           <el-button
-            @click="store.state.campaign.settingIcon.add = false; store.state.campaign.settingIcon.show = true"
+            @click="store.commit('campaign/SETTING_ICON', 'show'); store.commit('campaign/SETTING_ICON', 'add')"
           >關閉</el-button>
         </span>
       </template>

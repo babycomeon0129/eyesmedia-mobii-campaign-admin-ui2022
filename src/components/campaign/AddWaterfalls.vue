@@ -48,10 +48,10 @@
         <span class="dialog-footer">
           <el-button
             type="primary"
-            @click="store.state.campaign.settingWaterfalls.add = false; store.state.campaign.settingWaterfalls.show = true"
+            @click="store.commit('campaign/SETTING_WATERFALLS', 'show'); store.commit('campaign/SETTING_WATERFALLS', 'add')"
           >儲存</el-button>
           <el-button
-            @click="store.state.campaign.settingWaterfalls.add = false; store.state.campaign.settingWaterfalls.show = true"
+            @click="store.commit('campaign/SETTING_WATERFALLS', 'show'); store.commit('campaign/SETTING_WATERFALLS', 'add')"
           >關閉</el-button>
         </span>
       </template>

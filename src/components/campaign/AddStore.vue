@@ -55,10 +55,10 @@
         <span class="dialog-footer">
           <el-button
             type="primary"
-            @click="store.state.campaign.settingStore.add = false; store.state.campaign.settingStore.show = true"
+            @click="store.commit('campaign/SETTING_STORE', 'show'); store.commit('campaign/SETTING_STORE', 'add')"
           >儲存</el-button>
           <el-button
-            @click="store.state.campaign.settingStore.add = false; store.state.campaign.settingStore.show = true"
+            @click="store.commit('campaign/SETTING_STORE', 'show'); store.commit('campaign/SETTING_STORE', 'add')"
           >關閉</el-button>
         </span>
       </template>

@@ -103,7 +103,7 @@
                     type="warning"
                     icon="el-icon-postcard"
                     size="mini"
-                    @click="store.state.campaign.settingCard.show = true"
+                    @click="store.commit('campaign/SETTING_CARD', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定優惠券" placement="top">
@@ -111,7 +111,7 @@
                     type="warning"
                     icon="el-icon-discount"
                     size="mini"
-                    @click="store.state.campaign.settingVoucher.show = true"
+                    @click="store.commit('campaign/SETTING_VOUCHER', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商品" placement="top">
@@ -119,7 +119,7 @@
                     type="warning"
                     icon="el-icon-shopping-bag-2"
                     size="mini"
-                    @click="store.state.campaign.settingProduct.show = true"
+                    @click="store.commit('campaign/SETTING_PRODUCT', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定Banner" placement="top">
@@ -127,7 +127,7 @@
                     type="warning"
                     icon="el-icon-picture"
                     size="mini"
-                    @click="store.state.campaign.settingBanner.show = true"
+                    @click="store.commit('campaign/SETTING_BANNER', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商家" placement="top">
@@ -135,7 +135,7 @@
                     type="warning"
                     icon="el-icon-s-shop"
                     size="mini"
-                    @click="store.state.campaign.settingStore.show = true"
+                    @click="store.commit('campaign/SETTING_STORE', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定瀑布流" placement="top">
@@ -143,7 +143,7 @@
                     type="warning"
                     icon="el-icon-film"
                     size="mini"
-                    @click="store.state.campaign.settingWaterfalls.show = true"
+                    @click="store.commit('campaign/SETTING_WATERFALLS', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="刪除資料" placement="top">
@@ -180,7 +180,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-// element U
+// element UI
 import { ElMessage } from 'element-plus';
 // component
 import SettingIcon from '@/components/campaign/SettingIcon.vue';

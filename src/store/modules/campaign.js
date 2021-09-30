@@ -1,6 +1,7 @@
-import { readonly, reactive } from 'vue'
+import { reactive } from 'vue';
 
 const state = reactive({
+  /** API 版本 */
   apiVersion: 1,
   /** 設定icon */
   settingIcon: {
@@ -78,14 +79,80 @@ const mutations = {
         break;
     }
   },
-  /** s */
+  /** 設定卡片 */
+  SETTING_CARD(state, type) {
+    switch (type) {
+      case 'show':
+        state.settingCard.show = !state.settingCard.show;
+        break;
+      case 'add':
+        state.settingCard.add = !state.settingCard.add;
+        break;
+    }
+  },
+  /** 設定Banner */
+  SETTING_BANNER(state, type) {
+    switch (type) {
+      case 'show':
+        state.settingBanner.show = !state.settingBanner.show;
+        break;
+      case 'add':
+        state.settingBanner.add = !state.settingBanner.add;
+        break;
+    }
+  },
+  /** 設定優惠券 */
+  SETTING_VOUCHER(state, type) {
+    switch (type) {
+      case 'show':
+        state.settingBanner.show = !state.settingBanner.show;
+        break;
+      case 'add':
+        state.settingBanner.add = !state.settingBanner.add;
+        break;
+    }
+  },
+  /** 設定商品 */
+  SETTING_PRODUCT(state, type) {
+    switch (type) {
+      case 'show':
+        state.settingProduct.show = !state.settingProduct.show;
+        break;
+      case 'add':
+        state.settingProduct.add = !state.settingProduct.add;
+        break;
+    }
+  },
+  /** 設定商店 */
+  SETTING_STORE(state, type) {
+    switch (type) {
+      case 'show':
+        state.settingStore.show = !state.settingStore.show;
+        break;
+      case 'add':
+        state.settingStore.add = !state.settingStore.add;
+        break;
+    }
+  },
+  /** 設定瀑布流 */
+  SETTING_WATERFALLS(state, type) {
+    switch (type) {
+      case 'show':
+        state.settingWaterfalls.show = !state.settingWaterfalls.show;
+        break;
+      case 'add':
+        state.settingWaterfalls.add = !state.settingWaterfalls.add;
+        break;
+    }
+  }
 
 }
 
 
+
 export default {
   namespaced: true,
-  state: readonly(state),
+  state,
   getters,
   actions,
   mutations

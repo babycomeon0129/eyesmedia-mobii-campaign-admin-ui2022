@@ -2,7 +2,7 @@
   <div class="setting-icon">
     <el-dialog title="設定ICON" v-model="store.state.campaign.settingIcon.show" width="60%" :show-close="false">
       <div class="add-dialog">
-        <button class="btn btn-add" @click="store.state.campaign.settingIcon.add = true; store.state.campaign.settingIcon.show = false"><i class="el-icon-plus"></i>新增</button>
+        <button class="btn btn-add" @click="store.commit('campaign/SETTING_ICON', 'show');store.commit('campaign/SETTING_ICON', 'add')"><i class="el-icon-plus"></i>新增</button>
         <el-table :data="props.settingIconData" style="width: 100%">
           <el-table-column prop="banner" label="圖示" width="180">
             <template #default="scope">
@@ -46,7 +46,7 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="store.state.campaign.settingIcon.show = false">關閉</el-button>
+          <el-button @click="store.commit('campaign/SETTING_ICON', 'show')">關閉</el-button>
         </span>
       </template>
     </el-dialog>

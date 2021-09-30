@@ -79,10 +79,10 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button type="primary"
-            @click="store.state.campaign.settingAd.add = false; store.state.campaign.settingAd.show = true"
+            @click="store.commit('campaign/SETTING_AD', 'show'); store.commit('campaign/SETTING_AD', 'add')"
           >儲存</el-button>
           <el-button
-            @click="store.state.campaign.settingAd.add = false; store.state.campaign.settingAd.show = true"
+            @click="store.commit('campaign/SETTING_AD', 'show'); store.commit('campaign/SETTING_AD', 'add')"
           >關閉</el-button>
         </span>
       </template>

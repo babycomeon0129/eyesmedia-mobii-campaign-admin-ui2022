@@ -16,7 +16,7 @@
         <div class="row">
           <button
             class="btn btn-add"
-            @click="store.state.campaign.settingVoucher.add = true; store.state.campaign.settingVoucher.show = false"
+            @click="store.commit('campaign/SETTING_VOUCHER', 'show'); store.commit('campaign/SETTING_VOUCHER', 'add')"
           >
             <i class="el-icon-plus"></i>新增
           </button>
@@ -50,8 +50,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="store.state.campaign.settingVoucher.show = false">確認</el-button>
-          <el-button @click="store.state.campaign.settingVoucher.show = false">關閉</el-button>
+          <el-button type="primary" @click="store.commit('campaign/SETTING_VOUCHER', 'show')">確認</el-button>
+          <el-button @click="store.commit('campaign/SETTING_VOUCHER', 'show')">關閉</el-button>
         </span>
       </template>
     </el-dialog>
