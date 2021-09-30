@@ -24,7 +24,4 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### memo
-1. vuex 改寫
-2. 麵包蟹元件化
-3. UI調整，新增隱藏
-4. css styles 弄到global去
+1. 麵包蟹元件化

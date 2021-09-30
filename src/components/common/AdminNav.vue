@@ -1,6 +1,6 @@
 <template>
   <div class="admin-nav">
-    <el-menu
+    <!--el-menu
       default-active="1-1"
       class="el-menu-vertical-demo"
       mode="vertical"
@@ -17,10 +17,23 @@
         <el-menu-item index="1-1">
           <router-link to="/">查詢</router-link>
         </el-menu-item>
-        <el-menu-item index="1-2">
-          <router-link to="/AddCampaign">新增 & 編輯</router-link>
-        </el-menu-item>
       </el-sub-menu>
+      
+    </el-menu-->
+    <el-menu
+      default-active="1"
+      class="el-menu-vertical-demo"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      :collapse="props.isCollapse"
+    >
+      <el-menu-item index="1">
+        <i class="el-icon-menu"></i>
+        <template #title>
+          <router-link to="/">一頁式活動模組</router-link>
+        </template>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -35,40 +48,46 @@ const props = defineProps({
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
- @import '@/assets/styles/_vars';
+<style lang="scss">
+$active-color: rgb(255, 208, 75);
 
-::v-deep .el-menu-vertical-demo,
-.el-menu--vertical {
+.el-menu-vertical-demo {
   height: calc(100vh - $header-height);
-  padding-left: 0;
-  .el-sub-menu__title {
-    text-align: left;
+}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 201px;
+}
+
+.el-menu-item,
+.el-sub-menu {
+  padding: 0;
+  text-align: left;
+  a {
+    color: #fff;
   }
-  
-  .el-menu-item {
-    padding: 0;
+  &.is-active {
     a {
-      display: block;
-      color: #fff;
-      text-align: left;
-      &.router-link-exact-active {
-        color: rgb(255, 208, 75);
-      }
+      color: $active-color;
     }
   }
 }
-::v-deep .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 201px;
-}
 
-::v-deep .el-menu--collapse {
+.el-menu--collapse {
   .el-sub-menu {
     &.is-active {
       i {
-        color: rgb(255, 208, 75);
+        color: $active-color !important;
       }
     }
   }
 }
+
+.el-popper {
+  &.is-dark {
+    a {
+      color: #fff;
+    }
+  }
+} 
 </style>

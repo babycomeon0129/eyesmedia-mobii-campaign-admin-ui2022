@@ -5,9 +5,6 @@
       <el-breadcrumb-item>
         <router-link to="/">一頁式活動模組</router-link>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>
-        <router-link to="/">查詢</router-link>
-      </el-breadcrumb-item>
     </el-breadcrumb>
     <hr />
     <form>
@@ -47,9 +44,9 @@
         </div>
       </section>
     </form>
-    <h3>資料列表</h3>
+    <h3>資料列表 <button class="btn btn-add" @click="router.push({path: `/AddCampaign`})"><i class="el-icon-plus"></i>新增</button></h3>
     <section>
-      <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
+      <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="banner" label="主圖">
           <template #default="scope">
             <img :src="scope.row.banner" />
@@ -59,7 +56,7 @@
         <el-table-column prop="mktEventId" label="編號"></el-table-column>
         <el-table-column prop="mktEventEdate" label="活動時間">
           <template #default="scope">
-          {{ new Date(scope.row.mktEventSdate) }} ~ <br> {{scope.row.mktEventEdate}}
+          {{ moment(scope.row.mktEventSdate).format('YYYY-MM-DD') }} ~ <br> {{moment(scope.row.mktEventEdate).format('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column prop="mktEventStatus" label="開啟功能"></el-table-column>
@@ -180,8 +177,11 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+// moment
+import moment from 'moment'
 // element UI
 import { ElMessage } from 'element-plus';
+import { ElLoading } from 'element-plus';
 // component
 import SettingIcon from '@/components/campaign/SettingIcon.vue';
 import SettingAd from '@/components/campaign/SettingAd.vue';
@@ -196,8 +196,6 @@ import SettingWaterfalls from '@/components/campaign/SettingWaterfalls.vue';
 const store = useStore();
 /** router */
 const router = useRouter();
-/** loading遮罩 */
-const loading = ref(false);
 /** 表格資料 */
 const tableData = ref(null);
 /** 日期範圍 */
@@ -224,14 +222,16 @@ const changeCurrentPage = event => {
 
 /** 取列表資料 */
 const callApi = () => {
-  loading.value = true;
+  // 開啟loading遮罩
+  ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/list`, request)
     .then(res => {
       const data = JSON.parse(res.data.data);
       // console.log(data);
       request.paginationInfo.totalPages = data.paginationInfo.TotalPages;
       tableData.value = data.events;
-      loading.value = false;
+      // 關閉loading遮罩
+        ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
         tableData.value = data.events;
        // console.log(tableData);
