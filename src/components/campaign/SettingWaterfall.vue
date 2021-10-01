@@ -1,8 +1,8 @@
 <template>
-  <div class="settingwaterfalls">
+  <div class="settingwaterfall">
     <el-dialog
       title="設定瀑布流"
-      v-model="store.state.campaign.settingWaterfalls.show"
+      v-model="store.state.campaign.settingWaterfall.show"
       width="60%"
       :show-close="false"
     >
@@ -16,11 +16,11 @@
         <div class="row">
           <button
             class="btn btn-add"
-            @click="store.commit('campaign/SETTING_WATERFALLS', 'show'); store.commit('campaign/SETTING_WATERFALLS', 'add')"
+            @click="store.commit('campaign/SETTING_WATERFALL', 'show'); store.commit('campaign/SETTING_WATERFALL', 'add')"
           >
             <i class="el-icon-plus"></i>新增
           </button>
-          <el-table :data="props.settingWaterfallsData" style="width: 100%">
+          <el-table :data="props.settingWaterfallData" style="width: 100%">
             <el-table-column prop="banner" label="分類" width="180">
               <template #default="scope">
                 <img :src="scope.row.banner" />
@@ -50,13 +50,13 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="store.commit('campaign/SETTING_WATERFALLS', 'show')">確認</el-button>
-          <el-button @click="store.commit('campaign/SETTING_WATERFALLS', 'show')">關閉</el-button>
+          <el-button type="primary" @click="store.commit('campaign/SETTING_WATERFALL', 'show')">確認</el-button>
+          <el-button @click="store.commit('campaign/SETTING_WATERFALL', 'show')">關閉</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 功能區 -->
-    <AddWaterfalls />
+    <AddWaterfall />
   </div>
 </template>
 
@@ -64,11 +64,11 @@
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
 // component 
-import AddWaterfalls from '@/components/campaign/AddWaterfalls.vue';
+import AddWaterfall from '@/components/campaign/AddWaterfall.vue';
 
 const store = useStore();
 const props = defineProps({
-  settingWaterfallsData: Array
+  settingWaterfallData: Array
 })
 </script>
 

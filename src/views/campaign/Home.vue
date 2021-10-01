@@ -8,6 +8,7 @@
     </el-breadcrumb>
     <hr />
     <form>
+      <!-- 查詢搜尋區 -->
       <h3>查詢條件</h3>
       <section>
         <div class="row">
@@ -44,6 +45,7 @@
         </div>
       </section>
     </form>
+    <!-- 資料列表 -->
     <h3>
       資料列表
       <button class="btn btn-add" @click="router.push({ path: `/AddCampaign` })">
@@ -54,7 +56,7 @@
       <el-table :data="listData" stripe style="width: 100%">
         <el-table-column prop="banner" label="主圖">
           <template #default="scope">
-            <img :src="scope.row.banner" />
+            <img :src="scope.row.banner" class="rwdimg" />
           </template>
         </el-table-column>
         <el-table-column prop="mktEventName" label="一頁式活動名稱"></el-table-column>
@@ -93,7 +95,7 @@
                     type="warning"
                     icon="el-icon-medal"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_ICON', 'show'); evenId = scope.row.mktEventId"
+                    @click="getIconList(scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定廣告" placement="top">
@@ -150,7 +152,7 @@
                     type="warning"
                     icon="el-icon-film"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_WATERFALLS', 'show')"
+                    @click="store.commit('campaign/SETTING_WATERFALL', 'show')"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="刪除資料" placement="top">
@@ -168,14 +170,14 @@
       </el-table>
     </section>
     <!-- 功能介面區 -->
-    <SettingIcon :eventID="evenId" />
+    <SettingIcon />
     <SettingAd :settingAdData="listData" />
     <SettingCard :settingCardData="listData" />
     <SettingBanner :settingBannerData="listData" />
     <SettingVoucher :settingVoucherData="listData" />
     <SettingProduct :settingProductData="listData" />
     <SettingStore :settingStoreData="listData" />
-    <SettingWaterfalls :settingWaterfallsData="listData" />
+    <SettingWaterfall :settingWaterfallData="listData" />
     <!-- 分頁 -->
     <el-pagination
       @current-change="changeCurrentPage($event)"
@@ -205,7 +207,7 @@ import SettingBanner from '@/components/campaign/SettingBanner.vue';
 import SettingVoucher from '@/components/campaign/SettingVoucher.vue';
 import SettingProduct from '@/components/campaign/SettingProduct.vue';
 import SettingStore from '@/components/campaign/SettingStore.vue';
-import SettingWaterfalls from '@/components/campaign/SettingWaterfalls.vue';
+import SettingWaterfall from '@/components/campaign/SettingWaterfall.vue';
 
 /** vuex */
 const store = useStore();
@@ -215,8 +217,6 @@ const router = useRouter();
 const listData = ref(null);
 /** 日期範圍 */
 const dateRange = ref([]);
-/** 活動ID */
-const evenId = ref('');
 /** API request */
 const request = reactive({
   name: null,
@@ -243,17 +243,14 @@ const getListData = () => {
   ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/list`, request)
     .then(res => {
-      console.log(res);
-      const data = JSON.parse(res.data.data);
-      request.paginationInfo = data.paginationInfo;
-      listData.value = data.events;
       // 關閉loading遮罩
       ElLoading.service().close();
+      // console.log(res.data);
       if (res.data.errorCode === '996600001') {
+        const data = JSON.parse(res.data.data);
+        request.paginationInfo = data.paginationInfo;
         listData.value = data.events;
-        // console.log(listData);
       } else {
-        console.log(res);
         ElMessage.error(`errorCode:${res.data.errorCode}`);
       }
     })
@@ -281,6 +278,24 @@ const deleteData = (eventID, index) => {
     });
 }
 
+/** 取得Icon列表資料 */
+const getIconList = eventID => {
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list?id=${eventID}&type=ICON`)
+    .then(res => {
+      //console.log(res);
+      const data = JSON.parse(res.data.data);
+      // 帶入ICON列表資料
+      store.commit('campaign/SETTING_ICON', {
+        type: 'data',
+        data: data
+      });
+      // 帶入活動ID
+      store.commit('campaign/SETTING_EVENTID', eventID);
+      // 打開ICON列表
+      store.commit('campaign/SETTING_ICON', 'show');
+    })
+}
+
 // Vue 實體已建立，狀態與事件已初始化完成
 onMounted(() => {
   getListData();
@@ -289,15 +304,7 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss">
-::v-deep .el-select {
-  flex: 1;
-}
-
-::v-deep .el-input__inner {
-  width: 100%;
-}
-
+<style scoped lang="scss">
 .btnarea {
   position: relative;
   button {
@@ -309,7 +316,6 @@ onMounted(() => {
     }
   }
 }
-
 ::v-deep .el-pagination {
   margin-top: 1em;
   --el-pagination-background-color: rgba(0, 0, 0, 0);

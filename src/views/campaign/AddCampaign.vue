@@ -20,7 +20,7 @@
           <div class="row">
             <div class="col-6">
               <label>一頁式活動編碼</label>
-              <el-input v-model="request.data.eventVm.mktEventCode"></el-input>
+              <el-input v-model="request.data.eventVm.mktEventCode" disabled></el-input>
             </div>
             <div class="col-6">
               <label>
@@ -88,9 +88,13 @@
                 </el-tooltip>
               </label>
               <div class="row">
-                <el-select placeholder="請選擇">
-                  <el-option value="ENABLE">開啟</el-option>
-                  <el-option value="DISABLE">關閉</el-option>
+                <el-select placeholder="請選擇" v-model="cardValue" multiple filterable>
+                  <el-option
+                    v-for="item in cardGroupItems"
+                    :key="'card' + item.value"
+                    :value="item.value"
+                    :label="item.name"
+                  ></el-option>
                 </el-select>
                 <el-checkbox label="是" border></el-checkbox>
               </div>
@@ -136,7 +140,7 @@
           <div class="row">
             <div class="col-12">
               <label>Logo 橫幅</label>
-              <UpLoad :imgWidth="220" :imgHeigh="56" />
+              <!--UpLoad :imgWidth="220" :imgHeigh="56" /-->
             </div>
           </div>
           <div class="row">
@@ -146,12 +150,12 @@
           </div>
         </section>
       </el-collapse-transition>
-      <!-- 特色資訊 -->
-      <h3 @click="sectionCollapse.featureInfo = !sectionCollapse.featureInfo">特色資訊</h3>
+      <!-- 活動資訊 -->
+      <h3 @click="sectionCollapse.featureInfo = !sectionCollapse.featureInfo">活動資訊</h3>
       <el-collapse-transition>
         <section v-show="sectionCollapse.featureInfo">
           <div class="row">
-            <div class="col-6">
+            <div class="col-12">
               <label>標題</label>
               <el-input v-model="request.data.eventVm.mktEventTitle"></el-input>
             </div>
@@ -225,10 +229,9 @@ import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 // element UI
-import { ElMessage } from 'element-plus';
-import { ElLoading } from 'element-plus';
+import { ElMessage, ElLoading } from 'element-plus';
 // component
-import UpLoad from '@/components/common/UpLoad.vue';
+// import UpLoad from '@/components/common/UpLoad.vue';
 
 const store = useStore();
 const router = useRouter();
@@ -245,7 +248,10 @@ const sectionCollapse = ref({
 
 /** 設定日期 */
 const dateRange = ref([]);
-
+/** 卡群身份列表 */
+const cardGroupItems = ref([]);
+/** 卡群身份列表（已選取） */
+const cardValue = ref([]);
 /** API request */
 const request = reactive({
   data: {
@@ -268,27 +274,20 @@ const request = reactive({
       mktEventOtehrJustka: ''
     },
     filter: {
-      mktEventFilterId: '',
-      mktEventFilterName: '',
-      mktEventFilterType: '',
-      mktEventId: '',
-      mktEventBlockId: '',
-      filterSpecs: [
-        {
-          mktEventFilterSpecId: '',
-          mktEventFilterSpecValue: '',
-          mktEventFilterId: ''
-        }
-      ]
+      mktEventFilterType: 'MEMBER',
+      filterSpecs: computed(() => cardValue.value.map(val => {
+        return { mktEventFilterSpecValue: val }
+      })
+      )
     }
   }
 });
+// mktEventFilterSpecValue
 
 /** 新增資料 */
 const createData = () => {
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
     .then(res => {
-      console.log(res);
       if (res.data.errorCode === '996600001') {
         ElMessage.success({
           message: '新增成功',
@@ -307,26 +306,27 @@ const createData = () => {
 /** 取得欲編輯資料 */
 const getEditData = () => {
   // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
-  if (route.params.eventId !== undefined) {
-    request.data.eventVm.mktEventId = route.params.eventId;
-    axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail/${request.data.eventVm.mktEventId}`)
-      .then(res => {
-        if (res.data.errorCode === '996600001') {
-          const data = JSON.parse(res.data.data);
-          request.data = data;
-          dateRange.value[0] = data.mktEventSdate;
-          dateRange.value[1] = data.mktEventEdate;
-          request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
-          request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
-        } else {
-          ElMessage.error(`errorCode:${res.data.errorCode}`);
-        }
+  request.data.eventVm.mktEventId = route.params.eventId || '';
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail/${request.data.eventVm.mktEventId}`)
+    .then(res => {
+      if (res.data.errorCode === '996600001') {
+        const data = JSON.parse(res.data.data);
+        console.log(data);
+        cardGroupItems.value = data.cardGroupItems;
+        request.data.eventVm = data.eventVm;
+        dateRange.value[0] = data.mktEventSdate;
+        dateRange.value[1] = data.mktEventEdate;
+        request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
+        request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
 
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
 }
 
 /** 更新資料 */
@@ -335,14 +335,15 @@ const updateData = () => {
   ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/update`, request.data)
     .then(res => {
+      ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
         // 關閉loading遮罩
-        ElLoading.service().close();
-        this.$loading.close();
         ElMessage.success({
           message: '更新成功',
           type: 'success',
         });
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
       }
     })
     .catch(err => {
@@ -360,10 +361,6 @@ onMounted(() => {
 <style scoped lang="scss">
 ::v-deep .el-select {
   flex: 1;
-}
-
-::v-deep .el-input__inner {
-  width: 100%;
 }
 .btn-area {
   padding: 2em 0;

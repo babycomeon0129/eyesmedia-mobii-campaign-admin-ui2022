@@ -3,10 +3,13 @@ import { reactive } from 'vue';
 const state = reactive({
   /** API 版本 */
   apiVersion: 1,
+  /** 活動ID */
+  eventID: '',
   /** 設定icon */
   settingIcon: {
     show: false,
-    add: false
+    add: false,
+    data: []
   },
   /** 設定廣告 */
   settingAd: {
@@ -39,7 +42,7 @@ const state = reactive({
     add: false
   },
   /** 設定瀑布流 */
-  settingWaterfalls: {
+  settingWaterfall: {
     show: false,
     add: false
   }
@@ -57,8 +60,15 @@ const actions = {
 
 // mutations 
 const mutations = {
-  /** 設定icon */
-  SETTING_ICON(state, type) {
+  /** 設定活動ID */
+  SETTING_EVENTID(state, id) {
+    state.eventID = id;
+  },
+  /** 設定icon
+   * @param type 類型
+   * @param data 改變資料
+   */
+  SETTING_ICON(state, type, data) {
     switch (type) {
       case 'show':
         state.settingIcon.show = !state.settingIcon.show;
@@ -66,10 +76,16 @@ const mutations = {
       case 'add':
         state.settingIcon.add = !state.settingIcon.add;
         break;
+      case 'data':
+        state.settingIcon.data = data;
+        break;
     }
   },
-  /** 設定廣告 */
-  SETTING_AD(state, type) {
+  /** 設定廣告
+   * @param type 類型
+   * @param data 改變資料
+   */
+  SETTING_AD(state, type, data) {
     switch (type) {
       case 'show':
         state.settingAd.show = !state.settingAd.show;
@@ -77,16 +93,25 @@ const mutations = {
       case 'add':
         state.settingAd.add = !state.settingAd.add;
         break;
+      case 'data':
+        state.settingAd.data = data;
+        break;
     }
   },
-  /** 設定卡片 */
-  SETTING_CARD(state, type) {
+  /** 設定卡片
+   * @param type 類型
+   * @param data 改變資料
+   */
+  SETTING_CARD(state, type, data) {
     switch (type) {
       case 'show':
         state.settingCard.show = !state.settingCard.show;
         break;
       case 'add':
         state.settingCard.add = !state.settingCard.add;
+        break;
+      case 'data':
+        state.settingAd.data = data;
         break;
     }
   },
@@ -135,13 +160,13 @@ const mutations = {
     }
   },
   /** 設定瀑布流 */
-  SETTING_WATERFALLS(state, type) {
+  SETTING_WATERFALL(state, type) {
     switch (type) {
       case 'show':
-        state.settingWaterfalls.show = !state.settingWaterfalls.show;
+        state.settingWaterfall.show = !state.settingWaterfall.show;
         break;
       case 'add':
-        state.settingWaterfalls.add = !state.settingWaterfalls.add;
+        state.settingWaterfall.add = !state.settingWaterfall.add;
         break;
     }
   }

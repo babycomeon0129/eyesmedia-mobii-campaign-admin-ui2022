@@ -1,8 +1,8 @@
 <template>
-  <div class="add-waterfalls">
+  <div class="add-waterfall">
     <el-dialog
       title="新增瀑布流"
-      v-model="store.state.campaign.settingWaterfalls.add"
+      v-model="store.state.campaign.settingWaterfall.add"
       width="60%"
       :show-close="false"
     >
@@ -48,10 +48,10 @@
         <span class="dialog-footer">
           <el-button
             type="primary"
-            @click="store.commit('campaign/SETTING_WATERFALLS', 'show'); store.commit('campaign/SETTING_WATERFALLS', 'add')"
+            @click="store.commit('campaign/SETTING_WATERFALL', 'show'); store.commit('campaign/SETTING_WATERFALL', 'add')"
           >儲存</el-button>
           <el-button
-            @click="store.commit('campaign/SETTING_WATERFALLS', 'show'); store.commit('campaign/SETTING_WATERFALLS', 'add')"
+            @click="store.commit('campaign/SETTING_WATERFALL', 'show'); store.commit('campaign/SETTING_WATERFALL', 'add')"
           >關閉</el-button>
         </span>
       </template>
