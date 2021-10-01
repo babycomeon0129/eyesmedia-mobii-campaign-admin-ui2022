@@ -5,6 +5,12 @@ const state = reactive({
   apiVersion: 1,
   /** 活動ID */
   eventID: '',
+  /** 設定dialog */
+  campaignDialog: {
+    show: false,
+    add: false,
+    type: ''
+  },
   /** 設定icon */
   settingIcon: {
     show: false,
@@ -60,15 +66,30 @@ const actions = {
 
 // mutations 
 const mutations = {
+  
   /** 設定活動ID */
   SETTING_EVENTID(state, id) {
     state.eventID = id;
+  },
+  /** 控制活動dialog */
+  SETTING_DIALOG(state, ctrl, type ) {
+    switch(ctrl) {
+      case 'show':
+        state.campaignDialog.show = !state.campaignDialog.show;
+        break;
+      case 'add':
+        state.campaignDialog.add = !state.campaignDialog.add;
+        break;
+      case 'type':
+        state.campaignDialog.type = type;
+        break;
+    }
   },
   /** 設定icon
    * @param type 類型
    * @param data 改變資料
    */
-  SETTING_ICON(state, type, data) {
+  SETTING_ICON(state, {type, data}) {
     switch (type) {
       case 'show':
         state.settingIcon.show = !state.settingIcon.show;

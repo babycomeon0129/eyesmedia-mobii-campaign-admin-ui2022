@@ -1,5 +1,6 @@
 <template>
   <div class="settingwaterfall">
+    
     <el-dialog
       title="設定瀑布流"
       v-model="store.state.campaign.settingWaterfall.show"
@@ -54,9 +55,12 @@
           <el-button @click="store.commit('campaign/SETTING_WATERFALL', 'show')">關閉</el-button>
         </span>
       </template>
+
     </el-dialog>
+
     <!-- 功能區 -->
     <AddWaterfall />
+
   </div>
 </template>
 

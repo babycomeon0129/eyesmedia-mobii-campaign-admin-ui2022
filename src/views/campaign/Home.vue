@@ -103,7 +103,7 @@
                     type="warning"
                     icon="el-icon-money"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_AD', 'show')"
+                    @click="store.commit('campaign/SETTING_DIALOG', 'show')"
                   ></el-button>
                 </el-tooltip>
 
@@ -170,8 +170,8 @@
       </el-table>
     </section>
     <!-- 功能介面區 -->
+    <SettingDialog />
     <SettingIcon />
-    <SettingAd :settingAdData="listData" />
     <SettingCard :settingCardData="listData" />
     <SettingBanner :settingBannerData="listData" />
     <SettingVoucher :settingVoucherData="listData" />
@@ -200,8 +200,8 @@ import moment from 'moment'
 import { ElMessage } from 'element-plus';
 import { ElLoading } from 'element-plus';
 // component
+import SettingDialog from '@/components/campaign/SettingDialog.vue';
 import SettingIcon from '@/components/campaign/SettingIcon.vue';
-import SettingAd from '@/components/campaign/SettingAd.vue';
 import SettingCard from '@/components/campaign/SettingCard.vue';
 import SettingBanner from '@/components/campaign/SettingBanner.vue';
 import SettingVoucher from '@/components/campaign/SettingVoucher.vue';

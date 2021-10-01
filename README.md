@@ -131,3 +131,5 @@ const request = reactive({
 
 ### 待辦事項
 1. 麵包屑元件化（頁籤名稱隨著route變化，待研究）
+2. 調整結構：
+  ．新增<setting.dialog>、<add.dialog>、<edit.dialog>，都放在首頁，根據type不同抽換內容
