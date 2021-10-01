@@ -1,13 +1,15 @@
 <template>
   <div class="setting-dialog">
     <el-dialog
-      title="設定dialog"
+      :title="`設定${store.getters['campaign/blockTitle']}`"
       v-model="store.state.campaign.campaignDialog.show"
       width="60%"
       :show-close="false"
     >
       <div class="add-dialog">
-        <SettingAd />
+        <!-- 功能區 -->
+        <SettingIcon v-if="store.state.campaign.blockType === 'ICON'" />
+        <SettingAd v-if="store.state.campaign.blockType === 'AD'" />
       </div>
       <template #footer>
         <span class="dialog-footer">
@@ -23,9 +25,11 @@
 <script setup>
 import { useStore } from 'vuex';
 // component
+import SettingIcon from '@/components/campaign/SettingIcon.vue';
 import SettingAd from '@/components/campaign/SettingAd.vue';
 
 const store = useStore();
+
 
 </script>
 

@@ -5,6 +5,8 @@ const state = reactive({
   apiVersion: 1,
   /** 活動ID */
   eventID: '',
+  /** 區塊服務類型 */
+  blockType: '',
   /** 設定dialog */
   campaignDialog: {
     show: false,
@@ -56,7 +58,24 @@ const state = reactive({
 
 // getters 
 const getters = {
-  //...
+  blockTitle: state => {
+    switch(state.blockType) {
+      case 'CARD':
+        return '卡片';
+      case 'AD':
+        return '廣告';
+      case 'BANNER':
+        return 'Banner';
+      case 'ICON':
+        return '按鈕';
+      case 'VOUCHER':
+        return '優惠券';
+      case 'STORE':
+        return '商店';
+      case 'WATERFALL':
+        return '瀑布流';
+    }
+  }
 }
 
 // actions 
@@ -71,17 +90,18 @@ const mutations = {
   SETTING_EVENTID(state, id) {
     state.eventID = id;
   },
+  /** 設定區塊類型 */
+  SETTING_BLOCKTYPE(state, type) {
+    state.blockType = type;
+  },
   /** 控制活動dialog */
-  SETTING_DIALOG(state, ctrl, type ) {
+  SETTING_DIALOG(state, ctrl ) {
     switch(ctrl) {
       case 'show':
         state.campaignDialog.show = !state.campaignDialog.show;
         break;
       case 'add':
         state.campaignDialog.add = !state.campaignDialog.add;
-        break;
-      case 'type':
-        state.campaignDialog.type = type;
         break;
     }
   },

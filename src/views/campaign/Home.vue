@@ -95,7 +95,7 @@
                     type="warning"
                     icon="el-icon-medal"
                     size="mini"
-                    @click="getIconList(scope.row.mktEventId)"
+                    @click="getBlockList('ICON', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定廣告" placement="top">
@@ -103,7 +103,7 @@
                     type="warning"
                     icon="el-icon-money"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_DIALOG', 'show')"
+                    @click="getBlockList('AD', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
 
@@ -171,7 +171,6 @@
     </section>
     <!-- 功能介面區 -->
     <SettingDialog />
-    <SettingIcon />
     <SettingCard :settingCardData="listData" />
     <SettingBanner :settingBannerData="listData" />
     <SettingVoucher :settingVoucherData="listData" />
@@ -201,7 +200,6 @@ import { ElMessage } from 'element-plus';
 import { ElLoading } from 'element-plus';
 // component
 import SettingDialog from '@/components/campaign/SettingDialog.vue';
-import SettingIcon from '@/components/campaign/SettingIcon.vue';
 import SettingCard from '@/components/campaign/SettingCard.vue';
 import SettingBanner from '@/components/campaign/SettingBanner.vue';
 import SettingVoucher from '@/components/campaign/SettingVoucher.vue';
@@ -214,9 +212,13 @@ const store = useStore();
 /** router */
 const router = useRouter();
 /** 列表資料 */
-const listData = ref(null);
+const listData = ref([{
+  mktEventName: '123'
+}]);
 /** 日期範圍 */
-const dateRange = ref([]);
+const dateRange = ref([{
+
+}]);
 /** API request */
 const request = reactive({
   name: null,
@@ -279,26 +281,37 @@ const deleteData = (eventID, index) => {
 }
 
 /** 取得Icon列表資料 */
-const getIconList = eventID => {
-  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list?id=${eventID}&type=ICON`)
-    .then(res => {
-      //console.log(res);
-      const data = JSON.parse(res.data.data);
-      // 帶入ICON列表資料
-      store.commit('campaign/SETTING_ICON', {
-        type: 'data',
-        data: data
-      });
-      // 帶入活動ID
-      store.commit('campaign/SETTING_EVENTID', eventID);
-      // 打開ICON列表
-      store.commit('campaign/SETTING_ICON', 'show');
-    })
+// const getIconList = eventID => {
+//   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list?id=${eventID}&type=ICON`)
+//     .then(res => {
+//       //console.log(res);
+//       const data = JSON.parse(res.data.data);
+//       // 帶入ICON列表資料
+//       store.commit('campaign/SETTING_ICON', {
+//         type: 'data',
+//         data: data
+//       });
+//       // 帶入活動ID
+//       store.commit('campaign/SETTING_EVENTID', eventID);
+//       // 打開ICON列表
+//       store.commit('campaign/SETTING_ICON', 'show');
+//     })
+// }
+
+/** 取得區塊服務資料
+ * @param type    {string} 區塊類型
+ * @param eventID {string} 活動ID
+ */
+
+const getBlockList = (type, eventID) => {
+  store.commit('campaign/SETTING_EVENTID', eventID);
+  store.commit('campaign/SETTING_BLOCKTYPE', type);
+  store.commit('campaign/SETTING_DIALOG', 'show');
 }
 
 // Vue 實體已建立，狀態與事件已初始化完成
 onMounted(() => {
-  getListData();
+  //  getListData();
 });
 
 
