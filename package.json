@@ -5,8 +5,10 @@
   "scripts": {
     "serve-local": "vue-cli-service serve --mode local",
     "serve-sit": "vue-cli-service serve --mode sit",
+    "serve-uat": "vue-cli-service serve --mode uat",
     "serve-prod": "vue-cli-service serve --mode prod",
     "build-sit": "vue-cli-service build --mode sit",
+    "build-uat": "vue-cli-service build --mode uat",
     "build-prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint"
   },
