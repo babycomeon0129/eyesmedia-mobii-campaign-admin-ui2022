@@ -174,7 +174,8 @@
     <AddDialog />
     <EditDialog />
     <!-- 分頁 -->
-    <el-pagination
+    <el-pagination  
+      v-show="listData.length > 0"
       @current-change="changeCurrentPage($event)"
       :page-size="request.paginationInfo.pageSize"
       :pager-count="11"

@@ -103,7 +103,7 @@
           <div class="row">
             <div class="col-12">
               <label>完整活動網址</label>
-              <el-input></el-input>
+              <el-input disabled :modelValue ="`https://events.mobii.ai/campaign/${request.data.eventVm.mktEventUriSuffix}`"></el-input>
             </div>
           </div>
           <div class="row">
@@ -282,7 +282,6 @@ const request = reactive({
     }
   }
 });
-// mktEventFilterSpecValue
 
 /** 新增資料 */
 const createData = () => {
