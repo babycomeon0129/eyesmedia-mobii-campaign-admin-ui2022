@@ -1,7 +1,7 @@
 <template>
   <button
     class="btn btn-add"
-    @click="store.commit('campaign/SETTING_ICON', 'show'); store.commit('campaign/SETTING_ICON', 'add')"
+    @click="store.commit('campaign/SETTING_DIALOG', 'show');store.commit('campaign/SETTING_DIALOG', 'add')"
   >
     <i class="el-icon-plus"></i>新增
   </button>

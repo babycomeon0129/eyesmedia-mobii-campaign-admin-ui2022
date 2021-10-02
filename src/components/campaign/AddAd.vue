@@ -1,12 +1,5 @@
 <template>
-  <div class="add-icon">
-    <el-dialog
-      title="新增廣告"
-      v-model="store.state.campaign.settingAd.add"
-      width="60%"
-      :show-close="false"
-    >
-      <form>
+
           <div class="row">
             <div class="col-12">
               <label>
@@ -75,27 +68,12 @@
               <el-input></el-input>
             </div>
           </div>
-      </form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary"
-            @click="store.commit('campaign/SETTING_AD', 'show'); store.commit('campaign/SETTING_AD', 'add')"
-          >儲存</el-button>
-          <el-button
-            @click="store.commit('campaign/SETTING_AD', 'show'); store.commit('campaign/SETTING_AD', 'add')"
-          >關閉</el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </div>
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
 
-const store = useStore();
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

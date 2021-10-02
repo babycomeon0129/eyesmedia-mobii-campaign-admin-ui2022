@@ -271,7 +271,7 @@ const request = reactive({
       mktEventOtehrContent: '',
       mktEventLogo: '',
       mktEventNote: '',
-      mktEventOtehrJustka: ''
+      mktEventOtehrJustka: ''     
     },
     filter: {
       mktEventFilterType: 'MEMBER',

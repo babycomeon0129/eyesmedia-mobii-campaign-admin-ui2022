@@ -112,7 +112,7 @@
                     type="warning"
                     icon="el-icon-postcard"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_CARD', 'show')"
+                    @click="getBlockList('CARD', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定優惠券" placement="top">
@@ -120,7 +120,7 @@
                     type="warning"
                     icon="el-icon-discount"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_VOUCHER', 'show')"
+                    @click="getBlockList('VOUCHER', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商品" placement="top">
@@ -128,7 +128,7 @@
                     type="warning"
                     icon="el-icon-shopping-bag-2"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_PRODUCT', 'show')"
+                    @click="getBlockList('PRODUCT', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定Banner" placement="top">
@@ -136,7 +136,7 @@
                     type="warning"
                     icon="el-icon-picture"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_BANNER', 'show')"
+                    @click="getBlockList('BANNER', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定商家" placement="top">
@@ -144,7 +144,7 @@
                     type="warning"
                     icon="el-icon-s-shop"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_STORE', 'show')"
+                    @click="getBlockList('STORE', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="設定瀑布流" placement="top">
@@ -152,7 +152,7 @@
                     type="warning"
                     icon="el-icon-film"
                     size="mini"
-                    @click="store.commit('campaign/SETTING_WATERFALL', 'show')"
+                    @click="getBlockList('WATERFALL', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <el-tooltip content="刪除資料" placement="top">
@@ -171,12 +171,8 @@
     </section>
     <!-- 功能介面區 -->
     <SettingDialog />
-    <SettingCard :settingCardData="listData" />
-    <SettingBanner :settingBannerData="listData" />
-    <SettingVoucher :settingVoucherData="listData" />
-    <SettingProduct :settingProductData="listData" />
-    <SettingStore :settingStoreData="listData" />
-    <SettingWaterfall :settingWaterfallData="listData" />
+    <AddDialog />
+    <EditDialog />
     <!-- 分頁 -->
     <el-pagination
       @current-change="changeCurrentPage($event)"
@@ -196,16 +192,11 @@ import axios from 'axios';
 // moment
 import moment from 'moment'
 // element UI
-import { ElMessage } from 'element-plus';
-import { ElLoading } from 'element-plus';
+import { ElMessage, ElLoading } from 'element-plus';
 // component
 import SettingDialog from '@/components/campaign/SettingDialog.vue';
-import SettingCard from '@/components/campaign/SettingCard.vue';
-import SettingBanner from '@/components/campaign/SettingBanner.vue';
-import SettingVoucher from '@/components/campaign/SettingVoucher.vue';
-import SettingProduct from '@/components/campaign/SettingProduct.vue';
-import SettingStore from '@/components/campaign/SettingStore.vue';
-import SettingWaterfall from '@/components/campaign/SettingWaterfall.vue';
+import AddDialog from '@/components/campaign/AddDialog.vue';
+import EditDialog from '@/components/campaign/EditDialog.vue';
 
 /** vuex */
 const store = useStore();
