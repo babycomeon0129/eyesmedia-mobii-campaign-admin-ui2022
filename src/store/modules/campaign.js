@@ -5,6 +5,8 @@ const state = reactive({
   apiVersion: 1,
   /** 活動ID */
   eventID: '',
+  /** 活動的區塊ID */
+  blockID: '',
   /** 區塊服務類型 */
   blockType: '',
   /** 設定dialog */
@@ -14,43 +16,26 @@ const state = reactive({
     edit: false,
     type: ''
   },
-  /** 設定icon */
-  settingIcon: {
-    data: []
-  },
-  /** 設定廣告 */
-  settingAd: {
-    data: []
-  },
-  /** 設定卡片 */
-  settingCard: {
-    data: []
-  },
-  /** 設定Banner */
-  settingBanner: {
-    data: []
-  },
-  /** 設定優惠券 */
-  settingVoucher: {
-    data: []
-  },
-  /** 設定商品 */
-  settingProduct: {
-    data: []
-  },
-  /** 設定商店 */
-  settingStore: {
-    data: []
-  },
-  /** 設定瀑布流 */
-  settingWaterfall: {
-    data: []
+  /** 區塊資料的新增 request */
+  blockAddRequest: null,
+  /** 區塊列表資料 */
+  blockListData: {
+    ICON: [],
+    AD: [],
+    CARD: [],
+    BANNER: [],
+    VOUCHER: [],
+    PRODUCT: [],
+    STORE: [],
+    WATERFALL: []
   }
 })
 
 // getters 
 const getters = {
-  /** 區塊服務名稱 */
+  /** 區塊服務名稱
+   * @returns {String} 區塊服務名稱中文
+   */
   blockTitle: state => {
     switch(state.blockType) {
       case 'CARD':
@@ -85,24 +70,31 @@ const mutations = {
   SETTING_EVENTID(state, id) {
     state.eventID = id;
   },
+  /** 設定活動的區塊ID */
+  SETTING_BLOCK_ID(state, id) {
+    state.blockID = id;
+  },
   /** 設定區塊類型 */
   SETTING_BLOCKTYPE(state, type) {
     state.blockType = type;
   },
   /** 控制活動dialog
-   * @ctrl 控制功能視窗開啟/關閉 show:設定 add:新增 edit:編輯
+   * @param {String} ctrl 控制功能視窗開啟/關閉 show:設定 add:新增 edit:編輯
    */
   SETTING_DIALOG(state, ctrl ) {
-    switch(ctrl) {
-      case 'show':
-        state.campaignDialog.show = !state.campaignDialog.show;
-        break;
-      case 'add':
-        state.campaignDialog.add = !state.campaignDialog.add;
-        break;
-      case 'edit':
-        state.campaignDialog.edit = !state.campaignDialog.edit;
-    }
+    state.campaignDialog[ctrl] = !state.campaignDialog[ctrl];
+  },
+  /** 設定區塊列表資料
+   * @param {Object} payload 綁定資料
+   * @param {String} payload.type 區塊類型
+   * @param {Array } payload.data 回傳資料
+   */
+  SETTING_BLOCK_LIST_DATA(state, {type, data}) {
+    state.blockListData[type] = data;
+  },
+  /** 設定區塊資料的新增 request */
+  SETTING_ADD_REQUEST (state, request) {
+    state.blockAddRequest = request;
   }
 }
 

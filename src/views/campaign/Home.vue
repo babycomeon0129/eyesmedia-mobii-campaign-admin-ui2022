@@ -174,7 +174,7 @@
     <AddDialog />
     <EditDialog />
     <!-- 分頁 -->
-    <el-pagination  
+    <el-pagination
       v-show="listData.length > 0"
       @current-change="changeCurrentPage($event)"
       :page-size="request.paginationInfo.pageSize"
@@ -204,13 +204,9 @@ const store = useStore();
 /** router */
 const router = useRouter();
 /** 列表資料 */
-const listData = ref([{
-  mktEventName: '123'
-}]);
+const listData = ref([]);
 /** 日期範圍 */
-const dateRange = ref([{
-
-}]);
+const dateRange = ref([]);
 /** API request */
 const request = reactive({
   name: null,
@@ -272,38 +268,54 @@ const deleteData = (eventID, index) => {
     });
 }
 
-/** 取得Icon列表資料 */
-// const getIconList = eventID => {
-//   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list?id=${eventID}&type=ICON`)
-//     .then(res => {
-//       //console.log(res);
-//       const data = JSON.parse(res.data.data);
-//       // 帶入ICON列表資料
-//       store.commit('campaign/SETTING_ICON', {
-//         type: 'data',
-//         data: data
-//       });
-//       // 帶入活動ID
-//       store.commit('campaign/SETTING_EVENTID', eventID);
-//       // 打開ICON列表
-//       store.commit('campaign/SETTING_ICON', 'show');
-//     })
-// }
-
 /** 取得區塊服務資料
  * @param type    {string} 區塊類型
  * @param eventID {string} 活動ID
  */
-
 const getBlockList = (type, eventID) => {
   store.commit('campaign/SETTING_EVENTID', eventID);
   store.commit('campaign/SETTING_BLOCKTYPE', type);
   store.commit('campaign/SETTING_DIALOG', 'show');
+  store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
+    type: type,
+    data: []
+  });
+  const request = reactive({
+    id: eventID,
+    type: type,
+    paginationInfo: {
+      pageIndex: 1,
+      totalPages: 1,
+      totalNumber: 0,
+      pageSize: 10
+    }
+  });
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list`, request)
+    .then(res => {
+      if (res.data.errorCode === '996600001') {
+        const data = JSON.parse(res.data.data);
+        console.log(data);
+        if (data !== null) {
+          store.commit('campaign/SETTING_BLOCK_ID', data.block.mktEventBlockId);
+          store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
+            type: type,
+            data: data.block.items
+          });
+        } else {
+          store.commit('campaign/SETTING_BLOCK_ID', '');
+        }
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 // Vue 實體已建立，狀態與事件已初始化完成
 onMounted(() => {
-  //  getListData();
+  getListData();
 });
 
 

@@ -5,19 +5,19 @@
   >
     <i class="el-icon-plus"></i>新增
   </button>
-  <el-table :data="store.state.campaign.settingIcon.data" style="width: 100%">
+  <el-table :data="store.state.campaign.blockListData.ICON" style="width: 100%">
     <el-table-column prop="banner" label="圖示" width="180">
       <template #default="scope">
         <img :src="scope.row.banner" />
       </template>
     </el-table-column>
-    <el-table-column prop="title" label="名稱"></el-table-column>
-    <el-table-column prop="sort" label="排序"></el-table-column>
-    <el-table-column prop="status" label="資料狀態">
+    <el-table-column prop="mktEventItemName" label="名稱"></el-table-column>
+    <el-table-column prop="mktEventItemSort" label="排序"></el-table-column>
+    <el-table-column prop="mktEventItemStatus" label="資料狀態">
       <template #default="scope">
         <el-tag
-          :type="scope.row.status === 1 ? 'success' : 'info'"
-        >{{ scope.row.status ? '有效' : '無效' }}</el-tag>
+          :type="scope.row.mktEventItemStatus === 'ENABLE' ? 'success' : 'info'"
+        >{{ scope.row.mktEventItemStatus ? '有效' : '無效' }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column label="功能">

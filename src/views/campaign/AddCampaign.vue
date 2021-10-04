@@ -94,16 +94,19 @@
                     :key="'card' + item.value"
                     :value="item.value"
                     :label="item.name"
+                    :disabled="item.state !== 'ENABLE'"
                   ></el-option>
                 </el-select>
-                <el-checkbox label="是" border></el-checkbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label>完整活動網址</label>
-              <el-input disabled :modelValue ="`https://events.mobii.ai/campaign/${request.data.eventVm.mktEventUriSuffix}`"></el-input>
+              <el-input
+                disabled
+                :modelValue="`https://events.mobii.ai/campaign/${request.data.eventVm.mktEventUriSuffix}`"
+              ></el-input>
             </div>
           </div>
           <div class="row">
@@ -247,7 +250,7 @@ const sectionCollapse = ref({
 });
 
 /** 設定日期 */
-const dateRange = ref([]);
+const dateRange = ref([new Date(), new Date()]);
 /** 卡群身份列表 */
 const cardGroupItems = ref([]);
 /** 卡群身份列表（已選取） */
@@ -271,7 +274,7 @@ const request = reactive({
       mktEventOtehrContent: '',
       mktEventLogo: '',
       mktEventNote: '',
-      mktEventOtehrJustka: ''     
+      mktEventOtehrJustka: ''
     },
     filter: {
       mktEventFilterType: 'MEMBER',
@@ -285,38 +288,44 @@ const request = reactive({
 
 /** 新增資料 */
 const createData = () => {
-  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
-    .then(res => {
-      if (res.data.errorCode === '996600001') {
-        ElMessage.success({
-          message: '新增成功',
-          type: 'success',
-        });
-        router.push({ path: '/' });
-      } else {
-        ElMessage.error(`errorCode:${res.data.errorCode}`);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    })
+  if (request.data.eventVm.mktEventName === '') {
+    ElMessage.error(`請填寫一頁式活動名稱`);
+  } else {
+    axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
+      .then(res => {
+        if (res.data.errorCode === '996600001') {
+          ElMessage.success({
+            message: '新增成功',
+            type: 'success',
+          });
+          router.push({ path: '/' });
+        } else {
+          ElMessage.error(`errorCode:${res.data.errorCode}`);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 }
 
 /** 取得欲編輯資料 */
 const getEditData = () => {
   // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
   request.data.eventVm.mktEventId = route.params.eventId || '';
-  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail/${request.data.eventVm.mktEventId}`)
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail?id=${request.data.eventVm.mktEventId}`)
     .then(res => {
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
-        console.log(data);
         cardGroupItems.value = data.cardGroupItems;
-        request.data.eventVm = data.eventVm;
-        dateRange.value[0] = data.mktEventSdate;
-        dateRange.value[1] = data.mktEventEdate;
-        request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
-        request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+        // 如果為編輯模式，才把表單資料取回來
+        if (route.params.eventId !== undefined) {
+          request.data.eventVm = data.eventVm;
+          dateRange.value[0] = data.mktEventSdate;
+          dateRange.value[1] = data.mktEventEdate;
+          request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
+          request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+        }
       } else {
         ElMessage.error(`errorCode:${res.data.errorCode}`);
       }

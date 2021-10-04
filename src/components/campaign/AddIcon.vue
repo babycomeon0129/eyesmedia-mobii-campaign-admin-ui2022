@@ -23,7 +23,7 @@
       <label>
         <span class="danger">*</span>URL
       </label>
-      <el-input>
+      <el-input v-model="request.block.items[0].mktEventItemUrl">
         <!--template #append>
                 <el-checkbox label="App另開瀏覽器"></el-checkbox>
         </template-->
@@ -35,7 +35,7 @@
       <label>
         <span class="danger">*</span>圖示
       </label>
-      <UpLoad />
+      <!--UpLoad /-->
     </div>
   </div>
   <div class="row">
@@ -47,7 +47,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input></el-input>
+      <el-input v-model="request.block.items[0].mktEventItemSort"></el-input>
     </div>
     <div class="col-6">
       <label>資料狀態</label>
@@ -60,37 +60,52 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 // component
-import UpLoad from '@/components/common/UpLoad.vue';
+// import UpLoad from '@/components/common/UpLoad.vue';
 const store = useStore();
 /** API request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
   block: {
-    mktEventBlockId: '',
-    mktEventBlockName: '',
-    mktEventBlockStatus: '',
-    mktEventBlockSdate: '',
-    mktEventBlockEdate: '',
-    mktEventBlockType: '',
-    mktEventBlockSort: 0,
-    mktEventBlockSlotNo: '',
-    mktEventId: '',
+    mktEventId: computed(() => store.state.campaign.eventID),
+    mktEventBlockId: computed(() => store.state.campaign.blockID),
+    mktEventBlockType: computed(() => store.state.campaign.blockType),
     items: [
       {
         mktEventItemName: '',
-        mktEventItemUrlTarget: '',
+        mktEventItemUrlTarget: 'BLANK',
         mktEventItemUrl: '',
         mktEventItemImg: '',
-        mktEventItemSort: 0,
         mktEventItemStatus: 'ENABLE',
+        mktEventItemSort: 0,
       }
     ]
   }
 });
+
+watch(
+  request, (newValue) => {
+    store.commit('campaign/SETTING_ADD_REQUEST', computed(() => newValue));
+  }
+  // ,
+  // store.campaign.blockClearRequest, (newValue) => {
+  //   if (newValue) {
+  //     request.block.items = [{
+  //       mktEventItemName: '',
+  //       mktEventItemUrlTarget: 'BLANK',
+  //       mktEventItemUrl: '',
+  //       mktEventItemImg: '',
+  //       mktEventItemStatus: 'ENABLE',
+  //       mktEventItemSort: 0,
+  //     }]
+  //     store.commit('campaign/CLEAR_ADD_REQUEST');
+  //   }
+  // }
+);
+
 
 console.log(request.block.items[0]);
 

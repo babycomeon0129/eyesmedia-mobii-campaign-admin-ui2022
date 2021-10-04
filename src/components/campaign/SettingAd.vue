@@ -5,7 +5,7 @@
   >
     <i class="el-icon-plus"></i>新增
   </button>
-  <el-table :data="props.settingAdData" style="width: 100%">
+  <el-table :data="store.state.campaign.blockListData.AD" style="width: 100%">
     <el-table-column prop="banner" label="圖示" width="180">
       <template #default="scope">
         <img :src="scope.row.banner" />
@@ -35,13 +35,10 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { defineProps } from 'vue';
 
 
 const store = useStore();
-const props = defineProps({
-  settingAdData: Array
-})
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

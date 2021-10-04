@@ -5,16 +5,16 @@
   >
     <i class="el-icon-plus"></i>新增
   </button>
-  <el-table :data="props.settingBannerData" style="width: 100%">
+  <el-table :data="store.state.campaign.blockListData.BANNER" style="width: 100%">
     <el-table-column prop="banner" label="圖示" width="180">
       <template #default="scope">
         <img :src="scope.row.banner" />
       </template>
     </el-table-column>
-    <el-table-column prop="title" label="名稱"></el-table-column>
-    <el-table-column prop="status" label="資料狀態">
+    <el-table-column prop="mktEventItemName" label="名稱"></el-table-column>
+    <el-table-column prop="mktEventItemStatus" label="資料狀態">
       <template #default="scope">
-        <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
+        <el-tag :type="scope.row.mktEventItemStatus === 'ENABLE' ? 'success' : 'info'">
           {{
             scope.row.status ? "有效" : "無效"
           }}
@@ -40,12 +40,9 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { defineProps } from 'vue';
 
 const store = useStore();
-const props = defineProps({
-  settingBannerData: Array
-})
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
