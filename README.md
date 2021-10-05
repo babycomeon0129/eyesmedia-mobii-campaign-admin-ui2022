@@ -33,15 +33,15 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
   block: {
-    mktEventBlockId: '',
+    mktEventBlockId: computed(() => store.state.campaign.blockID),
     mktEventBlockName: '',
     mktEventBlockStatus: '',
     mktEventBlockSdate: '',
     mktEventBlockEdate: '',
-    mktEventBlockType: '',
+    mktEventBlockType: computed(() => store.state.campaign.blockType),
     mktEventBlockSort: 0,
     mktEventBlockSlotNo: '',
-    mktEventId: '',
+    mktEventId: computed(() => store.state.campaign.eventID),
     tabs: [
       {
         mktEventTabId: '',

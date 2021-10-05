@@ -1,11 +1,5 @@
 <template>
     <div class="row">
-      <label>
-        <span class="danger">*</span>卡片版位標題
-      </label>
-      <el-input></el-input>
-    </div>
-    <div class="row">
       <ButtonAdd />
       <el-table :data="store.state.campaign.blockListData.CARD" style="width: 100%">
         <el-table-column prop="banner" label="圖示" width="180">

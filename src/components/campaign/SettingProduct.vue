@@ -1,11 +1,5 @@
 <template>
   <div class="row">
-    <label>
-      <span class="danger">*</span>商品版位標題
-    </label>
-    <el-input></el-input>
-  </div>
-  <div class="row">
     <ButtonAdd />
     <el-table :data="store.state.campaign.blockListData.PRODUCT" style="width: 100%">
       <el-table-column prop="banner" label="商品Tab名稱" width="180">

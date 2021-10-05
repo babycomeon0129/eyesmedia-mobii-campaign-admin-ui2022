@@ -1,22 +1,13 @@
 <template>
   <div class="row">
-    <label>
-      <span class="danger">*</span>優惠券版位標題
-    </label>
-    <el-input></el-input>
-  </div>
-  <div class="row">
     <ButtonAdd />
     <el-table :data="store.state.campaign.blockListData.VOUCHER" style="width: 100%">
-      <el-table-column prop="banner" label="優惠券Tab名稱" width="180">
-        <template #default="scope">
-          <img :src="scope.row.banner" />
-        </template>
+      <el-table-column prop="mktEventTabName" label="優惠券Tab名稱" width="180">
       </el-table-column>
-      <el-table-column prop="mktEventItemName" label="優惠券數量"></el-table-column>
-      <el-table-column prop="mktEventItemSort" label="排序"></el-table-column>
-      <el-table-column prop="mktEventItemStatus" label="是否顯示Tab">
-        <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
+      <el-table-column prop="itemCount" label="優惠券數量"></el-table-column>
+      <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
+      <el-table-column prop="mktEventTabStatus" label="是否顯示Tab">
+        <template #default="scope">{{ scope.row.mktEventTabStatus === 'ENABLE' ? '是' : '否' }}</template>
       </el-table-column>
       <el-table-column label="功能">
         <template #default>

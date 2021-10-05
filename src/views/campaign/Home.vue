@@ -297,12 +297,14 @@ const getBlockList = (type, eventID) => {
         console.log(data);
         if (data !== null) {
           store.commit('campaign/SETTING_BLOCK_ID', data.block.mktEventBlockId);
+          store.commit('campaign/SETTING_BLOCK_NAME', data.block.mktEventBlockName);
           store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
             type: type,
-            data: data.block.items
+            data: data.block[store.getters['campaign/resType']]
           });
         } else {
           store.commit('campaign/SETTING_BLOCK_ID', '');
+          store.commit('campaign/SETTING_BLOCK_NAME', '');
         }
       } else {
         ElMessage.error(`errorCode:${res.data.errorCode}`);

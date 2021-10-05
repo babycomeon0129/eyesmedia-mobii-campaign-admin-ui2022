@@ -1,11 +1,5 @@
 <template>
   <div class="row">
-    <label>
-      <span class="danger">*</span>瀑布流版位標題
-    </label>
-    <el-input></el-input>
-  </div>
-  <div class="row">
     <ButtonAdd />
     <el-table :data="store.state.campaign.blockListData.WATERFALL" style="width: 100%">
       <el-table-column prop="banner" label="分類" width="180">

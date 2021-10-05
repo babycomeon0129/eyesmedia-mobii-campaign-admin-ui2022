@@ -54,7 +54,7 @@ const blockAddData = () => {
         const data = JSON.parse(res.data.data);
         store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
           type: store.state.campaign.blockType,
-          data: data.block.items
+          data: data.block[store.getters['campaign/resType']]
         });
         ElMessage.success({
           message: '新增成功',

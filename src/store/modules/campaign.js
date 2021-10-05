@@ -7,14 +7,15 @@ const state = reactive({
   eventID: '',
   /** 活動的區塊ID */
   blockID: '',
+  /** 活動的區塊標題 */
+  blockName: '',
   /** 區塊服務類型 */
   blockType: '',
   /** 設定dialog */
   campaignDialog: {
-    show: false,
-    add: false,
-    edit: false,
-    type: ''
+    show: false,  // 顯示設定dialog
+    add: false,   // 顯示新增dialog 
+    edit: false   // 顯示編輯dialog
   },
   /** 區塊資料的新增 request */
   blockAddRequest: null,
@@ -55,6 +56,17 @@ const getters = {
       case 'WATERFALL':
         return '瀑布流';
     }
+  },
+  /** 區塊清單資料respone類型選擇 */
+  resType: state => {
+    switch(state.blockType) {
+      case 'BANNER':
+      case 'AD':
+      case 'ICON':
+        return 'items';
+      default:
+        return 'tabs';
+    }
   }
 }
 
@@ -73,6 +85,10 @@ const mutations = {
   /** 設定活動的區塊ID */
   SETTING_BLOCK_ID(state, id) {
     state.blockID = id;
+  },
+  /** 設定活動的區塊標題 */
+  SETTING_BLOCK_NAME(state, name) {
+    state.blockName = name;
   },
   /** 設定區塊類型 */
   SETTING_BLOCKTYPE(state, type) {
