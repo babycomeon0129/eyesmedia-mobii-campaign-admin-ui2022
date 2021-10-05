@@ -1,10 +1,5 @@
 <template>
-  <button
-    class="btn btn-add"
-    @click="store.commit('campaign/SETTING_DIALOG', 'show');store.commit('campaign/SETTING_DIALOG', 'add')"
-  >
-    <i class="el-icon-plus"></i>新增
-  </button>
+  <ButtonAdd />
   <el-table :data="store.state.campaign.blockListData.AD" style="width: 100%">
     <el-table-column prop="banner" label="圖示" width="180">
       <template #default="scope">
@@ -35,6 +30,8 @@
 
 <script setup>
 import { useStore } from 'vuex';
+// component
+import ButtonAdd from './widget/ButtonAdd.vue';
 
 
 const store = useStore();

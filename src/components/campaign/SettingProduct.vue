@@ -6,13 +6,8 @@
     <el-input></el-input>
   </div>
   <div class="row">
-    <button
-      class="btn btn-add"
-      @click="store.commit('campaign/SETTING_DIALOG', 'show');store.commit('campaign/SETTING_DIALOG', 'add')"
-    >
-      <i class="el-icon-plus"></i>新增
-    </button>
-    <el-table :data="props.settingProductData" style="width: 100%">
+    <ButtonAdd />
+    <el-table :data="store.state.campaign.blockListData.PRODUCT" style="width: 100%">
       <el-table-column prop="banner" label="商品Tab名稱" width="180">
         <template #default="scope">
           <img :src="scope.row.banner" />
@@ -43,12 +38,11 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { defineProps } from 'vue';
+// component
+import ButtonAdd from './widget/ButtonAdd.vue';
 
 const store = useStore();
-const props = defineProps({
-  settingProductData: Array
-})
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
