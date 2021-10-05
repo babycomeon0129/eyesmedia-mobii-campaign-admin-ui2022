@@ -77,7 +77,7 @@ const request = reactive({
 });
 
 watch(request, (newValue)=> {
-  store.commit('campaign/SETTING_ADD_REQUEST', computed(()=> newValue));
+  store.commit('campaign/SETTING_ADD_REQUEST', newValue);
 });
 
 

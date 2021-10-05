@@ -88,26 +88,9 @@ const request = reactive({
 
 watch(
   request, (newValue) => {
-    store.commit('campaign/SETTING_ADD_REQUEST', computed(() => newValue));
+    store.commit('campaign/SETTING_ADD_REQUEST', newValue);
   }
-  // ,
-  // store.campaign.blockClearRequest, (newValue) => {
-  //   if (newValue) {
-  //     request.block.items = [{
-  //       mktEventItemName: '',
-  //       mktEventItemUrlTarget: 'BLANK',
-  //       mktEventItemUrl: '',
-  //       mktEventItemImg: '',
-  //       mktEventItemStatus: 'ENABLE',
-  //       mktEventItemSort: 0,
-  //     }]
-  //     store.commit('campaign/CLEAR_ADD_REQUEST');
-  //   }
-  // }
 );
-
-
-console.log(request.block.items[0]);
 
 </script>
 

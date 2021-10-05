@@ -5,6 +5,7 @@
       v-model="store.state.campaign.campaignDialog.add"
       width="60%"
       :show-close="false"
+      destroy-on-close
     >
       <form>
         <!-- 功能區 -->
@@ -20,7 +21,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button type="primary" @click="blockAddData">確認</el-button>
-          <el-button @click="closeAddData">關閉</el-button>
+          <el-button @click="closeAddDialog">關閉</el-button>
         </span>
       </template>
     </el-dialog>
@@ -51,7 +52,6 @@ const blockAddData = () => {
     .then(res => {
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
-        console.log(data);
         store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
           type: store.state.campaign.blockType,
           data: data.block.items
@@ -69,10 +69,9 @@ const blockAddData = () => {
 }
 
 /** 關閉視窗 */
-const closeAddData = () => {
+const closeAddDialog = () => {
   store.commit('campaign/SETTING_DIALOG', 'show');
   store.commit('campaign/SETTING_DIALOG', 'add');
-  store.commit('campaign/SETTING_ADD_REQUEST', null);
 }
 
 

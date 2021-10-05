@@ -19,8 +19,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="store.commit('campaign/SETTING_DIALOG', 'show');">確認</el-button>
-          <el-button @click="store.commit('campaign/SETTING_DIALOG', 'show')">關閉</el-button>
+          <el-button type="primary" @click="closeSettingDialog">確認</el-button>
+          <el-button @click="closeSettingDialog">關閉</el-button>
         </span>
       </template>
     </el-dialog>
@@ -41,6 +41,13 @@ import SettingStore from '@/components/campaign/SettingStore.vue';
 import SettingWaterfall from '@/components/campaign/SettingWaterfall.vue';
 
 const store = useStore();
+
+/** 關閉設定dialog */
+const closeSettingDialog = () => {
+  store.commit('campaign/SETTING_DIALOG', 'show');
+  // 清空新增的request
+  store.commit('campaign/SETTING_ADD_REQUEST', null);
+}
 
 
 </script>
