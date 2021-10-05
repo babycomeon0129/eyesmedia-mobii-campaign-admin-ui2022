@@ -13,10 +13,10 @@
             <img :src="scope.row.banner" />
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="名稱"></el-table-column>
-        <el-table-column prop="sort" label="排序"></el-table-column>
-        <el-table-column prop="status" label="是否顯示廣告">
-          <template #default="scope">{{ scope.row.status ? '是' : '否' }}</template>
+        <el-table-column prop="mktEventItemName" label="名稱"></el-table-column>
+        <el-table-column prop="mktEventItemSort" label="排序"></el-table-column>
+        <el-table-column prop="mktEventItemStatus" label="是否顯示廣告">
+          <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
         </el-table-column>
         <el-table-column label="功能">
           <template #default>
