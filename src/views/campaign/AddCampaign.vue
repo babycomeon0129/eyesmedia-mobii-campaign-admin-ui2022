@@ -345,7 +345,6 @@ const updateData = () => {
     .then(res => {
       ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
-        // 關閉loading遮罩
         ElMessage.success({
           message: '更新成功',
           type: 'success',

@@ -67,6 +67,9 @@ const getters = {
       default:
         return 'tabs';
     }
+  },
+  getBlockName: state => {
+    return state.blockName;
   }
 }
 
