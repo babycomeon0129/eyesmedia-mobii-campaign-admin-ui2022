@@ -31,6 +31,7 @@
 
 <script setup>
 import { useStore } from 'vuex';
+import axios from 'axios';
 // element UI
 import { ElMessage } from 'element-plus';
 // component
@@ -42,7 +43,7 @@ import AddVoucher from '@/components/campaign/AddVoucher.vue';
 import AddProduct from '@/components/campaign/AddProduct.vue';
 import AddStore from '@/components/campaign/AddStore.vue';
 import AddWaterfall from '@/components/campaign/AddWaterfall.vue';
-import axios from 'axios';
+
 
 const store = useStore();
 

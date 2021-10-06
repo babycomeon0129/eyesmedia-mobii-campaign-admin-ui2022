@@ -19,8 +19,8 @@
       </form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="store.commit('campaign/SETTING_DIALOG', 'show');store.commit('campaign/SETTING_DIALOG', 'edit')">確認</el-button>
-          <el-button @click="store.commit('campaign/SETTING_DIALOG', 'show');store.commit('campaign/SETTING_DIALOG', 'edit')">關閉</el-button>
+          <el-button type="primary" @click="blockAddData">確認</el-button>
+          <el-button @click="closeEditDialog">關閉</el-button>
         </span>
       </template>
     </el-dialog>
@@ -29,6 +29,9 @@
 
 <script setup>
 import { useStore } from 'vuex';
+import axios from 'axios';
+// element UI
+import { ElMessage } from 'element-plus';
 // component
 import AddIcon from '@/components/campaign/AddIcon.vue';
 import AddAd from '@/components/campaign/AddAd.vue';
@@ -40,6 +43,35 @@ import AddStore from '@/components/campaign/AddStore.vue';
 import AddWaterfall from '@/components/campaign/AddWaterfall.vue';
 
 const store = useStore();
+
+/** 新增區塊資料 */
+const blockAddData = () => {
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/update`, store.state.campaign.blockAddRequest)
+    .then(res => {
+      if (res.data.errorCode === '996600001') {
+        // const data = JSON.parse(res.data.data);
+        // store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
+        //   type: store.state.campaign.blockType,
+        //   data: data.block[store.getters['campaign/resType']]
+        // });
+        ElMessage.success({
+          message: '修改成功',
+          type: 'success',
+        });
+        store.commit('campaign/SETTING_DIALOG', 'show');
+        store.commit('campaign/SETTING_DIALOG', 'edit');
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    });
+}
+
+
+/** 關閉視窗 */
+const closeEditDialog = () => {
+  store.commit('campaign/SETTING_DIALOG', 'show');
+  store.commit('campaign/SETTING_DIALOG', 'edit');
+}
 
 
 </script>
