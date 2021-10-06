@@ -323,8 +323,8 @@ const getEditData = () => {
         // 如果為編輯模式，才把表單資料取回來
         if (route.params.eventId !== undefined) {
           request.data.eventVm = data.eventVm;
-          dateRange.value[0] = data.mktEventSdate;
-          dateRange.value[1] = data.mktEventEdate;
+          dateRange.value[0] = data.eventVm.mktEventSdate;
+          dateRange.value[1] = data.eventVm.mktEventEdate;
           request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
           request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
           cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
