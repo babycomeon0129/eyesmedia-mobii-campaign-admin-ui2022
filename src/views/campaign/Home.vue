@@ -300,6 +300,7 @@ const getBlockList = (type, eventID) => {
         if (data !== null) {
           store.commit('campaign/SETTING_BLOCK_ID', data.block.mktEventBlockId);
           store.commit('campaign/SETTING_BLOCK_NAME', data.block.mktEventBlockName);
+          store.commit('campaign/SETTING_BLOCK_LIST_PGN', data.paginationInfo);
           store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
             type: type,
             data: data.block[store.getters['campaign/resType']]
@@ -307,6 +308,10 @@ const getBlockList = (type, eventID) => {
         } else {
           store.commit('campaign/SETTING_BLOCK_ID', '');
           store.commit('campaign/SETTING_BLOCK_NAME', '');
+          // 至少要告訴設定頁總資料為0，不然分頁會壞掉
+          store.commit('campaign/SETTING_BLOCK_LIST_PGN', {
+            totalNumber: 0
+          });
         }
       } else {
         ElMessage.error(`errorCode:${res.data.errorCode}`);

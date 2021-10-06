@@ -25,6 +25,16 @@
         <SettingProduct v-if="store.state.campaign.blockType === 'PRODUCT'" />
         <SettingStore v-if="store.state.campaign.blockType === 'STORE'" />
         <SettingWaterfall v-if="store.state.campaign.blockType === 'WATERFALL'" />
+        <div class="row justify-center">
+          <el-pagination
+            v-show="store.state.campaign.blockListPaginationInfo.totalNumber > 0"
+            @current-change="changeCurrentPage($event)"
+            :page-size="10"
+            :pager-count="11"
+            layout="prev, pager, next"
+            :total="store.state.campaign.blockListPaginationInfo.totalNumber"
+          ></el-pagination>
+        </div>
       </div>
       <template #footer>
         <span class="dialog-footer">
@@ -99,6 +109,39 @@ const clickConfirm = () => {
   }
 }
 
+/** 點擊分頁 */
+const changeCurrentPage = event => {
+  ElLoading.service({ fullscreen: true });
+  const request = reactive({
+    id: store.state.campaign.eventID,
+    type: store.state.campaign.blockType,
+    paginationInfo: {
+      pageIndex: event,
+      totalPages: 1,
+      totalNumber: 0,
+      pageSize: 10
+    }
+  });
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list`, request)
+    .then(res => {
+      ElLoading.service().close();
+      if (res.data.errorCode === '996600001') {
+        const data = JSON.parse(res.data.data);
+        if (data !== null) {
+          store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
+            type: store.state.campaign.blockType,
+            data: data.block[store.getters['campaign/resType']]
+          });
+        }
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 /** 關閉設定dialog */
 const closeSettingDialog = () => {
   store.commit('campaign/SETTING_DIALOG', 'show');
@@ -106,14 +149,12 @@ const closeSettingDialog = () => {
   store.commit('campaign/SETTING_ADD_REQUEST', null);
 }
 
-// store.getters['campaign/blockTitle']
 watch(
   store.state, (newValue) => {
     request.block.mktEventBlockName = newValue.campaign.blockName;
-    type.value = request.block.mktEventBlockName === '' ? 'add': 'update';
+    type.value = request.block.mktEventBlockName === '' ? 'add' : 'update';
   }
 )
-
 
 </script>
 

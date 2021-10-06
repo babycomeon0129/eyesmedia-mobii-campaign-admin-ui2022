@@ -11,6 +11,10 @@ const state = reactive({
   blockName: '',
   /** 區塊服務類型 */
   blockType: '',
+  /** 區塊列表資料的分頁資訊*/
+  blockListPaginationInfo: {
+    totalNumber: 0
+  },
   /** 設定dialog */
   campaignDialog: {
     show: false,  // 顯示設定dialog
@@ -81,21 +85,33 @@ const actions = {
 // mutations 
 const mutations = {
   
-  /** 設定活動ID */
+  /** 設定活動ID
+   * @param {String} id 活動id(event ID)
+   */
   SETTING_EVENTID(state, id) {
     state.eventID = id;
   },
-  /** 設定活動的區塊ID */
+  /** 設定活動的區塊ID
+   * @param {String} id 區塊ID(Block id)
+   */
   SETTING_BLOCK_ID(state, id) {
     state.blockID = id;
   },
-  /** 設定活動的區塊標題 */
+  /** 設定活動的區塊標題
+   * @param {String} name 區塊標題(Block name)
+   */
   SETTING_BLOCK_NAME(state, name) {
     state.blockName = name;
   },
   /** 設定區塊類型 */
   SETTING_BLOCKTYPE(state, type) {
     state.blockType = type;
+  },
+  /** 設定區塊列表資料總比數 
+   * @param {OBJECT} pgn 分頁資訊
+  */
+  SETTING_BLOCK_LIST_PGN(state, pgn) {
+    state.blockListPaginationInfo = pgn;
   },
   /** 控制活動dialog
    * @param {String} ctrl 控制功能視窗開啟/關閉 show:設定 add:新增 edit:編輯
@@ -111,7 +127,7 @@ const mutations = {
   SETTING_BLOCK_LIST_DATA(state, {type, data}) {
     state.blockListData[type] = data;
   },
-  /** 設定區塊資料的新增 request */
+  /** 設定區塊資料的新增request */
   SETTING_ADD_REQUEST (state, request) {
     state.blockAddRequest = request;
   },
