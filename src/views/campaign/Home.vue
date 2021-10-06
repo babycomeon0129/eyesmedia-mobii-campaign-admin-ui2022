@@ -139,22 +139,22 @@
                     @click="getBlockList('BANNER', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
-                <el-tooltip content="設定商家" placement="top">
+                <!--el-tooltip content="設定商家" placement="top">
                   <el-button
                     type="warning"
                     icon="el-icon-s-shop"
                     size="mini"
                     @click="getBlockList('STORE', scope.row.mktEventId)"
                   ></el-button>
-                </el-tooltip>
-                <el-tooltip content="設定瀑布流" placement="top">
+                </el-tooltip-->
+                <!--el-tooltip content="設定瀑布流" placement="top">
                   <el-button
                     type="warning"
                     icon="el-icon-film"
                     size="mini"
                     @click="getBlockList('WATERFALL', scope.row.mktEventId)"
                   ></el-button>
-                </el-tooltip>
+                </el-tooltip-->
                 <el-tooltip content="刪除資料" placement="top">
                   <el-button
                     type="danger"
@@ -273,9 +273,9 @@ const deleteData = (eventID, index) => {
  * @param eventID {string} 活動ID
  */
 const getBlockList = (type, eventID) => {
+  ElLoading.service({ fullscreen: true });
   store.commit('campaign/SETTING_EVENTID', eventID);
   store.commit('campaign/SETTING_BLOCKTYPE', type);
-  store.commit('campaign/SETTING_DIALOG', 'show');
   store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
     type: type,
     data: []
@@ -292,8 +292,10 @@ const getBlockList = (type, eventID) => {
   });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/list`, request)
     .then(res => {
+      ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
+        store.commit('campaign/SETTING_DIALOG', 'show');
         console.log(data);
         if (data !== null) {
           store.commit('campaign/SETTING_BLOCK_ID', data.block.mktEventBlockId);

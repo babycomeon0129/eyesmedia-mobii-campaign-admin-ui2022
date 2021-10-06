@@ -311,10 +311,12 @@ const createData = () => {
 
 /** 取得欲編輯資料 */
 const getEditData = () => {
+  ElLoading.service({ fullscreen: true });
   // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
   request.data.eventVm.mktEventId = route.params.eventId || '';
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail?id=${request.data.eventVm.mktEventId}`)
     .then(res => {
+      ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
         cardGroupItems.value = data.cardGroupItems;
@@ -325,9 +327,10 @@ const getEditData = () => {
           dateRange.value[1] = data.mktEventEdate;
           request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
           request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+          cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
         }
       } else {
-        ElMessage.error(`errorCode:${res.data.errorCode}`);
+        ElMessage.error(`errorCode：${res.data.errorCode}，${res.data.errorDesc}`);
       }
 
     })
