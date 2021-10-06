@@ -16,15 +16,13 @@
       </template>
     </el-table-column>
     <el-table-column label="功能">
-      <template #default>
+      <template #default="scope">
         <div class="table-icon">
           <el-button-group>
             <el-tooltip content="編輯" placement="top">
               <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
             </el-tooltip>
-            <el-tooltip content="刪除資料" placement="top">
-              <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
-            </el-tooltip>
+            <ButtonDel :delID="store.state.campaign.blockListData.ICON[scope.$index].mktEventItemId" :idx="scope.$index" />
           </el-button-group>
         </div>
       </template>
@@ -36,6 +34,7 @@
 import { useStore } from 'vuex';
 // component
 import ButtonAdd from './widget/ButtonAdd.vue';
+import ButtonDel from './widget/ButtonDel.vue';
 
 const store = useStore();
 

@@ -114,6 +114,14 @@ const mutations = {
   /** 設定區塊資料的新增 request */
   SETTING_ADD_REQUEST (state, request) {
     state.blockAddRequest = request;
+  },
+  /** 刪除區塊列表資料
+   * @param {Object} payload 想刪的資料資料
+   * @param {String} payload.type 區塊類型
+   * @param {Array } payload.index 位置？（就index我不知道該怎麼解釋）
+   */
+  DEL_BLOCK_LIST_DATA (state, {type, index}) {
+    state.blockListData[type].splice(index, 1);
   }
 }
 
