@@ -104,7 +104,7 @@
             <div class="col-12">
               <label>完整活動網址</label>
               <el-input
-                disabled
+                readonly
                 :modelValue="`https://events.mobii.ai/campaign/${request.data.eventVm.mktEventUriSuffix}`"
               ></el-input>
             </div>

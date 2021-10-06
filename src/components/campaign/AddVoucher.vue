@@ -88,9 +88,8 @@ const request = reactive({
 
 /** 獲得tab資料 */
 const getTabList = () => {
-  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=VOUCHER`)
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
   .then( res => {
-    console.log(res);
     const data = JSON.parse(res.data.data);
     tabList.value = data.voucherItems;
   })

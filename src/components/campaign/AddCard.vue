@@ -4,15 +4,15 @@
       <label>
         <span class="danger">*</span>卡片Tab名稱
       </label>
-      <el-input></el-input>
+      <el-input v-model="request.block.tabs[0].mktEventTabName"></el-input>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
       <label>是否顯示卡片Tab</label>
-      <el-select placeholder="請選擇">
-        <el-option value="是"></el-option>
-        <el-option value="否"></el-option>
+      <el-select placeholder="請選擇" v-model="request.block.tabs[0].mktEventTabStatus">
+        <el-option value="ENABLE" label="是"></el-option>
+        <el-option value="DISABLE" label="否"></el-option>
       </el-select>
     </div>
     <div class="col-6">
@@ -23,15 +23,15 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input></el-input>
+      <el-input v-model="request.block.tabs[0].mktEventTabSort"></el-input>
     </div>
   </div>
   <div class="row add-card">
-    <div class="col-12" v-for="card in cardList" :key="card.id">
+    <div class="col-12" v-for="(card, idx) in request.block.tabs[0].items" :key="`card${idx}`">
       <div class="row card-title">
-        <h4>卡片{{ card.id }}</h4>
+        <h4>卡片{{ idx+1 }}</h4>
         <!-- 刪除此筆 -->
-        <button class="btn" type="button" @click="deletCard(card.id)">
+        <button class="btn" type="button" @click="deletCard(idx)">
           <i class="el-icon-delete danger"></i>
         </button>
       </div>
@@ -40,13 +40,13 @@
           <label>
             <span class="danger">*</span>名稱
           </label>
-          <el-input v-model="card.title"></el-input>
+          <el-input v-model="card.mktEventTabName"></el-input>
         </div>
         <div class="col-6">
           <label>是否顯示卡片</label>
-          <el-select placeholder="請選擇">
-            <el-option :value="1">是</el-option>
-            <el-option :value="0">否</el-option>
+          <el-select placeholder="請選擇" v-model="card.mktEventItemStatus">
+            <el-option value="ENABLE" label="是"></el-option>
+            <el-option value="DISABLE" label="否"></el-option>
           </el-select>
         </div>
       </div>
@@ -55,7 +55,7 @@
           <label>
             <span class="danger">*</span>上傳圖檔
           </label>
-          <UpLoad />
+          <!--UpLoad /-->
         </div>
       </div>
       <div class="row">
@@ -63,20 +63,18 @@
           <label>
             <span class="danger">*</span>網頁開啟模式
           </label>
-          <el-select placeholder="請選擇">
-            <el-option :value="1">是</el-option>
-            <el-option :value="0">否</el-option>
+          <el-select placeholder="請選擇" v-model="card.mktEventItemUrlTarget">
+            <el-option value="BLANK" label="另開連結"></el-option>
+            <el-option value="SELF" label="直接開啟"></el-option>
+            <el-option value="APP" label="呼叫APP開啟"></el-option>
+            <el-option value="PARENT" label="透過上層開啟"></el-option>
           </el-select>
         </div>
         <div class="col-6">
           <label>
             <span class="danger">*</span>URL
           </label>
-          <el-input>
-            <template #append>
-              <el-checkbox label="App另開瀏覽器"></el-checkbox>
-            </template>
-          </el-input>
+          <el-input v-model="card.mktEventItemUrl"></el-input>
         </div>
       </div>
     </div>
@@ -90,46 +88,85 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, computed, watch } from 'vue';
+import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus'
 // component
-import UpLoad from '@/components/common/UpLoad.vue';
+// import UpLoad from '@/components/common/UpLoad.vue';
+
+/** vuex */
+const store = useStore();
 
 /** 卡片列表 */
-const cardList = reactive([
-  {
-    id: 1,
-    title: '',
-    img: '',
-    target: '',
-    url: '',
-    show: true
-  }
-]);
+// const cardList = reactive([
+//   {
+//     mktEventTabName: '',
+//     mktEventItemImg: '',
+//     mktEventItemUrlTarget: 'BLANK',
+//     mktEventItemUrl: '',
+//     mktEventItemStatus: 'ENABLE'
+//   }
+// ]);
 
 /** 新增卡片 */
 const addCard = () => {
-  let cardId = cardList[cardList.length - 1].id + 1;
-  cardList.push({
-    id: cardId,
-    title: '',
-    img: '',
-    target: '',
-    url: '',
-    show: true
+  request.block.tabs[0].items.push({
+    mktEventTabName: '',
+    mktEventItemImg: '',
+    mktEventItemUrlTarget: 'BLANK',
+    mktEventItemUrl: '',
+    mktEventItemStatus: 'ENABLE'
   })
 };
 
 /** 刪除卡片 */
-const deletCard = id => {
-  console.log(id);
-  if (cardList.length > 1) {
-    cardList.splice(id - 1, 1);
-    console.log(cardList);
+const deletCard = idx => {
+  console.log(idx);
+  if (request.block.tabs[0].items.length > 1) {
+    request.block.tabs[0].items.splice(idx, 1);
   } else {
     ElMessage.error('請至少新增一個卡片');
   }
 };
+
+/** api request */
+const request = reactive({
+  mkt_event_id: computed(() => store.state.campaign.eventID),
+  block: {
+    mktEventBlockId: computed(() => store.state.campaign.blockID),
+    mktEventBlockType: computed(() => store.state.campaign.blockType),
+    mktEventId: computed(() => store.state.campaign.eventID),
+    tabs: [
+      {
+        mktEventTabId: '',
+        mktEventId: '',
+        mktEventTabName: '',
+        mktEventTabStatus: '',
+        mktEventTabSort: 0,
+        mktEventTabSoltNo: '',
+        mktEventTabCatalog: '',
+        mktEventBlockId: '',
+        items: [
+          {
+            mktEventTabName: '',
+            mktEventItemImg: '',
+            mktEventItemUrlTarget: 'BLANK',
+            mktEventItemUrl: '',
+            mktEventItemStatus: 'ENABLE'
+          }
+        ]
+      }
+    ]
+  }
+});
+
+watch(
+  // 監聽request，如果數值變更，便存到vuex
+  request, (newValue) => {
+    store.commit('campaign/SETTING_ADD_REQUEST', newValue);
+  }
+);
+
 
 
 </script>

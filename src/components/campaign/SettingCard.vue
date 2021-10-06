@@ -7,9 +7,9 @@
             <img :src="scope.row.banner" />
           </template>
         </el-table-column>
-        <el-table-column prop="mktEventItemName" label="名稱"></el-table-column>
-        <el-table-column prop="mktEventItemSort" label="排序"></el-table-column>
-        <el-table-column prop="mktEventItemStatus" label="是否顯示廣告">
+        <el-table-column prop="mktEventTabName" label="名稱"></el-table-column>
+        <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
+        <el-table-column prop="mktEventTabStatus" label="是否顯示廣告">
           <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
         </el-table-column>
         <el-table-column label="功能">
