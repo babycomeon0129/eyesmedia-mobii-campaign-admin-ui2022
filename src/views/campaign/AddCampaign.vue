@@ -144,7 +144,7 @@
           <div class="row">
             <div class="col-12">
               <label>Logo 橫幅</label>
-              <!--UpLoad :imgWidth="220" :imgHeigh="56" /-->
+              <UpLoad :imgWidth="10000" :imgHeigh="10000" />
             </div>
           </div>
           <div class="row">
@@ -235,7 +235,7 @@ import axios from 'axios';
 // element UI
 import { ElMessage, ElLoading } from 'element-plus';
 // component
-// import UpLoad from '@/components/common/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 
 const store = useStore();
 const router = useRouter();

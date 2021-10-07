@@ -14,7 +14,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input></el-input>
+      <el-input type="number"></el-input>
     </div>
   </div>
   <div class="row">

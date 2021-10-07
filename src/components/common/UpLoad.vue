@@ -1,6 +1,7 @@
 <template>
   <div class="upload">
     <el-upload
+      :action="`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/upload`"
       class="avatar-uploader"
       :show-file-list="false"
       :on-success="uploadSuccess"
@@ -18,28 +19,36 @@ import { ElMessage } from 'element-plus';
 
 const props = defineProps({
   imgWidth: Number,
-  imgHeigh: Number
+  imgHeigh: Number,
+  imgUrl: String,
 });
 
 /** 上傳圖片路徑 */
-const imageUrl = ref('');
-
+let imageUrl = ref('');
 /** 圖片上傳成功 */
-const uploadSuccess = (res, file) => this.imageUrl = URL.createObjectURL(file.raw);
-
+const uploadSuccess = (res, file) => {
+  console.log(res);
+  console.log(file);
+  // imageUrl.value = URL.createObjectURL(file.raw);
+  // console.log(imageUrl.value);
+}
 /** 圖片上傳前先限制大小與寬高 */
 const beforeAvatarUpload = file => {
-
+  // 限制上傳圖片大小不可超過2M
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    ElMessage.error('上傳圖片不可超過2M');
+  }
   // 限制上傳圖片寬高
   const isSize = new Promise((resolve, reject) => {
     let _URL = window.URL || window.webkitURL;
     let img = new Image();
-    img.onload  = () => {
-      let valid = img.width === props.imgWidth && img.height === props.imgHeigh;
+    img.onload = () => {
+      let valid = img.width <= props.imgWidth && img.height <= props.imgHeigh;
       valid ? resolve() : reject();
     }
     img.src = _URL.createObjectURL(file);
-  }).then(()=>{
+  }).then(() => {
     ElMessage({
       message: '上傳成功',
       type: 'success'
@@ -49,12 +58,7 @@ const beforeAvatarUpload = file => {
     ElMessage.error(`上傳圖片尺寸只能是${props.imgWidth}*${props.imgHeigh}px，請重新選擇。`);
   });
 
-  // 限制上傳圖片大小不可超過2M
-  const isLt2M = file.size / 1024 / 1024 < 2;
 
-  if (!isLt2M) {
-    ElMessage.error('上傳圖片不可超過2M');
-  }
   return isSize && isLt2M;
 };
 

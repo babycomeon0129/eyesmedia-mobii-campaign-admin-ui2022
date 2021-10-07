@@ -23,7 +23,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model="request.block.tabs[0].mktEventTabSort"></el-input>
+      <el-input v-model="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
     </div>
   </div>
   <div class="row add-card">
