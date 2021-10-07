@@ -14,7 +14,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model="request.block.tabs[0].mktEventTabSort"></el-input>
+      <el-input v-model="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
     </div>
   </div>
   <div class="row">
@@ -29,13 +29,17 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-select placeholder="請選擇" filterable v-model="request.block.tabs[0].categorys[0].mktEventVoucherId">
-        <el-option 
-        v-for="item in tabList" 
-        :key="`voucher${item.value}`"
-        :value="item.value"
-        :label="item.name"
-        :disabled="item.state !== 'ENABLE'"
+      <el-select
+        placeholder="請選擇"
+        filterable
+        v-model="request.block.tabs[0].categorys[0].mktEventVoucherId"
+      >
+        <el-option
+          v-for="item in tabList"
+          :key="`voucher${item.value}`"
+          :value="item.value"
+          :label="item.name"
+          :disabled="item.state !== 'ENABLE'"
         ></el-option>
       </el-select>
     </div>
@@ -89,10 +93,10 @@ const request = reactive({
 /** 獲得tab資料 */
 const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
-  .then( res => {
-    const data = JSON.parse(res.data.data);
-    tabList.value = data.voucherItems;
-  })
+    .then(res => {
+      const data = JSON.parse(res.data.data);
+      tabList.value = data.voucherItems;
+    })
 }
 
 watch(
@@ -102,8 +106,17 @@ watch(
   }
 );
 
-onMounted(()=> {
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if (store.state.campaign.campaignDialog.edit) {
+    request.block.tabs = store.state.campaign.blockEditRequest;
+  }
+}
+
+onMounted(() => {
   getTabList();
+  editMode();
 });
 
 </script>

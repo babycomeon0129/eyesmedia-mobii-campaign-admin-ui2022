@@ -10,15 +10,13 @@
         <el-table-column prop="mktEventTabName" label="名稱"></el-table-column>
         <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
         <el-table-column prop="mktEventTabStatus" label="是否顯示廣告">
-          <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
+          <template #default="scope">{{ scope.row.mktEventTabStatus === 'ENABLE' ? '是' : '否' }}</template>
         </el-table-column>
         <el-table-column label="功能">
           <template #default="scope">
             <div class="table-icon">
               <el-button-group>
-                <el-tooltip content="編輯" placement="top">
-                  <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-                </el-tooltip>
+                <ButtonEdit :editID="store.state.campaign.blockListData.CARD[scope.$index].mktEventTabId" />
                 <ButtonDel :delID="store.state.campaign.blockListData.CARD[scope.$index].mktEventTabId" :idx="scope.$index" />
               </el-button-group>
             </div>
@@ -36,6 +34,7 @@ import { useStore } from 'vuex';
 // component
 import ButtonAdd from './widget/ButtonAdd.vue';
 import ButtonDel from './widget/ButtonDel.vue';
+import ButtonEdit from './widget/ButtonEdit.vue';
 
 const store = useStore();
 

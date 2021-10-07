@@ -39,10 +39,11 @@
       </label>
       <el-date-picker
         v-model="dateRange"
-        type="daterange"
+        type="datetimerange"
         range-separator="-"
         start-placeholder="開始日期"
         end-placeholder="结束日期"
+        value-format="YYYY-MM-DDTHH:mm:ss"
       ></el-date-picker>
     </div>
     <div class="col-6">
@@ -70,7 +71,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch } from 'vue';
+import { reactive, ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 // component
 // import UpLoad from '@/components/common/UpLoad.vue';
@@ -102,12 +103,29 @@ const request = reactive({
   }
 });
 
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if(store.state.campaign.campaignDialog.edit) {
+    request.block.items = store.state.campaign.blockEditRequest;
+    dateRange.value[0] =  store.state.campaign.blockEditRequest[0].mktEventItemSdate;
+    dateRange.value[1] =  store.state.campaign.blockEditRequest[0].mktEventItemEdate;
+    request.block.items[0].mktEventItemSdate = computed(() => dateRange.value[0]);
+    request.block.items[0].mktEventItemEdate = computed(() => dateRange.value[1]);
+  }
+}
+
 watch(
   // 監聽request，如果數值變更，便存到vuex
   request, (newValue) => {
     store.commit('campaign/SETTING_ADD_REQUEST', newValue);
   }
 );
+
+onMounted(()=>{
+  editMode();
+})
+
 
 </script>
 

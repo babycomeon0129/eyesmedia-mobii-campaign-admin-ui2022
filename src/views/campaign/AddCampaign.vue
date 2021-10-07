@@ -116,10 +116,11 @@
               </label>
               <el-date-picker
                 v-model="dateRange"
-                type="daterange"
+                type="datetimerange"
                 range-separator="至"
                 start-placeholder="開始日期"
                 end-placeholder="结束日期"
+                value-format="YYYY-MM-DDTHH:mm:ss"
               ></el-date-picker>
             </div>
             <div class="col-6">
@@ -217,10 +218,10 @@
       </section>
       <div class="row btn-area">
         <!-- 新增資料 -->
-        <el-button type="primary" @click="updateData" v-if="route.params.eventId !== undefined">確認</el-button>
+        <el-button type="primary" @click="updateData" v-if="route.params.eventId !== undefined">修改</el-button>
         <!-- 編輯資料 -->
         <el-button type="primary" @click="createData" v-if="route.params.eventId === undefined">確認</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="router.push({ path: `/` })">取消</el-button>
       </div>
     </form>
   </div>
@@ -353,7 +354,7 @@ const updateData = () => {
           type: 'success',
         });
       } else {
-        ElMessage.error(`errorCode:${res.data.errorCode}`);
+        ElMessage.error(`errorCode:${res.data.errorCode}，${res.data.errorDesc}`);
       }
     })
     .catch(err => {

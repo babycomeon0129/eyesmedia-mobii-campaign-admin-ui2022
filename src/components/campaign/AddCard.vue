@@ -40,7 +40,7 @@
           <label>
             <span class="danger">*</span>名稱
           </label>
-          <el-input v-model="card.mktEventTabName"></el-input>
+          <el-input v-model="card.mktEventItemName"></el-input>
         </div>
         <div class="col-6">
           <label>是否顯示卡片</label>
@@ -88,7 +88,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus'
 // component
@@ -96,17 +96,6 @@ import { ElMessage } from 'element-plus'
 
 /** vuex */
 const store = useStore();
-
-/** 卡片列表 */
-// const cardList = reactive([
-//   {
-//     mktEventTabName: '',
-//     mktEventItemImg: '',
-//     mktEventItemUrlTarget: 'BLANK',
-//     mktEventItemUrl: '',
-//     mktEventItemStatus: 'ENABLE'
-//   }
-// ]);
 
 /** 新增卡片 */
 const addCard = () => {
@@ -121,7 +110,6 @@ const addCard = () => {
 
 /** 刪除卡片 */
 const deletCard = idx => {
-  console.log(idx);
   if (request.block.tabs[0].items.length > 1) {
     request.block.tabs[0].items.splice(idx, 1);
   } else {
@@ -148,7 +136,7 @@ const request = reactive({
         mktEventBlockId: '',
         items: [
           {
-            mktEventTabName: '',
+            mktEventItemName: '',
             mktEventItemImg: '',
             mktEventItemUrlTarget: 'BLANK',
             mktEventItemUrl: '',
@@ -160,12 +148,24 @@ const request = reactive({
   }
 });
 
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if(store.state.campaign.campaignDialog.edit) {
+    request.block.tabs = store.state.campaign.blockEditRequest;
+  }
+}
+
 watch(
   // 監聽request，如果數值變更，便存到vuex
   request, (newValue) => {
     store.commit('campaign/SETTING_ADD_REQUEST', newValue);
   }
 );
+
+onMounted(()=>{
+  editMode();
+})
 
 
 

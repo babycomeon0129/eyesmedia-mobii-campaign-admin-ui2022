@@ -21,8 +21,10 @@ const state = reactive({
     add: false,   // 顯示新增dialog 
     edit: false   // 顯示編輯dialog
   },
-  /** 區塊資料的新增 request */
+  /** 區塊資料的新增request */
   blockAddRequest: null,
+  /** 區塊資料編輯的request */
+  blockEditRequest: null,
   /** 區塊列表資料 */
   blockListData: {
     ICON: [],
@@ -127,9 +129,15 @@ const mutations = {
   SETTING_BLOCK_LIST_DATA(state, {type, data}) {
     state.blockListData[type] = data;
   },
-  /** 設定區塊資料的新增request */
+  /** 設定區塊資料的新增request
+   * @param request API
+   */
   SETTING_ADD_REQUEST (state, request) {
     state.blockAddRequest = request;
+  },
+  /** 設定區塊資料的邊蓻request */
+  SETTING_EDIT_REQUEST (state, request) {
+    state.blockEditRequest = request;
   },
   /** 刪除區塊列表資料
    * @param {Object} payload 想刪的資料資料

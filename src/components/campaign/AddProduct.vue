@@ -89,7 +89,6 @@ const request = reactive({
   }
 });
 
-
 /** 獲得tab資料 */
 const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
@@ -98,6 +97,14 @@ const getTabList = () => {
       console.log(data);
       tabList.value = data.productItems;
     })
+}
+
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if(store.state.campaign.campaignDialog.edit) {
+    request.block.tabs = store.state.campaign.blockEditRequest;
+  }
 }
 
 watch(
@@ -109,6 +116,7 @@ watch(
 
 onMounted(() => {
   getTabList();
+  editMode();
 });
 
 </script>

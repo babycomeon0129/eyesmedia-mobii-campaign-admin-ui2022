@@ -20,10 +20,11 @@
             <label>開始與結束時間</label>
             <el-date-picker
               v-model="dateRange"
-              type="daterange"
+              type="datetimerange"
               range-separator="-"
               start-placeholder="開始日期"
               end-placeholder="结束日期"
+              value-format="YYYY-MM-DDTHH:mm:ss"
             ></el-date-picker>
           </div>
         </div>
@@ -63,9 +64,9 @@
         <el-table-column prop="mktEventCode" label="編號"></el-table-column>
         <el-table-column label="活動時間">
           <template #default="scope">
-            {{ moment(scope.row.mktEventSdate).format('YYYY-MM-DD') }} ~
+            {{ moment(scope.row.mktEventSdate).format('YYYY-MM-DD HH:mm:ss') }} ~
             <br />
-            {{ moment(scope.row.mktEventEdate).format('YYYY-MM-DD') }}
+            {{ moment(scope.row.mktEventEdate).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
         </el-table-column>
         <el-table-column prop="mktEventOpenFunction" label="開啟功能"></el-table-column>

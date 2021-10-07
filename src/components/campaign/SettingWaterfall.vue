@@ -16,9 +16,7 @@
         <template #default="scope">
           <div class="table-icon">
             <el-button-group>
-              <el-tooltip content="編輯" placement="top">
-                <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-              </el-tooltip>
+              <ButtonEdit :editID="store.state.campaign.blockListData.WATERFALL[scope.$index].mktEventTabId" />
               <ButtonDel :delID="store.state.campaign.blockListData.WATERFALL[scope.$index].mktEventTabId" :idx="scope.$index" />
             </el-button-group>
           </div>
@@ -33,6 +31,7 @@ import { useStore } from 'vuex';
 // component
 import ButtonAdd from './widget/ButtonAdd.vue';
 import ButtonDel from './widget/ButtonDel.vue';
+import ButtonEdit from './widget/ButtonEdit.vue';
 
 
 const store = useStore();

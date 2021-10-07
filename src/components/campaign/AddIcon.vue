@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 // component
@@ -86,11 +86,27 @@ const request = reactive({
   }
 });
 
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if(store.state.campaign.campaignDialog.edit) {
+    console.log(store.state.campaign.blockEditRequest);
+    request.block.items = store.state.campaign.blockEditRequest;
+  }
+}
+
 watch(
   request, (newValue) => {
     store.commit('campaign/SETTING_ADD_REQUEST', newValue);
   }
 );
+
+onMounted(()=>{
+  editMode();
+})
+
+
+
 
 </script>
 
