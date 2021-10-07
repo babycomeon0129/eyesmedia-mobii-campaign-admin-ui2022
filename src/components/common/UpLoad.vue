@@ -1,7 +1,8 @@
 <template>
   <div class="upload">
+    <!--:action="`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}`"-->
     <el-upload
-      :action="`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/upload`"
+      :action="upLoadApi"
       class="avatar-uploader"
       :show-file-list="false"
       :on-success="uploadSuccess"
@@ -15,6 +16,7 @@
 
 <script setup>
 import { ref, defineProps } from 'vue';
+import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 
 const props = defineProps({
@@ -22,6 +24,11 @@ const props = defineProps({
   imgHeigh: Number,
   imgUrl: String,
 });
+
+/** vuex */
+const store = useStore();
+/** 上傳檔案的API */
+const upLoadApi = `${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/upload`
 
 /** 上傳圖片路徑 */
 let imageUrl = ref('');
