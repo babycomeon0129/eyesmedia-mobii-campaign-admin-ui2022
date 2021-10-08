@@ -24,6 +24,7 @@
               range-separator="-"
               start-placeholder="開始日期"
               end-placeholder="结束日期"
+              :clearable="false"
               value-format="YYYY-MM-DDTHH:mm:ss"
             ></el-date-picker>
           </div>

@@ -117,9 +117,10 @@
               <el-date-picker
                 v-model="dateRange"
                 type="datetimerange"
-                range-separator="至"
+                range-separator="-"
                 start-placeholder="開始日期"
                 end-placeholder="结束日期"
+                :clearable="false"
                 value-format="YYYY-MM-DDTHH:mm:ss"
               ></el-date-picker>
             </div>
@@ -144,7 +145,7 @@
           <div class="row">
             <div class="col-12">
               <label>Logo 橫幅</label>
-              <UpLoad :imgWidth="10000" :imgHeigh="10000" />
+              <UpLoad :imgWidth="10000" :imgHeigh="1000" @imgUpload="request.data.eventVm.mktEventLogo = $event" />
             </div>
           </div>
           <div class="row">

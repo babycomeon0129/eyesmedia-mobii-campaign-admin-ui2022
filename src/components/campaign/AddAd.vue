@@ -44,6 +44,7 @@
         start-placeholder="開始日期"
         end-placeholder="结束日期"
         value-format="YYYY-MM-DDTHH:mm:ss"
+        :clearable="false"
       ></el-date-picker>
     </div>
     <div class="col-6">

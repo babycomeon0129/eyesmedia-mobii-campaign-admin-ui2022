@@ -1,6 +1,5 @@
 <template>
   <div class="upload">
-    <!--:action="`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}`"-->
     <el-upload
       :action="upLoadApi"
       class="avatar-uploader"
@@ -15,29 +14,41 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { defineProps, ref, defineEmits } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 
 const props = defineProps({
-  imgWidth: Number,
-  imgHeigh: Number,
-  imgUrl: String,
+  imgWidth: {
+    type: Number,
+    default: 500,
+    required: false
+  },
+  imgHeigh: {
+    type: Number,
+    default: 500,
+    required: false
+  },
+  imgUrl: {
+    type: String,
+    default: '',
+    required: false
+  },
 });
+
+const emits = defineEmits(['imgUpload']);
 
 /** vuex */
 const store = useStore();
 /** 上傳檔案的API */
-const upLoadApi = `${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/upload`
-
+const upLoadApi = `${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/upload`;
 /** 上傳圖片路徑 */
-let imageUrl = ref('');
+let imageUrl = ref(props.imgUrl);
 /** 圖片上傳成功 */
-const uploadSuccess = (res, file) => {
-  console.log(res);
-  console.log(file);
-  // imageUrl.value = URL.createObjectURL(file.raw);
-  // console.log(imageUrl.value);
+const uploadSuccess = (res) => {
+  // 把respone回來的圖片網址接下來
+  imageUrl.value = res.data;
+  emits('imgUpload', imageUrl.value);
 }
 /** 圖片上傳前先限制大小與寬高 */
 const beforeAvatarUpload = file => {
@@ -64,7 +75,6 @@ const beforeAvatarUpload = file => {
   }, () => {
     ElMessage.error(`上傳圖片尺寸只能是${props.imgWidth}*${props.imgHeigh}px，請重新選擇。`);
   });
-
 
   return isSize && isLt2M;
 };

@@ -33,7 +33,7 @@
 import { useStore } from 'vuex';
 import axios from 'axios';
 // element UI
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElLoading } from 'element-plus';
 // component
 import AddIcon from '@/components/campaign/AddIcon.vue';
 import AddAd from '@/components/campaign/AddAd.vue';
@@ -49,8 +49,10 @@ const store = useStore();
 
 /** 新增區塊資料 */
 const blockAddData = () => {
+  ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/add`, store.state.campaign.blockAddRequest)
     .then(res => {
+      ElLoading.service().close();
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
         store.commit('campaign/SETTING_BLOCK_LIST_DATA', {
