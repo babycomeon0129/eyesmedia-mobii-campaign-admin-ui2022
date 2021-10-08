@@ -2,11 +2,6 @@
     <div class="row">
       <ButtonAdd />
       <el-table :data="store.state.campaign.blockListData.CARD" style="width: 100%">
-        <el-table-column prop="banner" label="圖示" width="180">
-          <template #default="scope">
-            <img :src="scope.row.banner" />
-          </template>
-        </el-table-column>
         <el-table-column prop="mktEventTabName" label="名稱"></el-table-column>
         <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
         <el-table-column prop="mktEventTabStatus" label="是否顯示廣告">

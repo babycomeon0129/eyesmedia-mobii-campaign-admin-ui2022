@@ -83,6 +83,11 @@ i {
   height: auto;
 }
 
+.img-upload {
+  width: auto;
+  max-height: 178px;
+}
+
 .rwdimgmax {
   max-width: 100%;
   height: auto;
@@ -298,6 +303,10 @@ input {
 } 
 
 /** table */
+.table-img {
+  width: auto;
+  height: 40px;
+}
 .table-icon {
   i {
     font-size: large;

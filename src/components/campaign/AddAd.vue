@@ -29,7 +29,13 @@
       <label>
         <span class="danger">*</span>圖示
       </label>
-      <!-- UpLoad /-->
+      <UpLoad
+        :imgWidth="1030"
+        :imgHeigh="490"
+        :imgUrl="request.block.items[0].mktEventItemImgFullPath"
+        @imgUpload="imgUpload($event)"
+      />
+      <span class="danger">圖片上傳限制1030px x 490px，檔案小於1M</span>
     </div>
   </div>
   <div class="row">
@@ -75,7 +81,7 @@
 import { reactive, ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 // component
-// import UpLoad from '@/components/common/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 
 const store = useStore();
 
@@ -95,6 +101,7 @@ const request = reactive({
         mktEventItemUrlTarget: 'BLANK',
         mktEventItemUrl: '',
         mktEventItemImg: '',
+        mktEventItemImgFullPath: '',
         mktEventItemStatus: 'ENABLE',
         mktEventItemSort: 0,
         mktEventItemSdate: computed(() => dateRange.value[0]),
@@ -103,6 +110,12 @@ const request = reactive({
     ]
   }
 });
+
+/**  接收上傳圖片 */
+const imgUpload = ({ filePath, fullPath }) => {
+  request.block.items[0].mktEventItemImg = filePath;
+  request.block.items[0].mktEventItemImgFullPath = fullPath;
+}
 
 /** 編輯模式 */
 const editMode = () => {

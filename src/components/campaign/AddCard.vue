@@ -29,7 +29,7 @@
   <div class="row add-card">
     <div class="col-12" v-for="(card, idx) in request.block.tabs[0].items" :key="`card${idx}`">
       <div class="row card-title">
-        <h4>卡片{{ idx+1 }}</h4>
+        <h4>卡片{{ idx + 1 }}</h4>
         <!-- 刪除此筆 -->
         <button class="btn" type="button" @click="deletCard(idx)">
           <i class="el-icon-delete danger"></i>
@@ -55,7 +55,12 @@
           <label>
             <span class="danger">*</span>上傳圖檔
           </label>
-          <UpLoad :imgWidth="96" :imgHeigh="96"  />
+          <UpLoad
+            :imgWidth="500"
+            :imgHeigh="500"
+            :imgUrl="card.mktEventItemImgFullPath"
+            @imgUpload="imgUpload($event, idx)"
+          />
         </div>
       </div>
       <div class="row">
@@ -102,6 +107,7 @@ const addCard = () => {
   request.block.tabs[0].items.push({
     mktEventTabName: '',
     mktEventItemImg: '',
+    mktEventItemImgFullPath: '',
     mktEventItemUrlTarget: 'BLANK',
     mktEventItemUrl: '',
     mktEventItemStatus: 'ENABLE'
@@ -138,6 +144,7 @@ const request = reactive({
           {
             mktEventItemName: '',
             mktEventItemImg: '',
+            mktEventItemImgFullPath: '',
             mktEventItemUrlTarget: 'BLANK',
             mktEventItemUrl: '',
             mktEventItemStatus: 'ENABLE'
@@ -148,10 +155,16 @@ const request = reactive({
   }
 });
 
+/**  接收上傳圖片 */
+const imgUpload = ({ filePath, fullPath }, index) => {
+  request.block.tabs[0].items[index].mktEventItemImg = filePath;
+  request.block.tabs[0].items[index].mktEventItemImgFullPath = fullPath;
+}
+
 /** 編輯模式 */
 const editMode = () => {
   // 先判斷現在是否為編輯模式
-  if(store.state.campaign.campaignDialog.edit) {
+  if (store.state.campaign.campaignDialog.edit) {
     request.block.tabs = store.state.campaign.blockEditRequest;
   }
 }
@@ -163,7 +176,7 @@ watch(
   }
 );
 
-onMounted(()=>{
+onMounted(() => {
   editMode();
 })
 

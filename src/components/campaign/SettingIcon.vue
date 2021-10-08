@@ -1,9 +1,9 @@
 <template>
   <ButtonAdd />
   <el-table :data="store.state.campaign.blockListData.ICON" style="width: 100%">
-    <el-table-column prop="banner" label="圖示" width="180">
+    <el-table-column prop="mktEventItemImgFullPath" label="圖示" width="180">
       <template #default="scope">
-        <img :src="scope.row.banner" />
+        <img :src="scope.row.mktEventItemImgFullPath"  class="table-img"/>
       </template>
     </el-table-column>
     <el-table-column prop="mktEventItemName" label="名稱"></el-table-column>

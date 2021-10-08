@@ -35,7 +35,12 @@
       <label>
         <span class="danger">*</span>圖示
       </label>
-      <UpLoad :imgWidth="96" :imgHeigh="96" :imgUrl="request.block.items[0].mktEventItemImgFullPath" />
+      <UpLoad
+        :imgWidth="96"
+        :imgHeigh="96"
+        :imgUrl="request.block.items[0].mktEventItemImgFullPath"
+        @imgUpload="imgUpload($event)"
+      />
     </div>
   </div>
   <div class="row">
@@ -65,6 +70,7 @@ import { useStore } from 'vuex';
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
 const store = useStore();
+
 /** API request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -86,10 +92,16 @@ const request = reactive({
   }
 });
 
+/**  接收上傳圖片 */
+const imgUpload = ({ filePath, fullPath }) => {
+  request.block.items[0].mktEventItemImg = filePath;
+  request.block.items[0].mktEventItemImgFullPath = fullPath;
+}
+
 /** 編輯模式 */
 const editMode = () => {
   // 先判斷現在是否為編輯模式
-  if(store.state.campaign.campaignDialog.edit) {
+  if (store.state.campaign.campaignDialog.edit) {
     console.log(store.state.campaign.blockEditRequest);
     request.block.items = store.state.campaign.blockEditRequest;
   }
@@ -101,7 +113,7 @@ watch(
   }
 );
 
-onMounted(()=>{
+onMounted(() => {
   editMode();
 })
 
