@@ -61,6 +61,7 @@
             :imgUrl="card.mktEventItemImgFullPath"
             @imgUpload="imgUpload($event, idx)"
           />
+          <span class="danger">圖片上傳限制500px x 500px，檔案小於1M</span>
         </div>
       </div>
       <div class="row">
