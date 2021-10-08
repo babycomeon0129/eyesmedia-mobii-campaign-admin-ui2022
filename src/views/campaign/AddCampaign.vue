@@ -145,7 +145,11 @@
           <div class="row">
             <div class="col-12">
               <label>Logo 橫幅</label>
-              <UpLoad :imgWidth="10000" :imgHeigh="1000" @imgUpload="request.data.eventVm.mktEventLogo = $event" />
+              <UpLoad
+              :imgWidth="220"
+              :imgHeigh="56" 
+              :imgUrl="request.data.eventVm.mktEventLogoFullPath"
+              @imgUpload="imgUpload($event)" />
             </div>
           </div>
           <div class="row">
@@ -257,6 +261,11 @@ const dateRange = ref([new Date(), new Date()]);
 const cardGroupItems = ref([]);
 /** 卡群身份列表（已選取） */
 const cardValue = ref([]);
+/**  接收上傳圖片 */
+const imgUpload = ({filePath, fullPath}) => {
+  request.data.eventVm.mktEventLogo = filePath;
+  request.data.eventVm.mktEventLogoFullPath = fullPath;
+}
 /** API request */
 const request = reactive({
   data: {
@@ -275,10 +284,12 @@ const request = reactive({
       mktEventOtherTitle: '',
       mktEventOtehrContent: '',
       mktEventLogo: '',
+      mktEventLogoFullPath: '',
       mktEventNote: '',
       mktEventOtehrJustka: ''
     },
     filter: {
+      mktEventFilterId: '',
       mktEventFilterType: 'MEMBER',
       filterSpecs: computed(() => cardValue.value.map(val => {
         return { mktEventFilterSpecValue: val }
@@ -329,6 +340,7 @@ const getEditData = () => {
           dateRange.value[1] = data.eventVm.mktEventEdate;
           request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
           request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+          request.data.filter.mktEventFilterId = data.filter.mktEventFilterId;
           cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
         }
       } else {

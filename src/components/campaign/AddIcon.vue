@@ -35,7 +35,7 @@
       <label>
         <span class="danger">*</span>圖示
       </label>
-      <!--UpLoad /-->
+      <UpLoad :imgWidth="96" :imgHeigh="96" :imgUrl="request.block.items[0].mktEventItemImgFullPath" />
     </div>
   </div>
   <div class="row">
@@ -62,9 +62,8 @@
 <script setup>
 import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-
 // component
-// import UpLoad from '@/components/common/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 const store = useStore();
 /** API request */
 const request = reactive({
@@ -79,6 +78,7 @@ const request = reactive({
         mktEventItemUrlTarget: 'BLANK',
         mktEventItemUrl: '',
         mktEventItemImg: '',
+        mktEventItemImgFullPath: '',
         mktEventItemStatus: 'ENABLE',
         mktEventItemSort: 0,
       }

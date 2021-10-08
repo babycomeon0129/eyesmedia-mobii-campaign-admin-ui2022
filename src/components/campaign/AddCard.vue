@@ -55,7 +55,7 @@
           <label>
             <span class="danger">*</span>上傳圖檔
           </label>
-          <!--UpLoad /-->
+          <UpLoad :imgWidth="96" :imgHeigh="96"  />
         </div>
       </div>
       <div class="row">
@@ -92,7 +92,7 @@ import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus'
 // component
-// import UpLoad from '@/components/common/UpLoad.vue';
+import UpLoad from '@/components/common/UpLoad.vue';
 
 /** vuex */
 const store = useStore();

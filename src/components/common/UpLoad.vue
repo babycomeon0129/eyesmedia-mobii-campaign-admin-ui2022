@@ -7,14 +7,14 @@
       :on-success="uploadSuccess"
       :before-upload="beforeAvatarUpload"
     >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+      <img v-if="props.imgUrl !== ''" :src="props.imgUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
   </div>
 </template>
 
 <script setup>
-import { defineProps, ref, defineEmits } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 
@@ -41,14 +41,15 @@ const emits = defineEmits(['imgUpload']);
 /** vuex */
 const store = useStore();
 /** 上傳檔案的API */
-const upLoadApi = `${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/upload`;
-/** 上傳圖片路徑 */
-let imageUrl = ref(props.imgUrl);
+const upLoadApi = `${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/base/fileupload`;
 /** 圖片上傳成功 */
 const uploadSuccess = (res) => {
-  // 把respone回來的圖片網址接下來
-  imageUrl.value = res.data;
-  emits('imgUpload', imageUrl.value);
+  console.log(res);
+  if(res.errorCode === '996600001') {
+    const data = JSON.parse(res.data);
+    console.log(data);
+    emits('imgUpload', data);
+  }
 }
 /** 圖片上傳前先限制大小與寬高 */
 const beforeAvatarUpload = file => {
@@ -62,7 +63,7 @@ const beforeAvatarUpload = file => {
     let _URL = window.URL || window.webkitURL;
     let img = new Image();
     img.onload = () => {
-      let valid = img.width <= props.imgWidth && img.height <= props.imgHeigh;
+      let valid = img.width === props.imgWidth && img.height === props.imgHeigh;
       valid ? resolve() : reject();
     }
     img.src = _URL.createObjectURL(file);
@@ -78,6 +79,7 @@ const beforeAvatarUpload = file => {
 
   return isSize && isLt2M;
 };
+
 
 </script>
 
