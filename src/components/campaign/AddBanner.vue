@@ -25,7 +25,7 @@
       <label>
         <span class="danger">*</span>URL
       </label>
-      <el-input v-model="request.block.items[0].mktEventItemUrl"></el-input>
+      <el-input v-model.trim="request.block.items[0].mktEventItemUrl"></el-input>
     </div>
   </div>
   <div class="row">

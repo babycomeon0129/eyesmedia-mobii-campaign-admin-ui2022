@@ -76,7 +76,7 @@
               </label>
               <div class="row flexbox">
                 <p>https://events.mobii.ai/campaign/</p>
-                <el-input v-model="request.data.eventVm.mktEventUriSuffix"></el-input>
+                <el-input v-model.trim="request.data.eventVm.mktEventUriSuffix"></el-input>
               </div>
             </div>
             <div class="col-6">
@@ -212,7 +212,7 @@
           <div class="row">
             <div class="col-12">
               <label>URL</label>
-              <el-input v-model="request.data.eventVm.mktEventOtehrJustka"></el-input>
+              <el-input v-model.trim="request.data.eventVm.mktEventOtehrJustka"></el-input>
             </div>
           </div>
         </section>

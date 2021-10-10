@@ -14,7 +14,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
+      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
     </div>
   </div>
   <div class="row">

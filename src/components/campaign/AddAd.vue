@@ -21,7 +21,7 @@
       <label>
         <span class="danger">*</span>URL
       </label>
-      <el-input v-model="request.block.items[0].mktEventItemUrl"></el-input>
+      <el-input v-model.trim="request.block.items[0].mktEventItemUrl"></el-input>
     </div>
   </div>
   <div class="row">
@@ -72,7 +72,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model="request.block.items[0].mktEventItemSort" type="number"></el-input>
+      <el-input v-model.number="request.block.items[0].mktEventItemSort" type="number"></el-input>
     </div>
   </div>
 </template>

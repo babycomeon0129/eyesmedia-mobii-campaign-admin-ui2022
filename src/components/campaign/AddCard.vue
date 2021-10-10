@@ -23,7 +23,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
+      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
     </div>
   </div>
   <div class="row add-card">
@@ -80,7 +80,7 @@
           <label>
             <span class="danger">*</span>URL
           </label>
-          <el-input v-model="card.mktEventItemUrl"></el-input>
+          <el-input v-model.trim="card.mktEventItemUrl"></el-input>
         </div>
       </div>
     </div>
