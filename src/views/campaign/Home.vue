@@ -56,9 +56,9 @@
     </h3>
     <section>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="banner" label="主圖">
+        <el-table-column prop="mktEventLogoFullPath" label="主圖">
           <template #default="scope">
-            <img :src="scope.row.banner" class="rwdimg" />
+            <img :src="scope.row.mktEventLogoFullPath" class="table-img" />
           </template>
         </el-table-column>
         <el-table-column prop="mktEventName" label="一頁式活動名稱"></el-table-column>
@@ -240,6 +240,7 @@ const getListData = () => {
       // console.log(res.data);
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
+        console.log(data);
         request.paginationInfo = data.paginationInfo;
         listData.value = data.events;
       } else {
