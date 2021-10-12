@@ -56,11 +56,6 @@
     </h3>
     <section>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="mktEventLogoFullPath" label="主圖">
-          <template #default="scope">
-            <img :src="scope.row.mktEventLogoFullPath" class="table-img" />
-          </template>
-        </el-table-column>
         <el-table-column prop="mktEventName" label="一頁式活動名稱"></el-table-column>
         <el-table-column prop="mktEventCode" label="編號"></el-table-column>
         <el-table-column label="活動時間">
