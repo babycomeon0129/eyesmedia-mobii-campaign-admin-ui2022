@@ -109,7 +109,7 @@ const addCard = () => {
     mktEventTabName: '',
     mktEventItemImg: '',
     mktEventItemImgFullPath: '',
-    mktEventItemUrlTarget: 'BLANK',
+    mktEventItemUrlTarget: 'SELF',
     mktEventItemUrl: '',
     mktEventItemStatus: 'ENABLE'
   })

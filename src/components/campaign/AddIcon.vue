@@ -81,7 +81,7 @@ const request = reactive({
     items: [
       {
         mktEventItemName: '',
-        mktEventItemUrlTarget: 'BLANK',
+        mktEventItemUrlTarget: 'SELF',
         mktEventItemUrl: '',
         mktEventItemImg: '',
         mktEventItemImgFullPath: '',
