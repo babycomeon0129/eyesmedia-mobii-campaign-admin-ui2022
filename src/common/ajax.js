@@ -15,6 +15,8 @@ export default {
      * @param isShow 是否顯示錯誤訊息
      * @returns {String}
      */
+    // TODO:共用
+    // axios.defaults.headers.common[key] = value;
     ajaxCall(method, path, parm = null, isShow = true) {
         return axios[method](`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/${path}`, parm).then((result) => {
             if (result.data.errorCode !== '996600001' && result.data.errorCode !== '156600001') {
