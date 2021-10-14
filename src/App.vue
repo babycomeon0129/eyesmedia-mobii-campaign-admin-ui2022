@@ -1,5 +1,5 @@
 <template>
-  <div class="container index">
+  <div class="container index">{{$ajax}}
     <div id="header">
       <div class="logo">
         <img src="../public/images/logo.jpeg" />
@@ -24,23 +24,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 // @ is an alias to /src
 import AdminNav from '@/components/common/AdminNav.vue'
 
-export default {
-  name: 'App',
-  components: {
-    AdminNav
-  },
-  setup() {
-    const isCollapse = ref(false);
-    return {
-      isCollapse
-    }
-  }
-}
+const isCollapse = ref(false);
+
 </script>
 
 <style lang="scss">
