@@ -76,7 +76,7 @@
               </label>
               <div class="row flexbox">
                 <p>{{campaignUrl}}/campaign/</p>
-                <el-input v-model.trim="request.data.eventVm.mktEventUriSuffix"></el-input>
+                <el-input v-model.trim="request.data.eventVm.mktEventUriSuffix" :disabled="route.params.eventId !== undefined"></el-input>
               </div>
             </div>
             <div class="col-6">
@@ -315,7 +315,7 @@ const createData = () => {
           });
           router.push({ path: '/' });
         } else {
-          ElMessage.error(`errorCode:${res.data.errorCode}`);
+          ElMessage.error(`errorCode:${res.data.errorCode}，${res.data.errorDesc}`);
         }
       })
       .catch(err => {
@@ -358,7 +358,10 @@ const getEditData = () => {
 
 /** 更新資料 */
 const updateData = () => {
-  // 開啟loading遮罩
+  if (request.data.eventVm.mktEventName === '') {
+    ElMessage.error(`請填寫一頁式活動名稱`);
+  } else {
+    // 開啟loading遮罩
   ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/update`, request.data)
     .then(res => {
@@ -375,6 +378,7 @@ const updateData = () => {
     .catch(err => {
       console.log(err);
     });
+  }
 }
 
 onMounted(() => {
