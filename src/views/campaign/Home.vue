@@ -87,6 +87,14 @@
                     @click="router.push({ path: `/AddCampaign/${scope.row.mktEventId}` })"
                   ></el-button>
                 </el-tooltip>
+                <el-tooltip content="設定置頂Banner" placement="top">
+                  <el-button
+                    type="warning"
+                    icon="el-icon-picture"
+                    size="mini"
+                    @click="getBlockList('BANNER', scope.row.mktEventId)"
+                  ></el-button>
+                </el-tooltip>
                 <el-tooltip content="設定ICON" placement="top">
                   <el-button
                     type="warning"
@@ -95,7 +103,7 @@
                     @click="getBlockList('ICON', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
-                <el-tooltip content="設定廣告" placement="top">
+                <el-tooltip content="設定中間廣告" placement="top">
                   <el-button
                     type="warning"
                     icon="el-icon-money"
@@ -126,14 +134,6 @@
                     icon="el-icon-shopping-bag-2"
                     size="mini"
                     @click="getBlockList('PRODUCT', scope.row.mktEventId)"
-                  ></el-button>
-                </el-tooltip>
-                <el-tooltip content="設定Banner" placement="top">
-                  <el-button
-                    type="warning"
-                    icon="el-icon-picture"
-                    size="mini"
-                    @click="getBlockList('BANNER', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
                 <!--el-tooltip content="設定商家" placement="top">

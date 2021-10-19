@@ -23,7 +23,7 @@
     </div>
     <div class="col-9">
       <label>
-        <span class="danger">*</span>URL
+        URL
       </label>
       <el-input v-model.trim="request.block.items[0].mktEventItemUrl"></el-input>
     </div>
