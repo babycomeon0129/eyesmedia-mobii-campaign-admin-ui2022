@@ -75,7 +75,7 @@
                 </el-tooltip>
               </label>
               <div class="row flexbox">
-                <p>https://events.mobii.ai/campaign/</p>
+                <p>{{campaignUrl}}/campaign/</p>
                 <el-input v-model.trim="request.data.eventVm.mktEventUriSuffix"></el-input>
               </div>
             </div>
@@ -105,7 +105,7 @@
               <label>完整活動網址</label>
               <el-input
                 readonly
-                :modelValue="`https://events.mobii.ai/campaign/${request.data.eventVm.mktEventUriSuffix}`"
+                :modelValue="`${campaignUrl}/campaign/${request.data.eventVm.mktEventUriSuffix}`"
               ></el-input>
             </div>
           </div>
@@ -266,6 +266,8 @@ const imgUpload = ({filePath, fullPath}) => {
   request.data.eventVm.mktEventLogo = filePath;
   request.data.eventVm.mktEventLogoFullPath = fullPath;
 }
+/** 活動網址 */
+const campaignUrl = process.env.VUE_APP_hostUrl;
 /** API request */
 const request = reactive({
   data: {
