@@ -41,6 +41,7 @@
         :imgUrl="request.block.items[0].mktEventItemImgFullPath"
         @imgUpload="imgUpload($event)"
       />
+      <span class="danger">圖片上傳限制96px x 96px，檔案小於1M</span>
     </div>
   </div>
   <div class="row">

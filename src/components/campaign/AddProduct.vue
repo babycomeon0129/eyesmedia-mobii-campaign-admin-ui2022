@@ -20,7 +20,7 @@
   <div class="row">
     <div class="col-6">
       <label>
-        <span class="danger">*</span>選擇商品目錄
+        <span class="danger">*</span>選擇商品外部目錄
         <el-tooltip placement="top">
           <template #content>
             1.選定目錄後，該目錄下的商品皆會顯示在前台此Tab
