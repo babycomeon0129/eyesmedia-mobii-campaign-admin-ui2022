@@ -30,12 +30,12 @@
         <span class="danger">*</span>圖示
       </label>
       <UpLoad
-        :imgWidth="1030"
-        :imgHeigh="490"
+        :imgWidth="1059"
+        :imgHeigh="504"
         :imgUrl="request.block.items[0].mktEventItemImgFullPath"
         @imgUpload="imgUpload($event)"
       />
-      <span class="danger">圖片上傳限制1030px x 490px，檔案小於1M</span>
+      <span class="danger">圖片上傳限制1059px x 504px，檔案小於1M</span>
     </div>
   </div>
   <div class="row">
