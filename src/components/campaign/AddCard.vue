@@ -2,14 +2,14 @@
   <div class="row">
     <div class="col-12">
       <label>
-        <span class="danger">*</span>卡片Tab名稱
+        <span class="danger">*</span>廣告Tab名稱
       </label>
       <el-input v-model="request.block.tabs[0].mktEventTabName"></el-input>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
-      <label>是否顯示卡片Tab</label>
+      <label>是否顯示廣告Tab</label>
       <el-select placeholder="請選擇" v-model="request.block.tabs[0].mktEventTabStatus">
         <el-option value="ENABLE" label="是"></el-option>
         <el-option value="DISABLE" label="否"></el-option>
@@ -29,7 +29,7 @@
   <div class="row add-card">
     <div class="col-12" v-for="(card, idx) in request.block.tabs[0].items" :key="`card${idx}`">
       <div class="row card-title">
-        <h4>卡片{{ idx + 1 }}</h4>
+        <h4>圖文廣告{{ idx + 1 }}</h4>
         <!-- 刪除此筆 -->
         <button class="btn" type="button" @click="deletCard(idx)">
           <i class="el-icon-delete danger"></i>
@@ -43,7 +43,7 @@
           <el-input v-model="card.mktEventItemName"></el-input>
         </div>
         <div class="col-6">
-          <label>是否顯示卡片</label>
+          <label>是否顯示圖文廣告欄位</label>
           <el-select placeholder="請選擇" v-model="card.mktEventItemStatus">
             <el-option value="ENABLE" label="是"></el-option>
             <el-option value="DISABLE" label="否"></el-option>
@@ -120,7 +120,7 @@ const deletCard = idx => {
   if (request.block.tabs[0].items.length > 1) {
     request.block.tabs[0].items.splice(idx, 1);
   } else {
-    ElMessage.error('請至少新增一個卡片');
+    ElMessage.error('請至少新增一個圖文廣告');
   }
 };
 

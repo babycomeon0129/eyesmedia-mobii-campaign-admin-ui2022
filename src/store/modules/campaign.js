@@ -46,9 +46,9 @@ const getters = {
   blockTitle: state => {
     switch(state.blockType) {
       case 'CARD':
-        return '卡片';
+        return '圖文廣告欄位';
       case 'AD':
-        return '廣告';
+        return '中間廣告';
       case 'BANNER':
         return 'Banner';
       case 'ICON':

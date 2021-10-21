@@ -2,9 +2,9 @@
     <div class="row">
       <ButtonAdd />
       <el-table :data="store.state.campaign.blockListData.CARD" style="width: 100%">
-        <el-table-column prop="mktEventTabName" label="名稱"></el-table-column>
+        <el-table-column prop="mktEventTabName" label="廣告Tab名稱"></el-table-column>
         <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
-        <el-table-column prop="mktEventTabStatus" label="是否顯示廣告">
+        <el-table-column prop="mktEventTabStatus" label="是否顯示圖文廣告">
           <template #default="scope">{{ scope.row.mktEventTabStatus === 'ENABLE' ? '是' : '否' }}</template>
         </el-table-column>
         <el-table-column label="功能">

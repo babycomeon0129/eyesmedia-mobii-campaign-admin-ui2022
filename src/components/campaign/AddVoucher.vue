@@ -74,7 +74,7 @@ const request = reactive({
       {
         mktEventId: computed(() => store.state.campaign.eventID),
         mktEventTabName: '',
-        mktEventTabStatus: '',
+        mktEventTabStatus: 'ENABLE',
         mktEventTabSort: 0,
         mktEventTabSoltNo: '',
         mktEventTabCatalog: computed(() => store.state.campaign.blockType),

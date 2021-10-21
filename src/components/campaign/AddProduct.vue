@@ -29,19 +29,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-select
-        placeholder="請選擇"
-        filterable
-        v-model="request.block.tabs[0].categorys[0].mktEventVoucherId"
-      >
-        <el-option
-          v-for="item in tabList"
-          :key="`voucher${item.value}`"
-          :value="item.value"
-          :label="item.name"
-          :disabled="item.state !== 'ENABLE'"
-        ></el-option>
-      </el-select>
+      <el-cascader v-model="prodId" :options="tabList"></el-cascader>
     </div>
     <div class="col-6">
       <label>是否顯示商品 Tab</label>
@@ -60,9 +48,10 @@ import axios from 'axios';
 
 /** vuex */
 const store = useStore();
-
 /** tab資料 */
 const tabList = ref([]);
+/** 外部目錄清單 */
+const prodId = ref(['', '']);
 /** api request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -74,14 +63,15 @@ const request = reactive({
       {
         mktEventId: computed(() => store.state.campaign.eventID),
         mktEventTabName: '',
-        mktEventTabStatus: '',
+        mktEventTabStatus: 'ENABLE',
         mktEventTabSort: 0,
         mktEventTabSoltNo: '',
         mktEventTabCatalog: computed(() => store.state.campaign.blockType),
         mktEventBlockId: computed(() => store.state.campaign.blockID),
         categorys: [
           {
-            mktEventVoucherId: '',
+            mktEventProdDefineId: '',
+            mktEventProdId: computed(() => prodId.value[1])
           }
         ]
       }
@@ -94,16 +84,19 @@ const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
     .then(res => {
       const data = JSON.parse(res.data.data);
-      console.log(data);
-      tabList.value = data.productItems;
+      tabList.value = data.productDefineItems;
     })
 }
 
 /** 編輯模式 */
 const editMode = () => {
   // 先判斷現在是否為編輯模式
-  if(store.state.campaign.campaignDialog.edit) {
+  if (store.state.campaign.campaignDialog.edit) {
     request.block.tabs = store.state.campaign.blockEditRequest;
+    console.log(request.block.tabs);
+    prodId.value[0] = request.block.tabs[0].categorys[0].mktEventProdDefineId;
+    prodId.value[1] = request.block.tabs[0].categorys[0].mktEventProdId;
+    request.block.tabs[0].categorys[0].mktEventProdId = computed(() => prodId.value[1]);
   }
 }
 

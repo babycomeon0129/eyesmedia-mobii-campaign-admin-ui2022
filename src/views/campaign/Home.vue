@@ -112,7 +112,7 @@
                   ></el-button>
                 </el-tooltip>
 
-                <el-tooltip content="設定卡片" placement="top">
+                <el-tooltip content="設定圖文廣告欄位" placement="top">
                   <el-button
                     type="warning"
                     icon="el-icon-postcard"

@@ -26,8 +26,9 @@ const editData = () => {
         store.commit('campaign/SETTING_DIALOG', 'show');
         store.commit('campaign/SETTING_DIALOG', 'edit');
         const data = JSON.parse(res.data.data);
-        console.log(store.getters['campaign/resType']);
-        console.log(data.block[store.getters['campaign/resType']]);
+        // console.log(data);
+        // console.log(store.getters['campaign/resType']);
+        // console.log(data.block[store.getters['campaign/resType']]);
         store.commit('campaign/SETTING_EDIT_REQUEST', data.block[store.getters['campaign/resType']]);
       }
     });
