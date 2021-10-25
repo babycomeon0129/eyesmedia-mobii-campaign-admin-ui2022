@@ -152,8 +152,9 @@
                     @click="getBlockList('WATERFALL', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip-->
-                <el-tooltip content="刪除資料" placement="top" hidden>
+                <el-tooltip content="刪除資料" placement="top">
                   <el-button
+                    style="display: none;"
                     type="danger"
                     icon="el-icon-delete"
                     size="mini"
