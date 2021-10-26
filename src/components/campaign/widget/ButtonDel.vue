@@ -1,7 +1,16 @@
 <template>
-  <el-tooltip content="刪除資料" placement="top">
-    <el-button type="danger" icon="el-icon-delete" size="mini" @click="delData"></el-button>
-  </el-tooltip>
+  <el-popconfirm
+    confirm-button-text="刪除"
+    cancel-button-text="取消"
+    icon="el-icon-info"
+    icon-color="red"
+    title="確定要刪除嗎？"
+    @confirm="delData"
+  >
+    <template #reference>
+      <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+    </template>
+  </el-popconfirm>
 </template>
 
 <script setup>

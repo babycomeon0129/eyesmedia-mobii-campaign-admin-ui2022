@@ -152,15 +152,22 @@
                     @click="getBlockList('WATERFALL', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip-->
-                <el-tooltip content="刪除資料" placement="top">
-                  <el-button
-                    style="display: none;"
-                    type="danger"
-                    icon="el-icon-delete"
-                    size="mini"
-                    @click="deleteData(scope.row.mktEventId, scope.$index)"
-                  ></el-button>
-                </el-tooltip>
+                <el-popconfirm
+                  confirm-button-text="刪除"
+                  cancel-button-text="取消"
+                  icon="el-icon-info"
+                  icon-color="red"
+                  title="確定要刪除嗎？"
+                  @confirm="deleteData(scope.row.mktEventId, scope.$index)"
+                >
+                  <template #reference>
+                    <el-button
+                      type="danger"
+                      icon="el-icon-delete"
+                      size="mini"
+                    ></el-button>
+                  </template>
+                </el-popconfirm>
               </el-button-group>
             </div>
           </template>
