@@ -50,7 +50,7 @@ const getters = {
       case 'AD':
         return '中間廣告';
       case 'BANNER':
-        return 'Banner';
+        return '置頂Banner';
       case 'ICON':
         return '按鈕';
       case 'VOUCHER':

@@ -1,5 +1,5 @@
 <template>
-  <div class="container index">{{$ajax}}
+  <div class="container index">
     <div id="header">
       <div class="logo">
         <img src="../public/images/logo.jpeg" />

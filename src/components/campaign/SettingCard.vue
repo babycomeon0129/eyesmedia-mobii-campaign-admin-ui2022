@@ -20,7 +20,7 @@
       </el-table>
     </div>
     <div class="row">
-      <img src="../../../public/images/campaign/setting-card.jpg" class="rwdimg" />
+      <img src="../../../public/images/campaign/setting-card.png" class="rwdimg" />
     </div>
 </template>
 
