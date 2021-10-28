@@ -52,7 +52,7 @@ const getters = {
       case 'BANNER':
         return '置頂Banner';
       case 'ICON':
-        return '按鈕';
+        return 'ICON';
       case 'VOUCHER':
         return '優惠券';
       case 'PRODUCT':
