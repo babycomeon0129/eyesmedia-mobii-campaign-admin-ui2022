@@ -6,6 +6,8 @@
       width="60%"
       :show-close="false"
       destroy-on-close
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <div class="add-dialog">
         <!-- 需要區塊標題的功能才出現版面標題 -->
@@ -38,7 +40,11 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="clickConfirm">確認</el-button>
+          <el-button
+            v-if="store.getters['campaign/resType'] === 'tabs'"
+            type="primary"
+            @click="clickConfirm"
+          >確認</el-button>
           <el-button @click="closeSettingDialog">關閉</el-button>
         </span>
       </template>
@@ -144,6 +150,10 @@ const changeCurrentPage = event => {
 
 /** 關閉設定dialog */
 const closeSettingDialog = () => {
+  // icon不足四個時，跳出警告提示（僅跳提示，不阻擋）
+  if (store.state.campaign.blockType === 'ICON' && store.state.campaign.blockListData.ICON.length < 4 && store.state.campaign.blockListData.ICON.length > 0) {
+    ElMessage.error('ICON數量，最少請新增4個。');
+  }
   store.commit('campaign/SETTING_DIALOG', 'show');
   // 清空新增的request
   store.commit('campaign/SETTING_ADD_REQUEST', null);
