@@ -83,7 +83,7 @@
               <label>
                 是否開啟卡片群組身份判斷
                 <el-tooltip placement="top">
-                  <template #content>擁有被選中的群組身份的會員才可進行優惠券領取、購買等操作</template>
+                  <template #content>擁有被選中的群組身份的會員才可進行優惠券領取、購買等操作(尚未開發)</template>
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
