@@ -130,8 +130,8 @@
               </label>
               <div class="row">
                 <el-select v-model="request.data.eventVm.mktEventStatus" placeholder="請選擇">
-                  <el-option value="ENABLE" label="開啟"></el-option>
-                  <el-option value="DISABLE" label="關閉"></el-option>
+                  <el-option value="ENABLE" label="有效"></el-option>
+                  <el-option value="DISABLE" label="無效"></el-option>
                 </el-select>
               </div>
             </div>
