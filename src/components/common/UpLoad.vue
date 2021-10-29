@@ -75,11 +75,12 @@ const beforeAvatarUpload = file => {
       type: 'success'
     });
     return true;
-  }, () => {
+  })
+  .catch(()=> {
     ElMessage.error(`上傳圖片尺寸只能是${props.imgWidth}*${props.imgHeigh}px，請重新選擇。`);
-    return false;
-  });
-  return isSize && isLt1M;
+    return Promise.reject();
+  })
+  return isSize;
 };
 
 
