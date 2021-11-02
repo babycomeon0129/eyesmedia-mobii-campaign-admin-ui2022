@@ -144,7 +144,12 @@
         <section v-show="sectionCollapse.uploadBanner">
           <div class="row">
             <div class="col-12">
-              <label>Logo 橫幅</label>
+              <label>Logo 橫幅
+                <el-tooltip placement="top">
+                  <template #content>尺寸：200*53，檔案大小300K以下</template>
+                  <i class="el-icon-question"></i>
+                </el-tooltip>
+              </label>
               <UpLoad
               :imgWidth="220"
               :imgHeigh="56" 
@@ -154,7 +159,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <img src="../../../public/images/campaign/setting-title.jpg" class="rwdimg" />
+              <img src="../../../public/images/campaign/setting-title.png" class="rwdimg" />
             </div>
           </div>
         </section>
