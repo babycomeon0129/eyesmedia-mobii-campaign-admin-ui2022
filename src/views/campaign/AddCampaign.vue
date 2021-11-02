@@ -305,6 +305,8 @@ const request = reactive({
 const createData = () => {
   if (request.data.eventVm.mktEventName === '') {
     ElMessage.error(`請填寫一頁式活動名稱`);
+  } else if (!/^[a-zA-Z0-9]+$/.test(request.data.eventVm.mktEventUriSuffix) && request.data.eventVm.mktEventUriSuffix !== '') {
+    ElMessage.error(`網址禁止中文、特殊符號，請重新輸入`);
   } else {
     axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
       .then(res => {
