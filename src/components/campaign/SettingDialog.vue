@@ -87,31 +87,24 @@ let type = ref('');
 
 /** 點擊確認按鈕 */
 const clickConfirm = () => {
-  switch (store.state.campaign.blockType) {
-    case 'BANNER':
-    case 'AD':
-    case 'ICON':
-      store.commit('campaign/SETTING_DIALOG', 'show');
-      // 清空新增的request
-      store.commit('campaign/SETTING_ADD_REQUEST', null);
-      break;
-    default:
-      ElLoading.service({ fullscreen: true });
-      axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/${type.value}`, request)
-        .then(res => {
-          ElLoading.service().close();
-          if (res.data.errorCode === '996600001') {
-            ElMessage.success({
-              message: '更新成功',
-              type: 'success',
-            });
-            store.commit('campaign/SETTING_BLOCK_NAME', request.block.mktEventBlockName);
-            store.commit('campaign/SETTING_DIALOG', 'show');
-          } else {
-            ElMessage.error(`errorCode:${res.data.errorCode}`);
-          }
-        })
-
+  if (request.block.mktEventBlockName === '') {
+    ElMessage.error('請填寫版位標題');
+  } else {
+    ElLoading.service({ fullscreen: true });
+  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/${type.value}`, request)
+    .then(res => {
+      ElLoading.service().close();
+      if (res.data.errorCode === '996600001') {
+        ElMessage.success({
+          message: '更新成功',
+          type: 'success',
+        });
+        store.commit('campaign/SETTING_BLOCK_NAME', request.block.mktEventBlockName);
+        store.commit('campaign/SETTING_DIALOG', 'show');
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    });
   }
 }
 
