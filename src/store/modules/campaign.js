@@ -76,6 +76,9 @@ const getters = {
   },
   getBlockName: state => {
     return state.blockName;
+  },
+  getAddRequest: state => {
+    return state.blockAddRequest;
   }
 }
 

@@ -96,6 +96,7 @@
 <script setup>
 import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
+// element UI
 import { ElMessage } from 'element-plus'
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
@@ -136,7 +137,7 @@ const request = reactive({
         mktEventTabId: '',
         mktEventId: '',
         mktEventTabName: '',
-        mktEventTabStatus: '',
+        mktEventTabStatus: 'ENABLE',
         mktEventTabSort: 0,
         mktEventTabSoltNo: '',
         mktEventTabCatalog: '',

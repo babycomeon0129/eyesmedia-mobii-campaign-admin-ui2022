@@ -20,7 +20,7 @@
       </form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="blockAddData">確認</el-button>
+          <el-button type="primary" @click="blockAddData" :disabled="!isSend">確認</el-button>
           <el-button @click="closeAddDialog">關閉</el-button>
         </span>
       </template>
@@ -30,6 +30,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue-demi';
 import { useStore } from 'vuex';
 import axios from 'axios';
 // element UI
@@ -46,6 +47,41 @@ import AddWaterfall from '@/components/campaign/AddWaterfall.vue';
 
 
 const store = useStore();
+
+/** 確認按鈕開關 */
+let isSend = computed(() => {
+  if (store.getters['campaign/getAddRequest'] !== null) {
+    switch (store.getters['campaign/resType']) {
+      // ICON、置頂Banner、中間廣告
+      case 'items':
+        // 如果名稱跟圖片為空，確認按鈕disabled
+        if (store.getters['campaign/getAddRequest'].block.items[0].mktEventItemName === '' || store.getters['campaign/getAddRequest'].block.items[0].mktEventItemImg === '') {
+          return false;
+        } else {
+          return true;
+        }
+      case 'tabs':
+        // 圖文廣告
+        switch(store.state.campaign.blockType) {
+          case 'CARD':
+            if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '') {
+              return false;
+            } else {
+              return true;
+            }
+          case 'VOUCHER':
+          case 'PRODUCT':
+            if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '' || store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '') {
+              return false;
+            } else {
+              return true;
+            }
+        }
+    }
+  } else {
+    return false;
+  }
+});
 
 /** 新增區塊資料 */
 const blockAddData = () => {
@@ -73,9 +109,11 @@ const blockAddData = () => {
 
 /** 關閉視窗 */
 const closeAddDialog = () => {
+  store.commit('campaign/SETTING_ADD_REQUEST', null);
   store.commit('campaign/SETTING_DIALOG', 'show');
   store.commit('campaign/SETTING_DIALOG', 'add');
 }
+
 
 
 </script>

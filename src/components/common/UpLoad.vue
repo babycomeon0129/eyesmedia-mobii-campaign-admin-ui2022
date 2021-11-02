@@ -45,10 +45,16 @@ const upLoadApi = `${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiV
 /** 圖片上傳成功 */
 const uploadSuccess = (res) => {
   console.log(res);
-  if (res.errorCode === '996600001') {
-    const data = JSON.parse(res.data);
+  const data = JSON.parse(res.data);
     console.log(data);
+  if (res.errorCode === '996600001') {
     emits('imgUpload', data);
+    ElMessage({
+      message: '上傳成功',
+      type: 'success'
+    });
+  } else {
+    ElMessage.error(`errorCode：${data.errorCode}，${data.errorDesc}`);
   }
 }
 /** 圖片上傳前先限制大小與寬高 */
@@ -70,10 +76,6 @@ const beforeAvatarUpload = file => {
     }
     img.src = _URL.createObjectURL(file);
   }).then(() => {
-    ElMessage({
-      message: '上傳成功',
-      type: 'success'
-    });
     return true;
   })
   .catch(()=> {
