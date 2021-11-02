@@ -317,7 +317,6 @@ const createData = () => {
   }else if(request.data.eventVm.mktEventOtherTitle.length >= 200) {
     ElMessage.error(`其他資訊的標題不可超過200字`);
   } else {
-    console.log(request.data.eventVm.mktEventOtherTitle.length)
     axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
       .then(res => {
         if (res.data.errorCode === '996600001') {
