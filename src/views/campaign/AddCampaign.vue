@@ -188,7 +188,14 @@
         <section v-show="sectionCollapse.otherInfo">
           <div class="row">
             <div class="col-12">
-              <label>標題</label>
+              <label>標題
+                <el-tooltip placement="top">
+                  <template #content>
+                    不可超過200字
+                  </template>
+                  <i class="el-icon-question"></i>
+                </el-tooltip>
+              </label>
               <el-input v-model="request.data.eventVm.mktEventOtherTitle"></el-input>
             </div>
           </div>
@@ -307,7 +314,10 @@ const createData = () => {
     ElMessage.error(`請填寫一頁式活動名稱`);
   } else if (!/^[a-zA-Z0-9]+$/.test(request.data.eventVm.mktEventUriSuffix) && request.data.eventVm.mktEventUriSuffix !== '') {
     ElMessage.error(`網址禁止中文、特殊符號，請重新輸入`);
+  }else if(request.data.eventVm.mktEventOtherTitle.length >= 200) {
+    ElMessage.error(`其他資訊的標題不可超過200字`);
   } else {
+    console.log(request.data.eventVm.mktEventOtherTitle.length)
     axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
       .then(res => {
         if (res.data.errorCode === '996600001') {
