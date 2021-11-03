@@ -13,7 +13,6 @@
         <!-- 需要區塊標題的功能才出現版面標題 -->
         <div class="row" v-if="store.getters['campaign/resType'] === 'tabs'">
           <label>
-            <span class="danger">*</span>
             {{ store.getters['campaign/blockTitle'] }}版位標題
           </label>
           <el-input v-model="request.block.mktEventBlockName"></el-input>
@@ -87,10 +86,7 @@ let type = ref('');
 
 /** 點擊確認按鈕 */
 const clickConfirm = () => {
-  if (request.block.mktEventBlockName === '') {
-    ElMessage.error('請填寫版位標題');
-  } else {
-    ElLoading.service({ fullscreen: true });
+  ElLoading.service({ fullscreen: true });
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/${type.value}`, request)
     .then(res => {
       ElLoading.service().close();
@@ -105,7 +101,6 @@ const clickConfirm = () => {
         ElMessage.error(`errorCode:${res.data.errorCode}`);
       }
     });
-  }
 }
 
 /** 點擊分頁 */
