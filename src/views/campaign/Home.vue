@@ -136,14 +136,14 @@
                     @click="getBlockList('PRODUCT', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
-                <!--el-tooltip content="設定商家" placement="top">
+                <!--el-tooltip content="設定商店" placement="top">
                   <el-button
                     type="warning"
                     icon="el-icon-s-shop"
                     size="mini"
                     @click="getBlockList('STORE', scope.row.mktEventId)"
                   ></el-button>
-                </el-tooltip-->
+                </el-tooltip -->
                 <!--el-tooltip content="設定瀑布流" placement="top">
                   <el-button
                     type="warning"

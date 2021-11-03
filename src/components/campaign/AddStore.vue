@@ -4,7 +4,7 @@
       <label>
         <span class="danger">*</span>商店 Tab 名稱
       </label>
-      <el-input></el-input>
+      <el-input v-model="request.block.tabs[0].mktEventTabName"></el-input>
     </div>
     <div class="col-6">
       <label>
@@ -14,7 +14,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input type="number"></el-input>
+      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
     </div>
   </div>
   <div class="row">
@@ -29,23 +29,95 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-select placeholder="請選擇" filterable>
-        <el-option value="是"></el-option>
-        <el-option value="否"></el-option>
+      <el-select
+        placeholder="請選擇"
+        filterable
+        v-model="request.block.tabs[0].categorys[0].mktEventVoucherId"
+      >
+        <el-option
+          v-for="item in tabList"
+          :key="`voucher${item.value}`"
+          :value="item.value"
+          :label="item.name"
+          :disabled="item.state !== 'ENABLE'"
+        ></el-option>
       </el-select>
     </div>
     <div class="col-6">
       <label>是否顯示商店Tab</label>
-      <el-select placeholder="請選擇">
-        <el-option value="是"></el-option>
-        <el-option value="否"></el-option>
+      <el-select placeholder="請選擇" v-model="request.block.tabs[0].mktEventTabStatus">
+        <el-option value="ENABLE" label="是"></el-option>
+        <el-option value="DISABLE" label="否"></el-option>
       </el-select>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted, reactive, computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import axios from 'axios';
 
+/** vuex */
+const store = useStore();
+
+/** tab資料 */
+const tabList = ref([]);
+/** api request */
+const request = reactive({
+  mkt_event_id: computed(() => store.state.campaign.eventID),
+  block: {
+    mktEventBlockId: computed(() => store.state.campaign.blockID),
+    mktEventBlockType: computed(() => store.state.campaign.blockType),
+    mktEventId: computed(() => store.state.campaign.eventID),
+    tabs: [
+      {
+        mktEventId: computed(() => store.state.campaign.eventID),
+        mktEventTabName: '',
+        mktEventTabStatus: 'ENABLE',
+        mktEventTabSort: 0,
+        mktEventTabSoltNo: '',
+        mktEventTabCatalog: computed(() => store.state.campaign.blockType),
+        mktEventBlockId: computed(() => store.state.campaign.blockID),
+        categorys: [
+          {
+            mktEventVoucherId: '',
+          }
+        ]
+      }
+    ]
+  }
+});
+
+
+/** 獲得tab資料 */
+const getTabList = () => {
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
+    .then(res => {
+      const data = JSON.parse(res.data.data);
+      tabList.value = data.voucherItems;
+    })
+}
+
+watch(
+  // 監聽request，如果數值變更，便存到vuex
+  request, (newValue) => {
+    store.commit('campaign/SETTING_ADD_REQUEST', newValue);
+  }
+);
+
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if (store.state.campaign.campaignDialog.edit) {
+    request.block.tabs = store.state.campaign.blockEditRequest;
+  }
+}
+
+onMounted(() => {
+  getTabList();
+  editMode();
+});
 
 </script>
 

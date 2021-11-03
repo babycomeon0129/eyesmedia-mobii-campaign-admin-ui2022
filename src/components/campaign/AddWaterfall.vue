@@ -38,6 +38,70 @@
 </template>
 
 <script setup>
+import { ref, onMounted, reactive, computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import axios from 'axios';
+
+/** vuex */
+const store = useStore();
+
+/** tab資料 */
+const tabList = ref([]);
+/** api request */
+const request = reactive({
+  mkt_event_id: computed(() => store.state.campaign.eventID),
+  block: {
+    mktEventBlockId: computed(() => store.state.campaign.blockID),
+    mktEventBlockType: computed(() => store.state.campaign.blockType),
+    mktEventId: computed(() => store.state.campaign.eventID),
+    tabs: [
+      {
+        mktEventId: computed(() => store.state.campaign.eventID),
+        mktEventTabName: '',
+        mktEventTabStatus: 'ENABLE',
+        mktEventTabSort: 0,
+        mktEventTabSoltNo: '',
+        mktEventTabCatalog: computed(() => store.state.campaign.blockType),
+        mktEventBlockId: computed(() => store.state.campaign.blockID),
+        categorys: [
+          {
+            mktEventVoucherId: '',
+          }
+        ]
+      }
+    ]
+  }
+});
+
+
+/** 獲得tab資料 */
+const getTabList = () => {
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
+    .then(res => {
+      const data = JSON.parse(res.data.data);
+      tabList.value = data.voucherItems;
+    })
+}
+
+watch(
+  // 監聽request，如果數值變更，便存到vuex
+  request, (newValue) => {
+    store.commit('campaign/SETTING_ADD_REQUEST', newValue);
+  }
+);
+
+/** 編輯模式 */
+const editMode = () => {
+  // 先判斷現在是否為編輯模式
+  if (store.state.campaign.campaignDialog.edit) {
+    request.block.tabs = store.state.campaign.blockEditRequest;
+  }
+}
+
+onMounted(() => {
+  getTabList();
+  editMode();
+});
 
 </script>
 
