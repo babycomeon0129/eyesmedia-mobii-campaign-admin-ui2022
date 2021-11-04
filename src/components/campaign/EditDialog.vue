@@ -12,7 +12,7 @@
         <AddIcon v-if="store.state.campaign.blockType === 'ICON'" />
         <AddAd v-if="store.state.campaign.blockType === 'AD'" />
         <AddCard v-if="store.state.campaign.blockType === 'CARD'" />
-        <AddBanner  v-if="store.state.campaign.blockType === 'BANNER'" />
+        <AddBanner v-if="store.state.campaign.blockType === 'BANNER'" />
         <AddVoucher v-if="store.state.campaign.blockType === 'VOUCHER'" />
         <AddProduct v-if="store.state.campaign.blockType === 'PRODUCT'" />
         <AddStore v-if="store.state.campaign.blockType === 'STORE'" />
@@ -60,20 +60,31 @@ let isSend = computed(() => {
         }
       case 'tabs':
         // 圖文廣告
-        switch(store.state.campaign.blockType) {
-          case 'CARD':
-            if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '') {
-              return false;
-            } else {
+        if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '') {
+          return false;
+        } else {
+          switch (store.state.campaign.blockType) {
+            case 'CARD':
               return true;
-            }
-          case 'VOUCHER':
-          case 'PRODUCT':
-            if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '' || store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '') {
-              return false;
-            } else {
-              return true;
-            }
+            case 'VOUCHER':
+              if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventVoucherId === '') {
+                return false;
+              } else {
+                return true;
+              }
+            case 'PRODUCT':
+              if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '') {
+                return false;
+              } else {
+                return true;
+              }
+            case 'STORE':
+              if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventStoreId === '') {
+                return false;
+              } else {
+                return true;
+              }
+          }
         }
     }
   } else {

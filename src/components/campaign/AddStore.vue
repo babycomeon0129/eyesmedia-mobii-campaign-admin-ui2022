@@ -32,11 +32,11 @@
       <el-select
         placeholder="請選擇"
         filterable
-        v-model="request.block.tabs[0].categorys[0].mktEventVoucherId"
+        v-model="request.block.tabs[0].categorys[0].mktEventStoreId"
       >
         <el-option
           v-for="item in tabList"
-          :key="`voucher${item.value}`"
+          :key="`store${item.value}`"
           :value="item.value"
           :label="item.name"
           :disabled="item.state !== 'ENABLE'"
@@ -81,7 +81,7 @@ const request = reactive({
         mktEventBlockId: computed(() => store.state.campaign.blockID),
         categorys: [
           {
-            mktEventVoucherId: '',
+            mktEventStoreId: '',
           }
         ]
       }
@@ -95,7 +95,7 @@ const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
     .then(res => {
       const data = JSON.parse(res.data.data);
-      tabList.value = data.voucherItems;
+      tabList.value = data.storeItems;
     })
 }
 

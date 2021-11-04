@@ -62,20 +62,31 @@ let isSend = computed(() => {
         }
       case 'tabs':
         // 圖文廣告
-        switch(store.state.campaign.blockType) {
-          case 'CARD':
-            if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '') {
-              return false;
-            } else {
+        if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '') {
+          return false;
+        } else {
+          switch (store.state.campaign.blockType) {
+            case 'CARD':
               return true;
-            }
-          case 'VOUCHER':
-          case 'PRODUCT':
-            if (store.getters['campaign/getAddRequest'].block.tabs[0].mktEventTabName === '' || store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '') {
-              return false;
-            } else {
-              return true;
-            }
+            case 'VOUCHER':
+              if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventVoucherId === '') {
+                return false;
+              } else {
+                return true;
+              }
+            case 'PRODUCT':
+              if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '') {
+                return false;
+              } else {
+                return true;
+              }
+            case 'STORE':
+              if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventStoreId === '') {
+                return false;
+              } else {
+                return true;
+              }
+          }
         }
     }
   } else {
