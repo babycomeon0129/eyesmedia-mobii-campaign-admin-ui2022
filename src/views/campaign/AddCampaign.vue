@@ -75,8 +75,11 @@
                 </el-tooltip>
               </label>
               <div class="row flexbox">
-                <p>{{campaignUrl}}/campaign/</p>
-                <el-input v-model.trim="request.data.eventVm.mktEventUriSuffix" :disabled="route.params.eventId !== undefined"></el-input>
+                <p>{{ campaignUrl }}/campaign/</p>
+                <el-input
+                  v-model.trim="request.data.eventVm.mktEventUriSuffix"
+                  :disabled="route.params.eventId !== undefined"
+                ></el-input>
               </div>
             </div>
             <div class="col-6">
@@ -144,17 +147,19 @@
         <section v-show="sectionCollapse.uploadBanner">
           <div class="row">
             <div class="col-12">
-              <label>Logo 橫幅
+              <label>
+                Logo 橫幅
                 <el-tooltip placement="top">
                   <template #content>尺寸：200*53，檔案大小300K以下</template>
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
               <UpLoad
-              :imgWidth="220"
-              :imgHeigh="56" 
-              :imgUrl="request.data.eventVm.mktEventLogoFullPath"
-              @imgUpload="imgUpload($event)" />
+                :imgWidth="220"
+                :imgHeigh="56"
+                :imgUrl="request.data.eventVm.mktEventLogoFullPath"
+                @imgUpload="imgUpload($event)"
+              />
             </div>
           </div>
           <div class="row">
@@ -193,11 +198,10 @@
         <section v-show="sectionCollapse.otherInfo">
           <div class="row">
             <div class="col-12">
-              <label>標題
+              <label>
+                標題
                 <el-tooltip placement="top">
-                  <template #content>
-                    不可超過200字
-                  </template>
+                  <template #content>不可超過200字</template>
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
@@ -274,7 +278,7 @@ const cardGroupItems = ref([]);
 /** 卡群身份列表（已選取） */
 const cardValue = ref([]);
 /**  接收上傳圖片 */
-const imgUpload = ({filePath, fullPath}) => {
+const imgUpload = ({ filePath, fullPath }) => {
   request.data.eventVm.mktEventLogo = filePath;
   request.data.eventVm.mktEventLogoFullPath = fullPath;
 }
@@ -319,7 +323,7 @@ const createData = () => {
     ElMessage.error(`請填寫一頁式活動名稱`);
   } else if (!/^[a-zA-Z0-9]+$/.test(request.data.eventVm.mktEventUriSuffix) && request.data.eventVm.mktEventUriSuffix !== '') {
     ElMessage.error(`網址禁止中文、特殊符號，請重新輸入`);
-  }else if(request.data.eventVm.mktEventOtherTitle.length >= 200) {
+  } else if (request.data.eventVm.mktEventOtherTitle.length >= 200) {
     ElMessage.error(`其他資訊的標題不可超過200字`);
   } else {
     axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/add`, request.data)
@@ -342,34 +346,38 @@ const createData = () => {
 
 /** 取得欲編輯資料 */
 const getEditData = () => {
-  ElLoading.service({ fullscreen: true });
-  // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
-  request.data.eventVm.mktEventId = route.params.eventId || '';
-  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail?id=${request.data.eventVm.mktEventId}`)
-    .then(res => {
-      ElLoading.service().close();
-      if (res.data.errorCode === '996600001') {
-        const data = JSON.parse(res.data.data);
-        cardGroupItems.value = data.cardGroupItems;
-        // 如果為編輯模式，才把表單資料取回來
-        if (route.params.eventId !== undefined) {
-          request.data.eventVm = data.eventVm;
-          dateRange.value[0] = data.eventVm.mktEventSdate;
-          dateRange.value[1] = data.eventVm.mktEventEdate;
-          request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
-          request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
-          request.data.filter.mktEventFilterId = data.filter.mktEventFilterId;
-          cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
+  if (request.data.eventVm.mktEventName === '') {
+    ElMessage.error(`請填寫一頁式活動名稱`);
+  } else if (request.data.eventVm.mktEventOtherTitle.length >= 200) {
+    ElMessage.error(`其他資訊的標題不可超過200字`);
+  } else {
+    ElLoading.service({ fullscreen: true });
+    // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
+    request.data.eventVm.mktEventId = route.params.eventId || '';
+    axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail?id=${request.data.eventVm.mktEventId}`)
+      .then(res => {
+        ElLoading.service().close();
+        if (res.data.errorCode === '996600001') {
+          const data = JSON.parse(res.data.data);
+          cardGroupItems.value = data.cardGroupItems;
+          // 如果為編輯模式，才把表單資料取回來
+          if (route.params.eventId !== undefined) {
+            request.data.eventVm = data.eventVm;
+            dateRange.value[0] = data.eventVm.mktEventSdate;
+            dateRange.value[1] = data.eventVm.mktEventEdate;
+            request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
+            request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+            request.data.filter.mktEventFilterId = data.filter.mktEventFilterId;
+            cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
+          }
+        } else {
+          ElMessage.error(`errorCode：${res.data.errorCode}，${res.data.errorDesc}`);
         }
-      } else {
-        ElMessage.error(`errorCode：${res.data.errorCode}，${res.data.errorDesc}`);
-      }
-
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 }
 
 /** 更新資料 */
@@ -378,22 +386,22 @@ const updateData = () => {
     ElMessage.error(`請填寫一頁式活動名稱`);
   } else {
     // 開啟loading遮罩
-  ElLoading.service({ fullscreen: true });
-  axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/update`, request.data)
-    .then(res => {
-      ElLoading.service().close();
-      if (res.data.errorCode === '996600001') {
-        ElMessage.success({
-          message: '更新成功',
-          type: 'success',
-        });
-      } else {
-        ElMessage.error(`errorCode:${res.data.errorCode}，${res.data.errorDesc}`);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    ElLoading.service({ fullscreen: true });
+    axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/update`, request.data)
+      .then(res => {
+        ElLoading.service().close();
+        if (res.data.errorCode === '996600001') {
+          ElMessage.success({
+            message: '更新成功',
+            type: 'success',
+          });
+        } else {
+          ElMessage.error(`errorCode:${res.data.errorCode}，${res.data.errorDesc}`);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 }
 
