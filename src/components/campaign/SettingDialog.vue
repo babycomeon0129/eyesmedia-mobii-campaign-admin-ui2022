@@ -150,7 +150,7 @@ const closeSettingDialog = () => {
 watch(
   store.state, (newValue) => {
     request.block.mktEventBlockName = newValue.campaign.blockName;
-    type.value = request.block.mktEventBlockName === '' ? 'add' : 'update';
+    type.value = request.block.mktEventBlockId === '' ? 'add' : 'update';
   }
 )
 
