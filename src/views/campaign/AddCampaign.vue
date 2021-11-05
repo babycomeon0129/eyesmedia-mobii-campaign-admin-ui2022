@@ -346,44 +346,40 @@ const createData = () => {
 
 /** 取得欲編輯資料 */
 const getEditData = () => {
-  if (request.data.eventVm.mktEventName === '') {
-    ElMessage.error(`請填寫一頁式活動名稱`);
-  } else if (request.data.eventVm.mktEventOtherTitle.length >= 200) {
-    ElMessage.error(`其他資訊的標題不可超過200字`);
-  } else {
-    ElLoading.service({ fullscreen: true });
-    // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
-    request.data.eventVm.mktEventId = route.params.eventId || '';
-    axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail?id=${request.data.eventVm.mktEventId}`)
-      .then(res => {
-        ElLoading.service().close();
-        if (res.data.errorCode === '996600001') {
-          const data = JSON.parse(res.data.data);
-          cardGroupItems.value = data.cardGroupItems;
-          // 如果為編輯模式，才把表單資料取回來
-          if (route.params.eventId !== undefined) {
-            request.data.eventVm = data.eventVm;
-            dateRange.value[0] = data.eventVm.mktEventSdate;
-            dateRange.value[1] = data.eventVm.mktEventEdate;
-            request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
-            request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
-            request.data.filter.mktEventFilterId = data.filter.mktEventFilterId;
-            cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
-          }
-        } else {
-          ElMessage.error(`errorCode：${res.data.errorCode}，${res.data.errorDesc}`);
+  ElLoading.service({ fullscreen: true });
+  // 如果params有帶eventId，則進入編輯模式，取得欲編輯資料
+  request.data.eventVm.mktEventId = route.params.eventId || '';
+  axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/event/detail?id=${request.data.eventVm.mktEventId}`)
+    .then(res => {
+      ElLoading.service().close();
+      if (res.data.errorCode === '996600001') {
+        const data = JSON.parse(res.data.data);
+        cardGroupItems.value = data.cardGroupItems;
+        // 如果為編輯模式，才把表單資料取回來
+        if (route.params.eventId !== undefined) {
+          request.data.eventVm = data.eventVm;
+          dateRange.value[0] = data.eventVm.mktEventSdate;
+          dateRange.value[1] = data.eventVm.mktEventEdate;
+          request.data.eventVm.mktEventSdate = computed(() => dateRange.value[0]);
+          request.data.eventVm.mktEventEdate = computed(() => dateRange.value[1]);
+          request.data.filter.mktEventFilterId = data.filter.mktEventFilterId;
+          cardValue.value = data.filter.filterSpecs.map(items => items.mktEventFilterSpecValue);
         }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+      } else {
+        ElMessage.error(`errorCode：${res.data.errorCode}，${res.data.errorDesc}`);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 /** 更新資料 */
 const updateData = () => {
   if (request.data.eventVm.mktEventName === '') {
-    ElMessage.error(`請填寫一頁式活動名稱`);
+    ElMessage.error(`一頁式活動名稱不可為空，請填寫一頁式活動名稱`);
+  } else if (request.data.eventVm.mktEventOtherTitle.length >= 200) {
+    ElMessage.error(`其他資訊的標題不可超過200字`);
   } else {
     // 開啟loading遮罩
     ElLoading.service({ fullscreen: true });
