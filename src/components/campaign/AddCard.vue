@@ -31,9 +31,20 @@
       <div class="row card-title">
         <h4>圖文廣告{{ idx + 1 }}</h4>
         <!-- 刪除此筆 -->
-        <button class="btn" type="button" @click="deletCard(idx)">
-          <i class="el-icon-delete danger"></i>
-        </button>
+        <el-popconfirm
+          confirm-button-text="刪除"
+          cancel-button-text="取消"
+          icon="el-icon-info"
+          icon-color="red"
+          title="確定要刪除嗎？"
+          @confirm="deletCard(idx, card.mktEventItemId)"
+        >
+          <template #reference>
+            <button class="btn" type="button">
+              <i class="el-icon-delete danger"></i>
+            </button>
+          </template>
+        </el-popconfirm>
       </div>
       <div class="row">
         <div class="col-6">
@@ -96,8 +107,9 @@
 <script setup>
 import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import axios from 'axios';
 // element UI
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElLoading } from 'element-plus'
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
 
@@ -107,6 +119,7 @@ const store = useStore();
 /** 新增卡片 */
 const addCard = () => {
   request.block.tabs[0].items.push({
+    mktEventItemId: '',
     mktEventTabName: '',
     mktEventItemImg: '',
     mktEventItemImgFullPath: '',
@@ -117,9 +130,23 @@ const addCard = () => {
 };
 
 /** 刪除卡片 */
-const deletCard = idx => {
+const deletCard = (idx, id) => {
+  ElLoading.service({ fullscreen: true });
   if (request.block.tabs[0].items.length > 1) {
     request.block.tabs[0].items.splice(idx, 1);
+    axios.delete(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/deleteitem?id=${id}`)
+    .then( res => {
+      ElLoading.service().close();
+      if (res.data.errorCode === '996600001'){
+        ElMessage.success({
+          message: '刪除成功',
+          type: 'success',
+        });
+        request.block.tabs[0].items.splice(idx, 1);
+      } else {
+        ElMessage.error(`errorCode:${res.data.errorCode}`);
+      }
+    })
   } else {
     ElMessage.error('請至少新增一個圖文廣告');
   }
@@ -144,6 +171,7 @@ const request = reactive({
         mktEventBlockId: '',
         items: [
           {
+            mktEventItemId: '',
             mktEventItemName: '',
             mktEventItemImg: '',
             mktEventItemImgFullPath: '',
