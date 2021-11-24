@@ -95,6 +95,7 @@ const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
     .then(res => {
       const data = JSON.parse(res.data.data);
+      console.log(data);
       tabList.value = data.storeItems;
     })
 }
