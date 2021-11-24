@@ -2,15 +2,12 @@
   <div class="row">
     <ButtonAdd />
     <el-table :data="store.state.campaign.blockListData.STORE" style="width: 100%">
-      <el-table-column prop="banner" label="商店Tab名稱" width="180">
-        <template #default="scope">
-          <img :src="scope.row.banner" />
-        </template>
+      <el-table-column prop="mktEventTabName" label="商店Tab名稱" width="180">
       </el-table-column>
-      <el-table-column prop="mktEventItemName" label="商店數量"></el-table-column>
-      <el-table-column prop="mktEventItemSort" label="排序"></el-table-column>
-      <el-table-column prop="mktEventItemStatus" label="是否顯示商店Tab">
-        <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
+      <el-table-column prop="itemCount" label="商店數量"></el-table-column>
+      <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
+      <el-table-column prop="mktEventTabStatus" label="是否顯示商店Tab">
+        <template #default="scope">{{ scope.row.mktEventTabStatus === 'ENABLE' ? '是' : '否' }}</template>
       </el-table-column>
       <el-table-column label="功能">
         <template #default="scope">

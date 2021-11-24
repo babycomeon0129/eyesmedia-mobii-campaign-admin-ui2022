@@ -32,7 +32,8 @@
       <el-select
         placeholder="請選擇"
         filterable
-        v-model="request.block.tabs[0].categorys[0].mktEventStoreId"
+        multiple
+        v-model="storeList"
       >
         <el-option
           v-for="item in tabList"
@@ -63,6 +64,8 @@ const store = useStore();
 
 /** tab資料 */
 const tabList = ref([]);
+/** 商店清單 */
+let storeList = ref([]);
 /** api request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -81,7 +84,7 @@ const request = reactive({
         mktEventBlockId: computed(() => store.state.campaign.blockID),
         categorys: [
           {
-            mktEventStoreId: '',
+            mktEventStoreId: computed(()=> storeList.value.join())
           }
         ]
       }
@@ -95,7 +98,6 @@ const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
     .then(res => {
       const data = JSON.parse(res.data.data);
-      console.log(data);
       tabList.value = data.storeItems;
     })
 }
@@ -111,7 +113,10 @@ watch(
 const editMode = () => {
   // 先判斷現在是否為編輯模式
   if (store.state.campaign.campaignDialog.edit) {
+    console.log(store.state.campaign.blockEditRequest);
     request.block.tabs = store.state.campaign.blockEditRequest;
+    storeList.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventStoreId.split(',');
+    request.block.tabs[0].categorys[0].mktEventStoreId = computed(()=> storeList.value.join());
   }
 }
 
