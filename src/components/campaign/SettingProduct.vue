@@ -3,7 +3,7 @@
     <ButtonAdd />
     <el-table :data="store.state.campaign.blockListData.PRODUCT" style="width: 100%">
       <el-table-column prop="mktEventTabName" label="商品Tab名稱" width="180"></el-table-column>
-      <el-table-column prop="itemCount" label="商品券數量"></el-table-column>
+      <el-table-column prop="itemCount" label="商品數量"></el-table-column>
       <el-table-column prop="mktEventTabSort" label="排序"></el-table-column>
       <el-table-column prop="mktEventTabStatus" label="是否顯示Tab">
         <template #default="scope">{{ scope.row.mktEventTabStatus === 'ENABLE' ? '是' : '否' }}</template>

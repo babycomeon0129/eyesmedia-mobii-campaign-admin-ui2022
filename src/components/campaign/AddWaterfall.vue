@@ -5,8 +5,9 @@
         <span class="danger">*</span>選擇分類
       </label>
       <el-select placeholder="請選擇">
-        <el-option value="是"></el-option>
-        <el-option value="否"></el-option>
+        <el-option value="store" label="商店"></el-option>
+        <el-option value="product" label="商品"></el-option>
+        <el-option value="voucher" label="優惠券"></el-option>
       </el-select>
     </div>
     <div class="col-6">

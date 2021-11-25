@@ -8,6 +8,11 @@
       active-text-color="#ffd04b"
       :collapse="props.isCollapse"
     >
+    <div class="version">
+      <p><i class="el-icon-info"></i> 版本資訊：</p>
+      <p>{{version}}</p>
+      <p>{{releaseTime}}</p>
+    </div>
       <el-menu-item index="1">
         <i class="el-icon-menu"></i>
         <template #title>
@@ -25,6 +30,11 @@ const props = defineProps({
   isCollapse: Boolean
 })
 
+/** 版號 */
+const version = `${process.env.VUE_APP_VERSION}`;
+/** 更新時間 */
+const releaseTime = `${process.env.VUE_APP_RELEASE_TIME}`;
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -37,6 +47,7 @@ $active-color: rgb(255, 208, 75);
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 201px;
+  position: relative;
 }
 
 .el-menu-item,
@@ -69,5 +80,15 @@ $active-color: rgb(255, 208, 75);
       color: #fff;
     }
   }
-} 
+}
+
+.version {
+  color: #fff;
+  font-size: small;
+  text-align: left;
+  position:absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 0 20px 20px;
+}
 </style>
