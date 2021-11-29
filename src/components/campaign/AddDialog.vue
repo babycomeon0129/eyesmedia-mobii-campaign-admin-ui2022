@@ -95,6 +95,15 @@ let isSend = computed(() => {
               } else {
                 return true;
               }
+            case 'WATERFALL':
+              return true;
+              // 完全不選擇分類時，確認按鈕disabled
+              // if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventStoreId === '' && store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '' || store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventVoucherId === '') {
+              //   return false;
+              // } else {
+              //   return true;
+              // }
+
           }
         }
     }

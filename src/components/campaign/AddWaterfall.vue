@@ -4,24 +4,24 @@
       <label>
         <span class="danger">*</span>選擇分類
       </label>
-      <el-select placeholder="請選擇">
-        <el-option value="store" label="商店"></el-option>
-        <el-option value="product" label="商品"></el-option>
-        <el-option value="voucher" label="優惠券"></el-option>
+      <el-select v-model="request.block.tabs[0].categorys[0].mktEventCategoryType" placeholder="請選擇">
+        <el-option value="STORE" label="商店"></el-option>
+        <el-option value="PRODUCT" label="商品"></el-option>
+        <el-option value="VOUCHER" label="優惠券"></el-option>
       </el-select>
     </div>
     <div class="col-6">
       <label>是否顯示瀑布流</label>
-      <el-select placeholder="請選擇">
-        <el-option value="是"></el-option>
-        <el-option value="否"></el-option>
+      <el-select placeholder="請選擇" v-model="request.block.tabs[0].mktEventTabStatus">
+        <el-option value="ENABLE" label="是"></el-option>
+        <el-option value="DISABLE" label="否"></el-option>
       </el-select>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
       <label>
-        <span class="danger">*</span>選擇商店
+        <span class="danger">*</span>選擇
         <el-tooltip placement="top">
           <template #content>
             1.選定目錄後，該目錄下的優惠券皆會顯示在前台此Tab
@@ -30,19 +30,37 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-select
+      <!-- 商店清單 -->
+      <el-select v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE'"
         placeholder="請選擇"
         filterable
-        v-model="request.block.tabs[0].categorys[0].mktEventStoreId"
+        multiple
+        v-model="storeId"
       >
         <el-option
-          v-for="item in tabList"
+          v-for="item in storeList"
           :key="`store${item.value}`"
           :value="item.value"
           :label="item.name"
           :disabled="item.state !== 'ENABLE'"
         ></el-option>
       </el-select>
+      <!-- 優惠券清單 -->
+      <el-select v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER'"
+        placeholder="請選擇"
+        filterable
+        v-model="voucherId"
+      >
+        <el-option
+          v-for="item in voucherList"
+          :key="`store${item.value}`"
+          :value="item.value"
+          :label="item.name"
+          :disabled="item.state !== 'ENABLE'"
+        ></el-option>
+      </el-select>
+      <!-- 商品清單 -->
+       <el-cascader v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT'" v-model="prodId" :options="productList"></el-cascader>
     </div>
   </div>
 </template>
@@ -54,9 +72,18 @@ import axios from 'axios';
 
 /** vuex */
 const store = useStore();
-
-/** tab資料 */
-const tabList = ref([]);
+/** 商店清單 */
+const storeList = ref([]);
+/** 商品清單 */
+const productList = ref([]);
+/** 優惠券清單 */
+const voucherList = ref([]);
+/** 選擇商品 */
+const prodId = ref(['', '']);
+/** 選擇商店 */
+const storeId = ref([]);
+/** 選擇優惠券 */
+const voucherId = ref('');
 /** api request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -67,7 +94,7 @@ const request = reactive({
     tabs: [
       {
         mktEventId: computed(() => store.state.campaign.eventID),
-        mktEventTabName: '',
+        mktEventTabName: 'WATERFALL', // 防呆統一先確認mktEventTabName是否空值，但因瀑布流不需要這欄位，故先預設
         mktEventTabStatus: 'ENABLE',
         mktEventTabSort: 0,
         mktEventTabSoltNo: '',
@@ -75,9 +102,10 @@ const request = reactive({
         mktEventBlockId: computed(() => store.state.campaign.blockID),
         categorys: [
           {
-            mktEventVoucherId: '',
-            mktEventStoreId: '',
-            mktEventProdId: ''
+            mktEventVoucherId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : ''),
+            mktEventStoreId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : ''),
+            mktEventProdId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[1] : ''),
+            mktEventCategoryType: 'STORE' // PRODUCT、VOUCHER、STORE
           }
         ]
       }
@@ -85,14 +113,14 @@ const request = reactive({
   }
 });
 
-
 /** 獲得tab資料 */
 const getTabList = () => {
   axios.get(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/detail?type=${store.state.campaign.blockType}`)
     .then(res => {
       const data = JSON.parse(res.data.data);
-      console.log(data);
-      tabList.value = data.storeItems;
+      storeList.value = data.storeItems;
+      productList.value = data.productDefineItems;
+      voucherList.value = data.voucherItems;
     })
 }
 
@@ -100,6 +128,21 @@ watch(
   // 監聽request，如果數值變更，便存到vuex
   request, (newValue) => {
     store.commit('campaign/SETTING_ADD_REQUEST', newValue);
+    // 選到單一項目時，清空其他已選取的項目內容
+    switch(newValue.block.tabs[0].categorys[0].mktEventCategoryType) {
+      case 'STORE':
+        prodId.value = ['', ''];
+        voucherId.value = '';
+        break;
+      case 'PRODUCT':
+        voucherId.value = '';
+        storeId.value = [];
+        break;
+      case 'VOUCHER':
+        storeId.value = [];
+        prodId.value = ['', ''];
+        break;
+    }
   }
 );
 

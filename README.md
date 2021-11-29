@@ -80,7 +80,8 @@ const request = reactive({
             mktEventVoucherId: "string",
             mktEventBlockId: "string",
             mktEventStoreId: "string",
-            mktEventTabId: "string"
+            mktEventTabId: "string",
+            mktEventCategoryType: "string'
           }
         ]
       }
