@@ -96,6 +96,7 @@ let isSend = computed(() => {
                 return true;
               }
             case 'WATERFALL':
+              console.log(store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0]);
               return true;
               // 完全不選擇分類時，確認按鈕disabled
               // if (store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventStoreId === '' && store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventProdId === '' || store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0].mktEventVoucherId === '') {
@@ -111,8 +112,6 @@ let isSend = computed(() => {
     return false;
   }
 });
-
-console.log(isSend.value);
 
 /** 新增區塊資料 */
 const blockAddData = () => {
