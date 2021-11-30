@@ -144,14 +144,14 @@
                     @click="getBlockList('STORE', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
-                <!--el-tooltip content="設定瀑布流" placement="top">
+                <el-tooltip content="設定瀑布流" placement="top">
                   <el-button
                     type="warning"
                     icon="el-icon-film"
                     size="mini"
                     @click="getBlockList('WATERFALL', scope.row.mktEventId)"
                   ></el-button>
-                </el-tooltip-->
+                </el-tooltip>
                 <el-popconfirm
                   confirm-button-text="刪除"
                   cancel-button-text="取消"
@@ -275,8 +275,8 @@ const deleteData = (eventID, index) => {
 }
 
 /** 取得區塊服務資料
- * @param type    {string} 區塊類型
- * @param eventID {string} 活動ID
+ * @param type    {string} 區塊類型，如：AD、ICON等等
+ * @param eventID {string} 活動ID，帶mktEventId
  */
 const getBlockList = (type, eventID) => {
   ElLoading.service({ fullscreen: true });

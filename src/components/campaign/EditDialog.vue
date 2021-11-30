@@ -84,6 +84,8 @@ let isSend = computed(() => {
               } else {
                 return true;
               }
+            case 'WATERFALL':
+              return true;
           }
         }
     }

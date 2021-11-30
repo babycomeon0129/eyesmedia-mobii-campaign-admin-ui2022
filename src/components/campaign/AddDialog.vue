@@ -112,6 +112,8 @@ let isSend = computed(() => {
   }
 });
 
+console.log(isSend.value);
+
 /** 新增區塊資料 */
 const blockAddData = () => {
   ElLoading.service({ fullscreen: true });

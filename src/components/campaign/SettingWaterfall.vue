@@ -1,13 +1,14 @@
 <template>
   <div class="row">
-    <ButtonAdd />
+    <!-- 禁止用戶建立多組瀑布流，故資料長度大於1時隱藏新增按鈕 -->
+    <ButtonAdd v-if="store.state.campaign.blockListData.WATERFALL.length === 0" />
     <el-table :data="store.state.campaign.blockListData.WATERFALL" style="width: 100%">
-      <el-table-column prop="banner" label="分類" width="180">
+      <el-table-column label="分類" width="180">
         <template #default="scope">
-          <img :src="scope.row.banner" />
+          {{ TextConversion(scope.row.categorys[0].mktEventCategoryType) }}
         </template>
       </el-table-column>
-      <el-table-column prop="mktEventItemName" label="數量"></el-table-column>
+      <el-table-column prop="itemCount" label="數量"></el-table-column>
       <el-table-column prop="mktEventItemStatus" label="是否顯示瀑布流">
         <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
       </el-table-column>
@@ -34,6 +35,18 @@ import ButtonEdit from './widget/ButtonEdit.vue';
 
 
 const store = useStore();
+
+/** 類型轉換成文字 */
+const TextConversion = type => {
+  switch (type) {
+    case 'STORE':
+      return '商店';
+    case 'PRODUCT':
+      return '商品';
+    case 'VOUCHER':
+      return '優惠券';
+  }
+};
 
 </script>
 

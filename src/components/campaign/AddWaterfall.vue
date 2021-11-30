@@ -150,8 +150,24 @@ watch(
 const editMode = () => {
   // 先判斷現在是否為編輯模式
   if (store.state.campaign.campaignDialog.edit) {
+    console.log(store.state.campaign.blockEditRequest);
     request.block.tabs = store.state.campaign.blockEditRequest;
+    storeId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventStoreId.split(',');
+    switch(store.state.campaign.blockEditRequest[0].categorys[0].mktEventCategoryType) {
+      case 'STORE':
+        storeId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventStoreId.split(',');
+        request.block.tabs[0].categorys[0].mktEventStoreId = computed(()=> storeList.value.join());
+        break;
+      case 'PRODUCT':
+        prodId.value[0] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdDefineId;
+        prodId.value[1] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdId;
+        request.block.tabs[0].categorys[0].mktEventProdId = computed(() => prodId.value[1]);
+        console.log(request.block.tabs);
+        break;
+    }
+
   }
+  
 }
 
 onMounted(() => {
