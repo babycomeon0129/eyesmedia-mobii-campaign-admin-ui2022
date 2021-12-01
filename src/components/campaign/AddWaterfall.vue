@@ -31,6 +31,7 @@
         </el-tooltip>
       </label>
       <!-- 商店清單 -->
+      <!-- 不知道為什麼，這裡設v-show編輯模式才不會報紅字，所以先這樣設定 -->
       <el-select v-show="request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE'"
         placeholder="請選擇"
         filterable
