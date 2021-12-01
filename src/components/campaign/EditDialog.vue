@@ -85,7 +85,6 @@ let isSend = computed(() => {
                 return true;
               }
             case 'WATERFALL':
-              console.log(store.getters['campaign/getAddRequest'].block.tabs[0].categorys[0]);
               return true;
           }
         }

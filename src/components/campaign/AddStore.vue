@@ -114,7 +114,6 @@ watch(
 const editMode = () => {
   // 先判斷現在是否為編輯模式
   if (store.state.campaign.campaignDialog.edit) {
-    console.log(store.state.campaign.blockEditRequest);
     request.block.tabs = store.state.campaign.blockEditRequest;
     storeList.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventStoreId.split(',');
     request.block.tabs[0].categorys[0].mktEventStoreId = computed(()=> storeList.value.join());
