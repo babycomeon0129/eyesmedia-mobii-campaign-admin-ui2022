@@ -73,6 +73,7 @@ const request = reactive({
     mktEventBlockId: computed(() => store.state.campaign.blockID),
     mktEventBlockType: computed(() => store.state.campaign.blockType),
     mktEventId: computed(() => store.state.campaign.eventID),
+    mktEventBlockName: computed(() => store.state.campaign.blockName),
     tabs: [
       {
         mktEventId: computed(() => store.state.campaign.eventID),

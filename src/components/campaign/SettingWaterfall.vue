@@ -9,8 +9,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="itemCount" label="數量"></el-table-column>
-      <el-table-column prop="mktEventItemStatus" label="是否顯示瀑布流">
-        <template #default="scope">{{ scope.row.mktEventItemStatus === 'ENABLE' ? '是' : '否' }}</template>
+      <el-table-column prop="mktEventTabStatus" label="是否顯示瀑布流">
+        <template #default="scope">{{ scope.row.mktEventTabStatus === 'ENABLE' ? '是' : '否' }}</template>
       </el-table-column>
       <el-table-column label="功能">
         <template #default="scope">

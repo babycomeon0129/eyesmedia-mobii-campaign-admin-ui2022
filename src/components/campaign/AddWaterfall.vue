@@ -91,6 +91,7 @@ const request = reactive({
     mktEventBlockId: computed(() => store.state.campaign.blockID),
     mktEventBlockType: computed(() => store.state.campaign.blockType),
     mktEventId: computed(() => store.state.campaign.eventID),
+    mktEventBlockName: computed(() => store.state.campaign.blockName),
     tabs: [
       {
         mktEventId: computed(() => store.state.campaign.eventID),
@@ -159,6 +160,9 @@ const editMode = () => {
       case 'PRODUCT':
         prodId.value[0] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdDefineId;
         prodId.value[1] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdId;
+        break;
+      case 'VOUCHER':
+        voucherId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventVoucherId;
         break;
     }
     request.block.tabs[0].categorys[0].mktEventStoreId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : '');

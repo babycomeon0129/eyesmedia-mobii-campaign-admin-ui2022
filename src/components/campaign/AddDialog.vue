@@ -116,6 +116,7 @@ let isSend = computed(() => {
 /** 新增區塊資料 */
 const blockAddData = () => {
   ElLoading.service({ fullscreen: true });
+  // TODO: 如果新增過要改update
   axios.post(`${process.env.VUE_APP_campaignAPI}${store.state.campaign.apiVersion}/block/add`, store.state.campaign.blockAddRequest)
     .then(res => {
       ElLoading.service().close();
