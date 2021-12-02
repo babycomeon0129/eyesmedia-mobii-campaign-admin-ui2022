@@ -56,7 +56,16 @@ let isSend = computed(() => {
         if (store.getters['campaign/getAddRequest'].block.items[0].mktEventItemName === '' || store.getters['campaign/getAddRequest'].block.items[0].mktEventItemImg === '') {
           return false;
         } else {
-          return true;
+          switch (store.state.campaign.blockType) {
+            case 'ICON':
+              if (store.getters['campaign/getAddRequest'].block.items[0].mktEventItemUrl === '') {
+                return false;
+              } else {
+                return true;
+              }
+            default: 
+            return true;
+          }
         }
       case 'tabs':
         // 圖文廣告
