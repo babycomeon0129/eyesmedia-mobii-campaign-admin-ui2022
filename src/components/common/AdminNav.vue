@@ -33,7 +33,7 @@ const props = defineProps({
 /** 版號 */
 const version = `${process.env.VUE_APP_VERSION}`;
 /** 更新時間 */
-const releaseTime = `${process.env.VUE_APP_RELEASE_TIME}`;
+const releaseTime = document.lastModified;
 
 </script>
 
