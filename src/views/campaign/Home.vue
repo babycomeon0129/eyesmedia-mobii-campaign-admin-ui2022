@@ -65,7 +65,6 @@
             {{ moment(scope.row.mktEventEdate).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
         </el-table-column>
-        <el-table-column prop="mktEventOpenFunction" label="開啟功能"></el-table-column>
         <el-table-column prop="mktEventStatus" label="狀態">
           <template #default="scope">
             <el-tag :type="scope.row.mktEventStatus === 'ENABLE' ? 'success' : 'info'">
@@ -89,6 +88,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定置頂Banner" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('BANNER')"
                     type="warning"
                     icon="el-icon-picture"
                     size="mini"
@@ -97,6 +97,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定ICON" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('ICON')"
                     type="warning"
                     icon="el-icon-medal"
                     size="mini"
@@ -105,6 +106,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定中間廣告" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('AD')"
                     type="warning"
                     icon="el-icon-money"
                     size="mini"
@@ -114,6 +116,7 @@
 
                 <el-tooltip content="設定圖文廣告欄位" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('CARD')"
                     type="warning"
                     icon="el-icon-postcard"
                     size="mini"
@@ -122,6 +125,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定優惠券" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('VOUCHER')"
                     type="warning"
                     icon="el-icon-discount"
                     size="mini"
@@ -130,6 +134,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定商品" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('PRODUCT')"
                     type="warning"
                     icon="el-icon-shopping-bag-2"
                     size="mini"
@@ -138,6 +143,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定商店" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('STORE')"
                     type="warning"
                     icon="el-icon-s-shop"
                     size="mini"
@@ -146,6 +152,7 @@
                 </el-tooltip>
                 <el-tooltip content="設定瀑布流" placement="top">
                   <el-button
+                    :plain="!scope.row.mktEventOpenFunction.includes('WATERFALL')"
                     type="warning"
                     icon="el-icon-film"
                     size="mini"
@@ -191,18 +198,18 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-// moment
-import moment from 'moment'
-// element UI
-import { ElMessage, ElLoading } from 'element-plus';
-// component
-import SettingDialog from '@/components/campaign/SettingDialog.vue';
 import AddDialog from '@/components/campaign/AddDialog.vue';
 import EditDialog from '@/components/campaign/EditDialog.vue';
+// component
+import SettingDialog from '@/components/campaign/SettingDialog.vue';
+import axios from 'axios';
+// element UI
+import { ElLoading, ElMessage } from 'element-plus';
+// moment
+import moment from 'moment';
+import { computed, onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 /** vuex */
 const store = useStore();
