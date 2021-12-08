@@ -53,7 +53,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model.number="request.block.items[0].mktEventItemSort" type="number"></el-input>
+      <el-input v-model.number="request.block.items[0].mktEventItemSort" type="number" min = 0></el-input>
     </div>
     <div class="col-6">
       <label>資料狀態</label>
@@ -66,10 +66,10 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch, onMounted } from 'vue';
-import { useStore } from 'vuex';
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
+import { computed, onMounted, reactive, watch } from 'vue';
+import { useStore } from 'vuex';
 const store = useStore();
 
 /** API request */

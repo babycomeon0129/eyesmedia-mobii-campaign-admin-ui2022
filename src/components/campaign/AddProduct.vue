@@ -14,7 +14,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
+      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number" min = 0></el-input>
     </div>
   </div>
   <div class="row">
@@ -42,9 +42,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, computed, watch } from 'vue';
-import { useStore } from 'vuex';
 import axios from 'axios';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 
 /** vuex */
 const store = useStore();

@@ -23,7 +23,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number"></el-input>
+      <el-input v-model.number="request.block.tabs[0].mktEventTabSort" type="number" min = 0></el-input>
     </div>
   </div>
   <div class="row add-card">
@@ -105,13 +105,13 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch, onMounted } from 'vue';
-import { useStore } from 'vuex';
-import axios from 'axios';
-// element UI
-import { ElMessage, ElLoading } from 'element-plus'
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
+import axios from 'axios';
+// element UI
+import { ElLoading, ElMessage } from 'element-plus';
+import { computed, onMounted, reactive, watch } from 'vue';
+import { useStore } from 'vuex';
 
 /** vuex */
 const store = useStore();
