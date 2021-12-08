@@ -31,7 +31,8 @@
         </el-tooltip>
       </label>
       <!-- 商店清單 -->
-      <el-select v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE'"
+      <!-- 不知道為什麼，這裡設v-show編輯模式才不會報紅字，所以先這樣設定 -->
+      <el-select v-show="request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE'"
         placeholder="請選擇"
         filterable
         multiple
@@ -156,7 +157,6 @@ const editMode = () => {
       case 'STORE':
         storeId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventStoreId.split(',');
         break;
-      // TODO: 設定商品時，console會跳紅字，待追原因
       case 'PRODUCT':
         prodId.value[0] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdDefineId;
         prodId.value[1] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdId;
@@ -165,11 +165,11 @@ const editMode = () => {
         voucherId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventVoucherId;
         break;
     }
-    request.block.tabs[0].categorys[0].mktEventStoreId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : '');
-    request.block.tabs[0].categorys[0].mktEventProdId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[1] : '');
-    request.block.tabs[0].categorys[0].mktEventVoucherId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : '');
   }
-  
+
+  request.block.tabs[0].categorys[0].mktEventStoreId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : '');
+  request.block.tabs[0].categorys[0].mktEventProdId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[1] : '');
+  request.block.tabs[0].categorys[0].mktEventVoucherId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : '');
 }
 
 onMounted(() => {
