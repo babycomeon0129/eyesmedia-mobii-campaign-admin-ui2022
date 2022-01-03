@@ -150,7 +150,7 @@
               <label>
                 Logo 橫幅
                 <el-tooltip placement="top">
-                  <template #content>尺寸：200*53，檔案大小300K以下</template>
+                  <template #content>尺寸：200*56，檔案大小300K以下</template>
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
@@ -249,14 +249,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
-import axios from 'axios';
-// element UI
-import { ElMessage, ElLoading } from 'element-plus';
 // component
 import UpLoad from '@/components/common/UpLoad.vue';
+import axios from 'axios';
+// element UI
+import { ElLoading, ElMessage } from 'element-plus';
+import { computed, onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 const store = useStore();
 const router = useRouter();
