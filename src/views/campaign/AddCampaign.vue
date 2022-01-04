@@ -150,7 +150,7 @@
               <label>
                 Logo 橫幅
                 <el-tooltip placement="top">
-                  <template #content>尺寸：200*56，檔案大小300K以下</template>
+                  <template #content>尺寸：220*56，檔案大小300K以下</template>
                   <i class="el-icon-question"></i>
                 </el-tooltip>
               </label>
