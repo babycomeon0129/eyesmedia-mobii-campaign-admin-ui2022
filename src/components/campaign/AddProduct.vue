@@ -51,7 +51,7 @@ const store = useStore();
 /** tab資料 */
 const tabList = ref([]);
 /** 外部目錄清單 */
-const prodId = ref(['', '']);
+const prodId = ref([]);
 /** api request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -72,7 +72,7 @@ const request = reactive({
         categorys: [
           {
             mktEventProdDefineId: '',
-            mktEventProdId: computed(() => prodId.value[1])
+            mktEventProdId: computed(() => prodId.value[prodId.value.length -1])
           }
         ]
       }
