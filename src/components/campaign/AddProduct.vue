@@ -94,10 +94,8 @@ const editMode = () => {
   // 先判斷現在是否為編輯模式
   if (store.state.campaign.campaignDialog.edit) {
     request.block.tabs = store.state.campaign.blockEditRequest;
-    console.log(request.block.tabs);
-    prodId.value[0] = request.block.tabs[0].categorys[0].mktEventProdDefineId;
-    prodId.value[1] = request.block.tabs[0].categorys[0].mktEventProdId;
-    request.block.tabs[0].categorys[0].mktEventProdId = computed(() => prodId.value[1]);
+    prodId.value = request.block.tabs[0].categorys[0].mktEventProdDefineId.split(',');
+    request.block.tabs[0].categorys[0].mktEventProdId = computed(() => prodId.value[prodId.value.length -1]);
   }
 }
 

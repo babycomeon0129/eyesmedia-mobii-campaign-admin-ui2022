@@ -106,7 +106,7 @@ const request = reactive({
           {
             mktEventVoucherId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : ''),
             mktEventStoreId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : ''),
-            mktEventProdId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[1] : ''),
+            mktEventProdId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[prodId.value.length -1] : ''),
             mktEventCategoryType: 'STORE' // PRODUCT、VOUCHER、STORE
           }
         ]
@@ -158,8 +158,7 @@ const editMode = () => {
         storeId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventStoreId.split(',');
         break;
       case 'PRODUCT':
-        prodId.value[0] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdDefineId;
-        prodId.value[1] = store.state.campaign.blockEditRequest[0].categorys[0].mktEventProdId;
+        prodId.value = request.block.tabs[0].categorys[0].mktEventProdDefineId.split(',');
         break;
       case 'VOUCHER':
         voucherId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventVoucherId;
@@ -168,7 +167,7 @@ const editMode = () => {
   }
 
   request.block.tabs[0].categorys[0].mktEventStoreId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : '');
-  request.block.tabs[0].categorys[0].mktEventProdId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[1] : '');
+  request.block.tabs[0].categorys[0].mktEventProdId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[prodId.value.length -1] : '');
   request.block.tabs[0].categorys[0].mktEventVoucherId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : '');
 }
 
