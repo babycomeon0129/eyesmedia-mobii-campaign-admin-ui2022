@@ -80,7 +80,7 @@ const productList = ref([]);
 /** 優惠券清單 */
 const voucherList = ref([]);
 /** 選擇商品 */
-const prodId = ref(['', '']);
+const prodId = ref([]);
 /** 選擇商店 */
 const storeId = ref([]);
 /** 選擇優惠券 */
@@ -181,3 +181,4 @@ onMounted(() => {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 </style>
+                                      
