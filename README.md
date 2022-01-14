@@ -81,7 +81,9 @@ const request = reactive({
             mktEventBlockId: "string",
             mktEventStoreId: "string",
             mktEventTabId: "string",
-            mktEventCategoryType: "string'
+            mktEventCategoryType: "string",
+            mktEventProdDefineId: "string",
+            mktEventVouCatalog: "string"
           }
         ]
       }

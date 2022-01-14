@@ -29,7 +29,7 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <el-select
+      <!--el-select
         placeholder="請選擇"
         filterable
         v-model="request.block.tabs[0].categorys[0].mktEventVoucherId"
@@ -41,7 +41,8 @@
           :label="item.name"
           :disabled="item.state !== 'ENABLE'"
         ></el-option>
-      </el-select>
+      </el-select -->
+      <el-cascader v-model="voucherId" :options="tabList"></el-cascader>
     </div>
     <div class="col-6">
       <label>是否顯示優惠券 Tab</label>
@@ -63,6 +64,8 @@ const store = useStore();
 
 /** tab資料 */
 const tabList = ref([]);
+/** 優惠券內部目錄清單 */
+const voucherId = ref([]);
 /** api request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -82,7 +85,8 @@ const request = reactive({
         mktEventBlockId: computed(() => store.state.campaign.blockID),
         categorys: [
           {
-            mktEventVoucherId: '',
+            mktEventVouCatalog: '',
+            mktEventVoucherId: computed(() => voucherId.value[voucherId.value.length -1]),
           }
         ]
       }
@@ -112,6 +116,8 @@ const editMode = () => {
   // 先判斷現在是否為編輯模式
   if (store.state.campaign.campaignDialog.edit) {
     request.block.tabs = store.state.campaign.blockEditRequest;
+    voucherId.value = request.block.tabs[0].categorys[0].mktEventVouCatalog.split(',');
+    request.block.tabs[0].categorys[0].mktEventVoucherId = computed(() => voucherId.value[voucherId.value.length -1]);
   }
 }
 
