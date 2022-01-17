@@ -57,15 +57,15 @@
     <section>
       <el-table :data="listData" stripe style="width: 100%">
         <el-table-column prop="mktEventName" label="一頁式活動名稱"></el-table-column>
-        <el-table-column prop="mktEventCode" label="編號"></el-table-column>
-        <el-table-column label="活動時間">
+        <el-table-column prop="mktEventCode" label="編號" width="140px"></el-table-column>
+        <el-table-column label="活動時間" width="170px">
           <template #default="scope">
             {{ moment(scope.row.mktEventSdate).format('YYYY-MM-DD HH:mm:ss') }} ~
             <br />
             {{ moment(scope.row.mktEventEdate).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
         </el-table-column>
-        <el-table-column prop="mktEventStatus" label="狀態">
+        <el-table-column prop="mktEventStatus" label="狀態" width="70px">
           <template #default="scope">
             <el-tag :type="scope.row.mktEventStatus === 'ENABLE' ? 'success' : 'info'">
               {{
@@ -74,7 +74,16 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="功能列表">
+        <el-table-column label="網址" >
+          <template #default="scope">
+            <el-row align="middle">
+              <el-col :span="3"><el-button icon="el-icon-link" size="mini" circle @click="copyUrl(scope.row.mktEventUrl)"/></el-col>
+              <el-col :span="21">{{ scope.row.mktEventUrl }}</el-col>
+            </el-row>
+          </template>
+        </el-table-column>
+        
+        <el-table-column label="功能列表" width="200px">
           <template #default="scope">
             <div class="table-icon">
               <el-button-group>
@@ -86,6 +95,7 @@
                     @click="router.push({ path: `/AddCampaign/${scope.row.mktEventId}` })"
                   ></el-button>
                 </el-tooltip>
+                
                 <el-tooltip content="設定置頂Banner" placement="top">
                   <el-button
                     :plain="!scope.row.mktEventOpenFunction.includes('BANNER')"
@@ -159,6 +169,7 @@
                     @click="getBlockList('WATERFALL', scope.row.mktEventId)"
                   ></el-button>
                 </el-tooltip>
+
                 <el-popconfirm
                   confirm-button-text="刪除"
                   cancel-button-text="取消"
@@ -175,6 +186,7 @@
                     ></el-button>
                   </template>
                 </el-popconfirm>
+                
               </el-button-group>
             </div>
           </template>
@@ -250,7 +262,6 @@ const getListData = () => {
       // console.log(res.data);
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
-        console.log(data);
         request.paginationInfo = data.paginationInfo;
         listData.value = data.events;
       } else {
@@ -309,7 +320,6 @@ const getBlockList = (type, eventID) => {
       if (res.data.errorCode === '996600001') {
         const data = JSON.parse(res.data.data);
         store.commit('campaign/SETTING_DIALOG', 'show');
-        console.log(data);
         if (data !== null) {
           store.commit('campaign/SETTING_BLOCK_ID', data.block.mktEventBlockId);
           store.commit('campaign/SETTING_BLOCK_NAME', data.block.mktEventBlockName);
@@ -333,6 +343,20 @@ const getBlockList = (type, eventID) => {
     .catch(err => {
       console.log(err);
     });
+}
+/** 複製活動連結 */
+const copyUrl = (mktEventUrl) => {
+  navigator.clipboard.writeText(mktEventUrl).then(() => {
+    ElMessage.success({
+      message: '已複製網址',
+      type: 'success',
+    });
+  }).catch(() => {
+    ElMessage.success({
+      message: '網址複製失敗',
+      type: 'error',
+    });
+  });
 }
 
 // Vue 實體已建立，狀態與事件已初始化完成
