@@ -90,5 +90,7 @@ $active-color: rgb(255, 208, 75);
   bottom: 0;
   left: 0;
   padding: 0 0 20px 20px;
+  width: 145px;
+  user-select: none;
 }
 </style>
