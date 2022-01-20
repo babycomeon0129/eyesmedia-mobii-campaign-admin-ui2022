@@ -64,7 +64,24 @@
               </label>
               <el-input v-model="request.data.eventVm.mktEventSeo"></el-input>
             </div>
+            <div class="col-6">
+              <label>
+                是否顯示登入註冊按紐
+                <el-tooltip placement="top">
+                  <template #content>
+                    控制活動頁前台要不要顯示【登入註冊】按紐
+                  </template>
+                  <i class="el-icon-question"></i>
+                </el-tooltip>
+              </label>
+              <el-select v-model="request.data.eventVm.mktEventLoginDisplay">
+                <el-option value="Y" label="是"></el-option>
+                <el-option value="N" label="否"></el-option>
+              </el-select>
+            </div>
           </div>
+
+
           <div class="row">
             <div class="col-6">
               <label>
@@ -304,7 +321,8 @@ const request = reactive({
       mktEventLogo: '',
       mktEventLogoFullPath: '',
       mktEventNote: '',
-      mktEventOtehrJustka: ''
+      mktEventOtehrJustka: '',
+      mktEventLoginDisplay: 'Y'
     },
     filter: {
       mktEventFilterId: '',
