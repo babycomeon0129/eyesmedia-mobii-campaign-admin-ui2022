@@ -47,19 +47,7 @@
         ></el-option>
       </el-select>
       <!-- 優惠券清單 -->
-      <el-select v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER'"
-        placeholder="請選擇"
-        filterable
-        v-model="voucherId"
-      >
-        <el-option
-          v-for="item in voucherList"
-          :key="`store${item.value}`"
-          :value="item.value"
-          :label="item.name"
-          :disabled="item.state !== 'ENABLE'"
-        ></el-option>
-      </el-select>
+      <el-cascader v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER'" v-model="voucherId" :options="voucherList"></el-cascader>
       <!-- 商品清單 -->
        <el-cascader v-if="request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT'" v-model="prodId" :options="productList"></el-cascader>
     </div>
@@ -84,7 +72,7 @@ const prodId = ref([]);
 /** 選擇商店 */
 const storeId = ref([]);
 /** 選擇優惠券 */
-const voucherId = ref('');
+const voucherId = ref([]);
 /** api request */
 const request = reactive({
   mkt_event_id: computed(() => store.state.campaign.eventID),
@@ -104,7 +92,9 @@ const request = reactive({
         mktEventBlockId: computed(() => store.state.campaign.blockID),
         categorys: [
           {
-            mktEventVoucherId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : ''),
+            mktEventVouCatalog: '',
+            mktEventProdDefineId: '',
+            mktEventVoucherId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value[voucherId.value.length -1] : ''),
             mktEventStoreId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : ''),
             mktEventProdId: computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[prodId.value.length -1] : ''),
             mktEventCategoryType: 'STORE' // PRODUCT、VOUCHER、STORE
@@ -134,10 +124,10 @@ watch(
     switch(newValue.block.tabs[0].categorys[0].mktEventCategoryType) {
       case 'STORE':
         prodId.value = ['', ''];
-        voucherId.value = '';
+        voucherId.value = [];
         break;
       case 'PRODUCT':
-        voucherId.value = '';
+        voucherId.value = [];
         storeId.value = [];
         break;
       case 'VOUCHER':
@@ -161,14 +151,14 @@ const editMode = () => {
         prodId.value = request.block.tabs[0].categorys[0].mktEventProdDefineId.split(',');
         break;
       case 'VOUCHER':
-        voucherId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventVoucherId;
+        voucherId.value = store.state.campaign.blockEditRequest[0].categorys[0].mktEventVouCatalog.split(',');
         break;
     }
   }
 
   request.block.tabs[0].categorys[0].mktEventStoreId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'STORE' ? storeId.value.join() : '');
   request.block.tabs[0].categorys[0].mktEventProdId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'PRODUCT' ? prodId.value[prodId.value.length -1] : '');
-  request.block.tabs[0].categorys[0].mktEventVoucherId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value : '');
+  request.block.tabs[0].categorys[0].mktEventVoucherId = computed(() => request.block.tabs[0].categorys[0].mktEventCategoryType === 'VOUCHER' ? voucherId.value[voucherId.value.length -1] : '');
 }
 
 onMounted(() => {

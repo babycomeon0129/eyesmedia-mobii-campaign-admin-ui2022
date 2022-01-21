@@ -29,19 +29,6 @@
           <i class="el-icon-question"></i>
         </el-tooltip>
       </label>
-      <!--el-select
-        placeholder="請選擇"
-        filterable
-        v-model="request.block.tabs[0].categorys[0].mktEventVoucherId"
-      >
-        <el-option
-          v-for="item in tabList"
-          :key="`voucher${item.value}`"
-          :value="item.value"
-          :label="item.name"
-          :disabled="item.state !== 'ENABLE'"
-        ></el-option>
-      </el-select -->
       <el-cascader v-model="voucherId" :options="tabList"></el-cascader>
     </div>
     <div class="col-6">
