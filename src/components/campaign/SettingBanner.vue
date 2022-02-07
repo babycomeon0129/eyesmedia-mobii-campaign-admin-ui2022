@@ -11,7 +11,7 @@
       <template #default="scope">
         <el-tag :type="scope.row.mktEventItemStatus === 'ENABLE' ? 'success' : 'info'">
           {{
-            scope.row.mktEventItemStatus ? "有效" : "無效"
+            scope.row.mktEventItemStatus === 'ENABLE' ? "有效" : "無效"
           }}
         </el-tag>
       </template>
